@@ -73,7 +73,7 @@ Site of Paradox&#39; Studio Aleppo project
       signed-in="{{signedIn}}"      
     ></firebase-auth>
 
-    <aleppo-nav-bar on-open-app-menu="_openAppMenu"></aleppo-nav-bar>
+    <aleppo-nav-bar menu-opened="{{appMenuOpened}}"></aleppo-nav-bar>
 
     <aleppo-app-menu opened="{{appMenuOpened}}"></aleppo-app-menu>
 
@@ -176,10 +176,6 @@ Site of Paradox&#39; Studio Aleppo project
         firebase.auth().signInAnonymously().catch( 
           console.log('error signing in')
         );
-      },
-
-      _openAppMenu: function () {
-        this.set('appMenuOpened', true)
       }
     });
   </script>
