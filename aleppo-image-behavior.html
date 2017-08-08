@@ -1,0 +1,15 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<script>
+  AleppoImageBehavior = {
+    
+    _parseImageObjectToSrcSet: function(imageObject) {
+      var thumbnail = imageObject.thumbnail + ' ' + imageObject['thumbnail-width'] + 'w';
+      var medium = imageObject.medium + ' ' + imageObject['medium-width'] + 'w';
+      var mediumLarge = imageObject['medium_large'] + ' ' + imageObject['medium_large-width'] + 'w';
+      var large = imageObject.large + ' ' + imageObject['large-width'] + 'w';
+      return [thumbnail, medium, mediumLarge, large].join(', ');
+    }
+
+  }
+</script>
