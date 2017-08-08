@@ -1,7 +1,8 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="aleppo-filter.html">
-<link rel="import" href="aleppo-api.html">
 <link rel="import" href="aleppo-citizen-overview.html">
+<link rel="import" href="aleppo-citizen-card.html">
 
 <!--
 `aleppo-browse-citizens`
@@ -22,12 +23,44 @@
       }
     </style>
 
+    <iron-ajax
+      url="[[apiEndpoint]]/wp-json/wp/v2/posts"
+      auto="[[apiEndpoint]]"
+      method="GET"
+      handle-as="json"
+      last-response="{{postsData}}"
+    ></iron-ajax>
+
+    <template is="dom-repeat" items="[[postsData]]" as="post">
+      <aleppo-citizen-card
+        citizen-name="[[post.title]]"
+        images="[[post.portrait_url.sizes]]"
+      ></aleppo-citizen-card>
+    </template>
+
   </template>
 
   <script>
     Polymer({
 
-      is: 'aleppo-browse-citizens'
+      is: 'aleppo-browse-citizens',
+
+      properties: {
+        apiEndpoint: {
+          type: String
+        },
+        postsData: {
+          type: Array,
+        }
+      },
+
+      observers: [
+        '_postsDataChanged(postsData.splices)'
+      ],
+
+      _postsDataChanged: function(postsDataSplice) {
+        console.info('postsDataSplice', postsDataSplice);
+      }
 
     });
   </script>

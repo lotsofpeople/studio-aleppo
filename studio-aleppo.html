@@ -78,19 +78,30 @@ Site of Paradox&#39; Studio Aleppo project
     <aleppo-app-menu opened="{{appMenuOpened}}"></aleppo-app-menu>
 
     <template is="dom-if" if="[[galleryRouteActive]]">
-      <aleppo-personal-gallery gallery-id="[[galleryRouteData.galleryId]]"></aleppo-personal-gallery>
+      <aleppo-personal-gallery
+        api-endpoint="[[apiEndpoint]]"
+        gallery-id="[[galleryRouteData.galleryId]]"
+      ></aleppo-personal-gallery>
     </template>
 
     <template is="dom-if" if="[[browseRouteActive]]">
-      <aleppo-browse-citizens></aleppo-browse-citizens>
+      <aleppo-browse-citizens
+        api-endpoint="[[apiEndpoint]]"
+      ></aleppo-browse-citizens>
     </template>
     
     <template is="dom-if" if="[[curateRouteActive]]">
-      <aleppo-curate-citizens user-id="[[user.uid]]"></aleppo-curate-citizens>
+      <aleppo-curate-citizens
+        api-endpoint="[[apiEndpoint]]"
+        user-id="[[user.uid]]"
+      ></aleppo-curate-citizens>
     </template>
     
     <template is="dom-if" if="[[pageRouteActive]]">
-      <aleppo-page-shell page-id="[[pageRouteData.pageId]]"></aleppo-page-shell>
+      <aleppo-page-shell
+        api-endpoint="[[apiEndpoint]]"
+        page-id="[[pageRouteData.pageId]]"
+      ></aleppo-page-shell>
     </template>
 
   </template>
@@ -100,6 +111,10 @@ Site of Paradox&#39; Studio Aleppo project
       is: 'studio-aleppo',
 
       properties: {
+        apiEndpoint: {
+          type: String,
+        },
+        
         route: {
           type: Object
         },
