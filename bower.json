@@ -6,7 +6,8 @@
     "polymer": "Polymer/polymer#^1.9.0",
     "app-route": "PolymerElements/app-route#^2.0.1",
     "polymerfire": "firebase/polymerfire#^2.1.0",
-    "app-layout": "PolymerElements/app-layout#^2.0.1"
+    "app-layout": "PolymerElements/app-layout#^2.0.1",
+    "iron-ajax": "PolymerElements/iron-ajax#^2.0.5"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
@@ -16,6 +17,7 @@
   },
   "resolutions": {
     "webcomponentsjs": "^0.7.24",
-    "iron-location": "^0.8.0"
+    "iron-location": "^0.8.0",
+    "iron-ajax": "^1.0.0"
   }
 }
