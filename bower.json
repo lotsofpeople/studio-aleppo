@@ -1,7 +1,7 @@
 {
   "name": "studio-aleppo",
   "description": "Site of Paradox&#39; Studio Aleppo project",
-  "main": "index.html",
+  "main": "studio-aleppo.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.9.0"
   },

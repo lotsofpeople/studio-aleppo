@@ -1,7 +1,0 @@
-{
-  "name": "studio-aleppo",
-  "short_name": "studio-aleppo",
-  "description": "Site of Paradox&#39; Studio Aleppo project",
-  "start_url": "/",
-  "display": "standalone"
-}
