@@ -10,17 +10,26 @@
 
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+
+    <link rel="import" href="../../app-route/app-location.html">
+    
     <link rel="import" href="../studio-aleppo.html">
 
     <style is="custom-style" include="demo-pages-shared-styles">
     </style>
   </head>
   <body>
+
     <div class="vertical-section-container centered">
       <h3>Basic studio-aleppo demo</h3>
       <demo-snippet>
-        <template>
-          <studio-aleppo></studio-aleppo>
+        <template is="dom-bind" id="demo">
+          
+          <app-location
+            route="{{route}}"
+            use-hash-as-path
+          ></app-location>
+          <studio-aleppo route="[[route]]"></studio-aleppo>
         </template>
       </demo-snippet>
     </div>
