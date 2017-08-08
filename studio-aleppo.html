@@ -1,11 +1,21 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../app-route/app-route.html">
-<link rel="import" href="../app-route/app-location.html">
+<link rel="import" href="../polymerfire/firebase-app.html">
 <link rel="import" href="../polymerfire/firebase-auth.html">
+<link rel="import" href="aleppo-app-menu.html">
+<link rel="import" href="aleppo-nav-bar.html">
+<link rel="import" href="aleppo-browser-citizens.html">
+<link rel="import" href="aleppo-curate-citizens.html">
+<link rel="import" href="aleppo-page-shell.html">
+<link rel="import" href="aleppo-personal-gallery.html">
 
 <!--
 `studio-aleppo`
 Site of Paradox&#39; Studio Aleppo project
+
+    <studio-aleppo
+      route="[[route]]"
+    ></studio-aleppo>
 
 @demo demo/index.html
 -->
@@ -17,21 +27,160 @@ Site of Paradox&#39; Studio Aleppo project
         display: block;
       }
     </style>
-    <h2>Hello [[prop1]]!</h2>
-  </template>
 
+    <app-route
+      route="{{route}}"
+      pattern="/galleries/:galleryId"
+      data="{{galleryRouteData}}"
+      tail="{{galleryRouteTail}}"    
+      active="{{galleryRouteActive}}"
+    ></app-route>
+
+    <app-route
+      route="{{route}}"
+      pattern="/browse"
+      data="{{browseRouteData}}"
+      tail="{{browseTail}}"    
+      active="{{browseRouteActive}}"
+    ></app-route>
+
+    <app-route
+      route="{{route}}"
+      pattern="/curate"
+      data="{{curateRouteData}}"
+      tail="{{curateTail}}"
+      active="{{curateRouteActive}}"
+    ></app-route>
+
+    <app-route
+      route="{{route}}"
+      pattern="/pages/:pageId"
+      data="{{pageRouteData}}"
+      tail="{{pageTail}}"    
+      active="{{pageRouteActive}}"
+    ></app-route>
+
+    <firebase-app
+      auth-domain="studio-aleppo.firebaseapp.com"
+      database-url="https://studio-aleppo.firebaseio.com"
+      api-key="AIzaSyBIDtqtuUnEoLQZJbBc0NdmTSrSnSVN7WQ"
+      messaging-sender-id="470476213085"
+    ></firebase-app>
+
+    <firebase-auth
+      id="auth" 
+      user="{{user}}" 
+      signed-in="{{signedIn}}"      
+    ></firebase-auth>
+
+    <aleppo-nav-bar on-open-app-menu="_openAppMenu"></aleppo-nav-bar>
+
+    <aleppo-app-menu opened="{{appMenuOpened}}"></aleppo-app-menu>
+
+    <template is="dom-if" if="[[galleryRouteActive]]">
+      <aleppo-personal-gallery gallery-id="[[galleryRouteData.galleryId]]"></aleppo-personal-gallery>
+    </template>
+
+    <template is="dom-if" if="[[browseRouteActive]]">
+      <aleppo-browser-citizens></aleppo-browser-citizens>
+    </template>
+    
+    <template is="dom-if" if="[[curateRouteActive]]">
+      <aleppo-curate-citizens user-id="[[user.uid]]"></aleppo-curate-citizens>
+    </template>
+    
+    <template is="dom-if" if="[[pageRouteActive]]">
+      <aleppo-page-shell page-id="[[pageRouteData.pageId]]"></aleppo-page-shell>
+    </template>
+
+  </template>
   <script>
     Polymer({
 
       is: 'studio-aleppo',
 
       properties: {
-        prop1: {
-          type: String,
-          value: 'studio-aleppo',
+        route: {
+          type: Object
         },
+
+        user: {
+          type: Object
+        },
+
+        signedIn: {
+          type: Boolean
+        },
+
+        appMenuOpened: {
+          type: Boolean,
+          value: false
+        },
+
+        galleryRouteData: {
+          type: Object
+        },
+
+        galleryRouteTail: {
+          type: Object
+        },
+        
+        galleryRouteActive: {
+          type: Boolean,
+          value: false
+        },
+        
+        browseRouteData: {
+          type: Object
+        },
+
+        browseRouteTail: {
+          type: Object
+        },
+        
+        browseRouteActive: {
+          type: Boolean,
+          value: false
+        },
+
+        curateRouteData: {
+          type: Object
+        },
+
+        curateRouteTail: {
+          type: Object
+        },
+        
+        curateRouteActive: {
+          type: Boolean,
+          value: false
+        },
+
+        pageRouteData: {
+          type: Object
+        },
+
+        pageRouteTail: {
+          type: Object
+        },
+        
+        pageRouteActive: {
+          type: Boolean,
+          value: false
+        }           
       },
 
+      signInAnonymously: function () {
+        if(this.signedIn == true) return;
+
+        firebase.auth().signInAnonymously().catch( 
+          console.log('error signing in')
+        );
+      },
+
+      _openAppMenu: function () {
+        this.set('appMenuOpened', true)
+      }
     });
   </script>
 </dom-module>
