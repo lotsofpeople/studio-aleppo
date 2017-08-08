@@ -3,7 +3,10 @@
   "description": "Site of Paradox&#39; Studio Aleppo project",
   "main": "studio-aleppo.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.9.0"
+    "polymer": "Polymer/polymer#^1.9.0",
+    "app-route": "PolymerElements/app-route#^2.0.1",
+    "polymerfire": "firebase/polymerfire#^2.1.0",
+    "app-layout": "PolymerElements/app-layout#^2.0.1"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
