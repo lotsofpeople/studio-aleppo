@@ -1,0 +1,48 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="aleppo-image-behavior.html">
+
+<!--
+`aleppo-citizen-card`
+
+
+@demo demo/aleppo-citizen-card.html
+-->
+
+<dom-module id="aleppo-citizen-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      [hidden] {
+        display: none!important;
+      }
+    </style>
+
+    <section>
+      <h1>[[citizenName]]</h1>
+      <img srcset$="[[_parseImageObjectToSrcSet(images)]]">
+    </section>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'aleppo-citizen-card',
+      behaviors: [
+        AleppoImageBehavior
+      ],
+      properties: {
+        citizenName: {
+          type: String,
+        },
+        images: {
+          type: Object
+        }
+      }
+
+    });
+  </script>
+</dom-module>
