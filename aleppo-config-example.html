@@ -1,0 +1,39 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+`aleppo-config-example`
+
+
+@demo demo/aleppo-config-example.html
+-->
+
+<dom-module id="aleppo-config-example">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      [hidden] {
+        display: none!important;
+      }
+    </style>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'aleppo-config-example',
+      properties: {
+        
+        apiEndPoint: {
+          type: String,
+          value: 'http://studioaleppo.eu',
+          notify: true
+        }
+      }
+
+    });
+  </script>
+</dom-module>
