@@ -20,6 +20,18 @@
       [hidden] {
         display: none!important;
       }
+
+      .grid {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        grid-column-gap: 16px;
+        grid-row-gap: 16px;
+      }
+
+      aleppo-citizen-card {
+        display: flex;
+        align-items: stretch;
+      }
     </style>
 
     <aleppo-citizen-detail-page
@@ -27,12 +39,14 @@
       citizen-data="[[selectedCitizen]]"
     ></aleppo-citizen-detail-page>
 
-    <template is="dom-repeat" items="[[citizensData]]" as="citizen">
-      <aleppo-citizen-card
-        citizen-name="[[citizen.title]]"
-        images="[[citizen.portrait_url.sizes]]"
-      ></aleppo-citizen-card>
-    </template>
+    <section class="grid">
+      <template is="dom-repeat" items="[[citizensData]]" as="citizen">
+        <aleppo-citizen-card
+          citizen-name="[[citizen.title]]"
+          images="[[citizen.portrait_url.sizes]]"
+        ></aleppo-citizen-card>
+      </template>
+    </section>
 
   </template>
 

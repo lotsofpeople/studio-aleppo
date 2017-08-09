@@ -24,7 +24,9 @@
     <aleppo-filter
       api-endpoint="[[apiEndpoint]]"
       active-tags="{{activeTags}}"
+      studio-locations="[[studioLocations]]"
       studio-location="{{studioLocation}}"
+      migration-years="[[migrationYears]]"
       migration-year="{{migrationYear}}"
     ></aleppo-filter>
 
@@ -61,15 +63,25 @@
           value: []
         },
 
+        studioLocations: {
+          type: Array,
+          computed: '_computeStudioLocations(citizensData.*)'
+        },
+
         studioLocation: {
           type: String,
           value: null
         },
 
+        migrationYears: {
+          type: Array,
+          computed: '_computeMigrationYears(citizensData.*)'
+        },
+
         migrationYear: {
           type: String,
           value: null
-        }        
+        },
 
       },
 
@@ -112,6 +124,34 @@
 
       _filterCitizensChanged: function(filteredCitizensSplice) {
         console.info('_filterCitizensChanged', this.filteredCitizens);
+      },
+
+      _computeStudioLocations: function(citizensDataChange) {
+        var citizensData = citizensDataChange.base;
+        var citizensStudioLocations = citizensData.map(function(citizenData) {
+          return citizenData.portrait_location;
+        })
+        var studioLocations = citizensStudioLocations.filter(this._unique);
+        studioLocations = studioLocations.sort(function(a, b) {
+          return (a < b) ? -1 : 1;
+        })
+        return studioLocations;
+      },
+
+      _computeMigrationYears: function(citizensDataChange) {
+        var citizensData = citizensDataChange.base;
+        var citizensStudioMigrationYears = citizensData.map(function(citizenData) {
+          return parseInt(citizenData.migration_date.substr(0, 4));
+        })
+        var migrationYears = citizensStudioMigrationYears.filter(this._unique);
+        migrationYears = migrationYears.sort(function(a, b) {
+          return (a < b) ? -1 : 1;
+        })
+        return migrationYears;
+      },
+
+      _unique: function(value, index, self) { 
+        return self.indexOf(value) === index;
       }
 
     });

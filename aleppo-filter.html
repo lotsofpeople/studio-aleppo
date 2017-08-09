@@ -44,8 +44,14 @@
 
     <main>
       <section>
-        <aleppo-dropdown-menu items="[[cities]]" selected-item="{{studioLocation}}"></aleppo-dropdown-menu>
-        <aleppo-dropdown-menu items="[[years]]" selected-item="{{migrationYear}}"></aleppo-dropdown-menu>
+        <aleppo-dropdown-menu
+          items="[[studioLocations]]"
+          selected-item="{{studioLocation}}"
+        ></aleppo-dropdown-menu>
+        <aleppo-dropdown-menu
+          items="[[migrationYears]]"
+          selected-item="{{migrationYear}}"
+        ></aleppo-dropdown-menu>
       </section>
       <section>
         <iron-selector attr-for-selected="tag-id" multi selected-values="{{activeTags}}">
@@ -71,14 +77,6 @@
           type: Array
         },
 
-        cities: {
-          type: Array
-        },
-        
-        years: {
-          type: Array
-        },        
-
         activeTags: {
           type: Array,
           notify: true
@@ -89,10 +87,19 @@
           notify: true
         },
 
+        studioLocations: {
+          type: Array,
+        },
+
         migrationYear: {
           type: String,
           notify: true
-        }        
+        },
+
+        migrationYears: {
+          type: Array,
+        }
+
       },
 
       observers: [
