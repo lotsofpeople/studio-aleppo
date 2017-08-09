@@ -40,6 +40,8 @@
       studio-location="{{studioLocation}}"
       migration-years="[[migrationYears]]"
       migration-year="{{migrationYear}}"
+      citizens-total="[[numberOfCitizens]]"
+      citizens-displayed="[[numberOfFilteredCitizens]]"
     ></aleppo-filter>
 
     <aleppo-citizen-grid
@@ -65,10 +67,21 @@
           value: []
         },
 
+        numberOfCitizens: {
+          type: Number,
+          computed: '_computeLength(citizensData.*)'
+        },
+
         filteredCitizens: {
           type: Array,
           value: [],
         },
+
+        numberOfFilteredCitizens: {
+          type: Number,
+          computed: '_computeLength(filteredCitizens.*)'
+        },
+
 
         activeTags: {
           type: Array,
@@ -164,6 +177,10 @@
 
       _unique: function(value, index, self) { 
         return self.indexOf(value) === index;
+      },
+
+      _computeLength: function(arrChange) {
+        return arrChange.base.length;
       }
 
     });

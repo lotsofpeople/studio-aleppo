@@ -108,7 +108,7 @@
     <section>
       <header on-tap="toggle">
         <paper-icon-button icon="filter-list"></paper-icon-button>
-        <h1>Filter citizens</h1>
+        <h1>Showing [[citizensDisplayed]] of [[citizensTotal]] citizens</h1>
       </header>
 
       <main>
@@ -179,6 +179,14 @@
           value: false,
           reflectToAttribute: true,
           observer: '_openedChanged'
+        },
+
+        citizensTotal: {
+          type: Number
+        },
+
+        citizensDisplayed: {
+          type: Number
         }
 
       },
