@@ -196,7 +196,7 @@ Site of Paradox&#39; Studio Aleppo project
         },
 
         citizensData: {
-          type: Array
+          type: Array,
         }           
       },
 
@@ -221,7 +221,7 @@ Site of Paradox&#39; Studio Aleppo project
       },
 
       _citizensDataChanged: function(citizensDataSplice) {
-        console.info('citizensDataSplice', citizensDataSplice);
+        console.info('_citizensDataChanged', this.citizensData);
       }
 
     });
