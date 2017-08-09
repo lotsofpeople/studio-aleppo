@@ -1,0 +1,70 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="aleppo-citizen-card.html">
+<link rel="import" href="aleppo-citizen-detail-page.html">
+<link rel="import" href="aleppo-citizen-card.html">
+
+<!--
+`aleppo-citizen-grid`
+
+
+@demo demo/aleppo-citizen-grid.html
+-->
+
+<dom-module id="aleppo-citizen-grid">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      [hidden] {
+        display: none!important;
+      }
+    </style>
+
+    <aleppo-citizen-detail-page
+      api-endpoint="[[apiEndpoint]]"
+      citizen-data="[[selectedCitizen]]"
+    ></aleppo-citizen-detail-page>
+
+    <template is="dom-repeat" items="[[citizensData]]" as="citizen">
+      <aleppo-citizen-card
+        citizen-name="[[citizen.title]]"
+        images="[[citizen.portrait_url.sizes]]"
+      ></aleppo-citizen-card>
+    </template>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'aleppo-citizen-grid',
+
+      properties: {
+
+        apiEndpoint: {
+          type: String
+        },
+        
+        citizensData: {
+          type: Array
+        },
+
+        selectedCitizen: {
+          type: Object
+        }
+
+      },
+
+      observers: [
+        '_selectedCitizenChanged(selectedCitizen.*)'
+      ],
+
+      _selectedCitizenChanged: function(selectedCitizenChange) {
+        console.info('_selectedCitizenChanged', selectedCitizenChange.base);
+      }
+
+    });
+  </script>
+</dom-module>

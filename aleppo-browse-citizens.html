@@ -1,8 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="aleppo-filter.html">
-<link rel="import" href="aleppo-citizen-overview.html">
-<link rel="import" href="aleppo-citizen-card.html">
+<link rel="import" href="aleppo-citizen-grid.html">
 
 <!--
 `aleppo-browse-citizens`
@@ -28,19 +27,17 @@
       auto="[[apiEndpoint]]"
       method="GET"
       handle-as="json"
-      last-response="{{postsData}}"
+      last-response="{{citizensData}}"
     ></iron-ajax>
 
     <aleppo-filter
       api-endpoint="[[apiEndpoint]]"
     ></aleppo-filter>
 
-    <template is="dom-repeat" items="[[postsData]]" as="post">
-      <aleppo-citizen-card
-        citizen-name="[[post.title]]"
-        images="[[post.portrait_url.sizes]]"
-      ></aleppo-citizen-card>
-    </template>
+    <aleppo-citizen-grid
+      api-endpoint="[[apiEndpoint]]"
+      citizens-data="[[citizensData]]"
+    ></aleppo-citizen-grid>
 
   </template>
 
@@ -53,17 +50,17 @@
         apiEndpoint: {
           type: String
         },
-        postsData: {
+        citizensData: {
           type: Array,
         }
       },
 
       observers: [
-        '_postsDataChanged(postsData.splices)'
+        '_citizensDataChanged(citizensData.splices)'
       ],
 
-      _postsDataChanged: function(postsDataSplice) {
-        console.info('postsDataSplice', postsDataSplice);
+      _citizensDataChanged: function(citizensDataSplice) {
+        console.info('citizensDataSplice', citizensDataSplice);
       }
 
     });
