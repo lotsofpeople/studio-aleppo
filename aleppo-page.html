@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
- <link rel="import" href="aleppo-content-slider.html"> 
+<link rel="import" href="aleppo-content-slider.html"> 
+<link rel="import" href="aleppo-logo.html"> 
 
 <!--
 `aleppo-page`
@@ -19,16 +20,34 @@
         width: 100%;
         height: 400px;
       }
-      
+
+      main {
+        background: linear-gradient(to right, white 50%, #86E6E9 50%);
+      }      
 
       [hidden] {
         display: none!important;
       }
-    </style>
+</style>
+
+  <main>
+
+    <section>
+        [[title]]
+        <aleppo-logo></aleppo-logo>
+    </section>
 
      <template is="dom-if" if="[[showSlideshow]]"> 
         <aleppo-content-slider images="[[slideshowImages]]"></aleppo-content-slider>  
      </template> 
+
+    <section>
+      <article>[[article]]</article>
+    </section>
+
+  </main>
+    
+     
   </template>
 
   <script>
@@ -44,8 +63,15 @@
           type: Boolean,
           value: false,
           computed: "_computeHasSlideshowImages(slideshowImages)"
+        },
+
+        title: {
+          type: String
+        },
+
+        article: {
+          type: String
         }
-        
       },
 
       _computeHasSlideshowImages: function(slideshowImages) {
