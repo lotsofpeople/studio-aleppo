@@ -3,7 +3,7 @@
 <link rel="import" href="../polymerfire/firebase-app.html">
 <link rel="import" href="../polymerfire/firebase-auth.html">
 <link rel="import" href="aleppo-app-menu.html">
-<link rel="import" href="aleppo-nav-bar.html">
+<link rel="import" href="aleppo-header.html">
 <link rel="import" href="aleppo-browse-citizens.html">
 <link rel="import" href="aleppo-curate-citizens.html">
 <link rel="import" href="aleppo-page-shell.html">
@@ -73,7 +73,7 @@ Site of Paradox&#39; Studio Aleppo project
       signed-in="{{signedIn}}"      
     ></firebase-auth>
 
-    <aleppo-nav-bar menu-opened="{{appMenuOpened}}"></aleppo-nav-bar>
+    <aleppo-header browse-route-active="[[browseRouteActive]]" curate-route-active="[[curateRouteActive]]" menu-opened="{{appMenuOpened}}"></aleppo-header>
 
     <aleppo-app-menu opened="{{appMenuOpened}}"></aleppo-app-menu>
 
@@ -184,6 +184,9 @@ Site of Paradox&#39; Studio Aleppo project
           value: false
         }           
       },
+      listeners: {
+        'update-route' : "_updateRoute"
+      },
 
       signInAnonymously: function () {
         if(this.signedIn == true) return;
@@ -191,6 +194,11 @@ Site of Paradox&#39; Studio Aleppo project
         firebase.auth().signInAnonymously().catch( 
           console.log('error signing in')
         );
+      },
+
+      _updateRoute: function (evt, newRoute) {
+        if(!newRoute) return;
+
       }
     });
   </script>

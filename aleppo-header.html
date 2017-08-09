@@ -1,6 +1,9 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="aleppo-nav-bar.html">
-<link rel="import" href="../app-layout/app-toolbar.html">
+<link rel="import" href="../app-layout/app-header/app-header.html">
+<link rel="import" href="../app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="aleppo-logo.html">
 
 <!--
 `aleppo-header`
@@ -14,20 +17,152 @@
     <style>
       :host {
         display: block;
+        background-color: transparent;
       }
 
+      app-header {
+        background-color: var(--ft-color-main-light);
+        z-index: 2;
+      }
+
+      app-toolbar {
+        height: 72px;
+        pointer-events: all;
+      }
+
+      .logo-container {
+        flex: 3;
+        display: flex;
+        z-index: 10;
+      }
+
+      aleppo-logo {
+        flex: none;
+        height: 24px;
+        position: relative;
+        cursor: pointer;
+      }
+
+      a {
+        font-family: BasicSansAlt-Bold;
+        text-decoration: none;
+        width: 80px;
+        padding: 0 43px;
+        font-size: 20px;
+      }
+
+      @media screen and (max-device-width: 599px),
+        screen and (max-width: 599px){
+          a {
+            width: 40px;
+            font-size: 12px;
+            padding: 0 16px;
+        }
+      }
+
+      #home-button {
+        color: #FFFFFF;
+      }
+
+      #home-button:hover {
+        color: #FE5454;        
+      }
+
+      #browse-button[active], #browse-button:hover{
+        color: #86E6E9;
+      }
+
+      #curate-button[active], #curate-button:hover{
+        color: #FE5454;
+      }
+
+      :host([transparent])   {
+
+      }
+      
+      
+      #navigation-button-container {
+        display: flex;
+        flex-direction: row;
+      }
+
+      #navigation-button-container > * {
+        display: inline-flex;
+        align-self: center;
+      }      
+      
       [hidden] {
         display: none!important;
       }
     </style>
+
+    <app-header reveals>
+      <app-toolbar>
+        
+        <div class="logo-container">
+          <a id="home-button" href="/home">
+            <aleppo-logo
+            ></aleppo-logo>
+          </a>
+        </div>
+        
+        <div id="navigation-button-container">
+
+          <a id="browse-button" href="/browse" active$="[[browseRouteActive]]">
+            Browse citizens
+          </a>
+
+          <paper-icon-button
+            id="filter-button"
+            icon="filter-list"
+          ></paper-icon-button>
+          
+          <a id="curate-button" href="/curate" active$="[[curateRouteActive]]">
+            Curate citizens
+          </a>
+          
+          <paper-icon-button
+            id="menu-button"
+            icon="menu"
+            on-tap="toggleMenu"
+          ></paper-icon-button>
+
+        </div>
+      </app-toolbar>
+    </app-header>
 
   </template>
 
   <script>
     Polymer({
 
-      is: 'aleppo-header'
+      is: 'aleppo-header',
+      properties: {
+        
+        /*
+         * If true, the menu is displayed
+         */
+        menuOpened: {
+          type: Boolean,
+          value: false,
+          notify: true
+        },
 
+        curateRouteActive: {
+          type: Boolean
+        },
+
+        browseRouteActive: {
+          type: Boolean
+        }        
+      },
+
+      /*
+       * Toggles the `menuOpened` property
+       */
+      toggleMenu: function() {
+        this.menuOpened = !this.menuOpened;
+      }
     });
   </script>
 </dom-module>

@@ -26,6 +26,11 @@
           display: block;
         }
       }
+
+      #color-demo-button {
+        --button-background-color: red;
+        --button-color: white;        
+      }
     </style>
   </head>
   <body>
@@ -33,10 +38,38 @@
       <h3>Basic aleppo-button demo</h3>
       <demo-snippet>
         <template is="dom-bind" id="demo">
-          <aleppo-button>
+          <aleppo-button
+          text="Gallery">
           </aleppo-button>
         </template>
       </demo-snippet>
     </div>
+
+    <div class="vertical-section-container centered">
+      <h3>With number color aleppo-button demo</h3>
+      <demo-snippet>
+        <template is="dom-bind" id="number-demo">
+          <aleppo-button
+          text="Gallery"
+          number="3"
+          show-number>
+          </aleppo-button>
+        </template>
+      </demo-snippet>
+    </div>    
+
+    <div class="vertical-section-container centered">
+      <h3>Change color aleppo-button demo</h3>
+      <demo-snippet>
+        <template is="dom-bind" id="color-demo">
+          <aleppo-button
+          id="color-demo-button"
+          text="Gallery"
+          number="3"
+          show-number
+          ></aleppo-button>
+        </template>
+      </demo-snippet>
+    </div>    
   </body>
 </html>
