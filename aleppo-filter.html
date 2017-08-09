@@ -24,10 +24,23 @@
         display: none!important;
       }
 
+      .overlay {
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: rgba(0,0,0,0);
+      }
+
       section {
         background-color: #86E6E9;
         overflow: hidden;
         height: 48px;
+        position: relative;
+        z-index: 2;
       }
 
       :host([opened]) section {
@@ -87,7 +100,7 @@
         font-size: 14px;
         color: #10364B;
         border: 1px solid #10364B;
-        border-radius: 0;
+        border-radius: 2px;
         margin: 0;
       }
 
@@ -104,6 +117,10 @@
       handle-as="json"
       last-response="{{tagsData}}"
     ></iron-ajax>
+
+    <template is="dom-if" if="[[opened]]">
+      <div class="overlay" on-tap="close"></div>
+    </template>
 
     <section>
       <header on-tap="toggle">
@@ -199,12 +216,16 @@
         this.opened = !this.opened;
       },
 
+      close: function() {
+        this.opened = false;
+      },
+
       _tagsDataChanged: function(tagsDataSplice) {
         console.info('_tagsDataChanged!', JSON.stringify(this.tagsData));
       },
 
       _openedChanged: function(opened) {
-        //document.body.style.overflow = (opened) ? 'hidden' : 'auto';
+        console.info('_openedChanged!', opened);
       }
 
     });
