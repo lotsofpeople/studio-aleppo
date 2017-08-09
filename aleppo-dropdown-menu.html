@@ -1,4 +1,8 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../paper-listbox/paper-listbox.html">
+<link rel="import" href="../paper-item/paper-item.html">
+
 
 <!--
 `aleppo-dropdown-menu`
@@ -19,13 +23,37 @@
       }
     </style>
 
-  </template>
+     <paper-dropdown-menu label="[[label]]" horizontal-align="right" vertical-align="{{verticalAlign}}">
+      <paper-listbox class="dropdown-content" selected="{{selectedItem}}" attr-for-selected="data-item">
+        <template is="dom-repeat" items="{{items}}">
+          <paper-item data-item="{{item}}">{{item}}</paper-item>
+        </template>
+      </paper-listbox>
+    </paper-dropdown-menu>
 
+  </template>
   <script>
     Polymer({
 
-      is: 'aleppo-dropdown-menu'
+      is: 'aleppo-dropdown-menu',
+      properties: {
+        items: {
+          type: Array
+        },
 
+        selectedItem: {
+          type: Object
+        },
+
+        label: {
+          type: String
+        },
+
+        verticalAlign: {
+          type: String,
+          value: "top"
+        }
+      }
     });
   </script>
 </dom-module>
