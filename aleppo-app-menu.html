@@ -1,4 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
 
 <!--
 `aleppo-app-menu`
@@ -12,6 +14,34 @@
     <style>
       :host {
         display: block;
+        background-color: #10364B;
+        font-family: var(--aleppo-body, "basic-sans-alt");
+      }
+
+      main {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      paper-icon-button {
+        position: absolute;
+        top: 34px;
+        right: 80px;
+        color: #FFFFFF;
+      }
+
+      ul {
+        list-style: none;
+        position: absolute;
+        top: 100px;
+        left: 80px;
+      }
+
+      a {
+        text-decoration: none;
+        color: #FFFFFF;
+        font-size: 60px;
       }
 
       [hidden] {
@@ -19,12 +49,52 @@
       }
     </style>
 
+    <main>
+      <paper-icon-button icon="close" on-tap="_closeMenu"></paper-icon-button>
+      <ul>
+        <li on-tap="_closeMenu">
+          <a href="/pages/about">About</a>
+        </li>
+        <li on-tap="_closeMenu">
+          <a href="/pages/cities">Cities</a>
+        </li>
+        <li on-tap="_closeMenu">
+          <a href="/pages/join">Join</a>
+        </li>
+        <li on-tap="_closeMenu">
+          <a href="/pages/campaign">Campaign</a>
+        </li>
+        <li on-tap="_closeMenu">
+          <a href="/galleries/[[userId]]">My Gallery</a>
+        </li>                
+      </ul>    
+    </main>
+
+
+
+
+
+
   </template>
 
   <script>
     Polymer({
 
-      is: 'aleppo-app-menu'
+      is: 'aleppo-app-menu',
+      properties:{
+        userId:{
+          type: String
+        },
+
+        opened: {
+          type: Boolean,
+          value: false,
+          notify: true
+        }
+      },
+      _closeMenu: function () {
+        this.set('opened', false)
+      }
 
     });
   </script>
