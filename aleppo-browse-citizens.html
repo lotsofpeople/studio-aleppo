@@ -23,11 +23,14 @@
 
     <aleppo-filter
       api-endpoint="[[apiEndpoint]]"
+      active-tags="{{activeTags}}"
+      studio-location="{{studioLocation}}"
+      migration-year="{{migrationYear}}"
     ></aleppo-filter>
 
     <aleppo-citizen-grid
       api-endpoint="[[apiEndpoint]]"
-      citizens-data="[[citizensData]]"
+      citizens-data="[[filteredCitizens]]"
     ></aleppo-citizen-grid>
 
   </template>
@@ -38,13 +41,76 @@
       is: 'aleppo-browse-citizens',
 
       properties: {
+        
         apiEndpoint: {
           type: String
         },
+        
         citizensData: {
           type: Array,
-        }
+          value: []
+        },
+
+        filteredCitizens: {
+          type: Array,
+          value: [],
+        },
+
+        activeTags: {
+          type: Array,
+          value: []
+        },
+
+        studioLocation: {
+          type: String,
+        },
+
+        migrationYear: {
+          type: String,
+        }        
+
       },
+
+      observers: [
+        '_filterCitizens(citizensData.*, activeTags.*, studioLocation, migrationYear)',
+        '_filterCitizensChanged(filteredCitizens.splices)'
+      ],
+
+      _filterCitizens: function(citizensDataChange, activeTagsChange, studioLocation, migrationYear) {
+        var citizensData = citizensDataChange.base;
+        var activeTags = activeTagsChange.base;
+
+        //if no tags are active and studioLocationa and migrationYear are not set, simply return entire array
+        if(activeTags.length === 0 && !studioLocation && !migrationYear) {
+          return this.set('filteredCitizens', citizensData);
+        }
+
+        var filteredCitizens = citizensData.filter(function(citizenData) {
+
+          //a. check if there are any matches between activeTags and citizenTags
+          var citizenTags = citizenData.tags;
+          var citizenTagsMatches = citizenTags.filter(function(tagId) {
+            return activeTags.indexOf(tagId) !== -1;
+          })
+          var citizenHasTagMatches = activeTags.length === 0 || citizenTagsMatches.length > 0;
+
+          //b. check if active studioLocation == citizenLocation
+          var citizenStudioLocationMatches = !studioLocation || (studioLocation.toLowerCase() === citizenData.portrait_location.toLowerCase());
+
+          //c. check if active migrationYear == citizenMigrationYear
+          var citizenMigrationYearMatches = !migrationYear || (migrationYear == citizenData.migration_date.substr(0, 4));
+
+          var citizenMatches = (citizenHasTagMatches && citizenStudioLocationMatches && citizenMigrationYearMatches);
+
+          return citizenMatches;
+        })
+
+        this.set('filteredCitizens', filteredCitizens);
+      },
+
+      _filterCitizensChanged: function(filteredCitizensSplice) {
+        console.info('_filterCitizensChanged', this.filteredCitizens);
+      }
 
     });
   </script>
