@@ -1,0 +1,65 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="aleppo-image.html">
+<link rel="import" href="aleppo-button.html">
+
+<!--
+`aleppo-citizen-detail-page`
+
+
+@demo demo/aleppo-citizen-detail-page.html
+-->
+
+<dom-module id="aleppo-citizen-detail-page">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      [hidden] {
+        display: none!important;
+      }
+    </style>
+
+    <iron-ajax
+      url="[[apiEndpoint]]/wp-json/acf/v2/post/[[citizenData.id]]/interview"
+      auto="[[citizenData.id]]"
+      method="GET"
+      handle-as="json"
+      last-response="{{interviewText}}"
+    ></iron-ajax>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'aleppo-citizen-detail-page',
+      
+      properties: {
+        
+        apiEndpoint: {
+          type: String
+        },
+        
+        citizenData: {
+          type: Object,
+        },
+
+        interviewText: {
+          type: String
+        }
+      },
+
+      observers: [
+        '_interviewTextChanged(interviewText)'
+      ],
+
+      _interviewTextChanged: function(interviewText) {
+        console.info('_interviewTextChanged', interviewText);
+      }
+
+    });
+  </script>
+</dom-module>
