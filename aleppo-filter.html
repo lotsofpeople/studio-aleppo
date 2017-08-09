@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="aleppo-dropdown-menu.html">
 <link rel="import" href="aleppo-toggle-button.html">
 
@@ -21,12 +22,37 @@
       }
     </style>
 
+    <iron-ajax
+      url="[[apiEndpoint]]/wp-json/wp/v2/tags"
+      auto="[[apiEndpoint]]"
+      method="GET"
+      handle-as="json"
+      last-response="{{tagsData}}"
+    ></iron-ajax>
+
   </template>
 
   <script>
     Polymer({
 
-      is: 'aleppo-filter'
+      is: 'aleppo-filter',
+
+      properties: {
+        apiEndpoint: {
+          type: String
+        },
+        tagsData: {
+          type: Array,
+        }
+      },
+
+      observers: [
+        '_tagsDataChanged(tagsData.splices)'
+      ],
+
+      _tagsDataChanged: function(tagsDataSplice) {
+        console.info('_tagsDataChanged!', JSON.stringify(this.tagsData));
+      }
 
     });
   </script>

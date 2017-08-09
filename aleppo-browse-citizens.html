@@ -31,6 +31,10 @@
       last-response="{{postsData}}"
     ></iron-ajax>
 
+    <aleppo-filter
+      api-endpoint="[[apiEndpoint]]"
+    ></aleppo-filter>
+
     <template is="dom-repeat" items="[[postsData]]" as="post">
       <aleppo-citizen-card
         citizen-name="[[post.title]]"
