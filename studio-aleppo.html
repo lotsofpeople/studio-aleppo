@@ -27,6 +27,19 @@ Site of Paradox&#39; Studio Aleppo project
       :host {
         display: block;
       }
+
+      aleppo-app-menu {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right:0;
+        bottom: 0;
+        z-index: 3;
+      }
+
+      aleppo-app-menu:not([menu-opened]) {
+        display: none;
+      }
     </style>
 
     <iron-ajax
@@ -84,7 +97,7 @@ Site of Paradox&#39; Studio Aleppo project
 
     <aleppo-header browse-route-active="[[browseRouteActive]]" curate-route-active="[[curateRouteActive]]" menu-opened="{{appMenuOpened}}"></aleppo-header>
 
-    <aleppo-app-menu opened="{{appMenuOpened}}"></aleppo-app-menu>
+    <aleppo-app-menu user-id="[[user.uid]]" menu-opened$="{{appMenuOpened}}" opened="{{appMenuOpened}}"></aleppo-app-menu>
 
     <template is="dom-if" if="[[galleryRouteActive]]">
       <aleppo-personal-gallery
