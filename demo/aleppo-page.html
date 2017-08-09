@@ -10,7 +10,7 @@
       window.Polymer = {
         useNativeCSSProperties: true,
         lazyRegister: true,
-        dom: 'shadow'
+        // dom: 'shadow'
       };
     </script>
 
@@ -33,10 +33,21 @@
       <h3>Basic aleppo-page demo</h3>
       <demo-snippet>
         <template is="dom-bind" id="demo">
-          <aleppo-page>
-          </aleppo-page>
+          <aleppo-page
+          ></aleppo-page>
         </template>
       </demo-snippet>
     </div>
+
+    <div class="vertical-section-container centered">
+      <h3>Aleppo-page demo with slideshow</h3>
+      <demo-snippet>
+        <template is="dom-bind" id="slideshow-demo">
+          <aleppo-page
+          slideshow-images='[{"src": "https://lorempixel.com/800/600?1", "description": "This is some text"},{"src": "https://lorempixel.com/800/600?2", "description": "Etiam porta sem malesuada magna mollis euismod. Maecenas sed diam eget risus varius blandit sit amet non magna."},{"src": "https://lorempixel.com/800/600?3", "description": "This is another text"}]'
+          ></aleppo-page>
+        </template>
+      </demo-snippet>
+    </div>    
   </body>
 </html>

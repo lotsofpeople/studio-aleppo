@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-    <title>aleppo-filter demo</title>
+    <title>aleppo-content-slider demo</title>
 
     <script>
       window.Polymer = {
         useNativeCSSProperties: true,
         lazyRegister: true,
-        dom: 'shadow'
+        // dom: 'shadow'
       };
     </script>
 
@@ -18,7 +18,7 @@
 
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-    <link rel="import" href="../aleppo-filter.html">
+    <link rel="import" href="../aleppo-content-slider.html">
 
     <style is="custom-style" include="demo-pages-shared-styles">
       demo-snippet {
@@ -26,20 +26,25 @@
           display: block;
         }
       }
+
+      aleppo-content-slider {
+        width: 100%;
+        height: 300px;
+      }
     </style>
   </head>
   <body>
+
     <div class="vertical-section-container centered">
-      <h3>Basic aleppo-filter demo</h3>
+      <h3>Basic aleppo-content-slider demo</h3>
       <demo-snippet>
-        <template is="dom-bind" id="demo">
-          <aleppo-filter
-            tags-data='[{"id":3,"count":1,"description":"","link":"http://aleppoapi.local/tag/food/","name":"Food","slug":"food","taxonomy":"post_tag","meta":[],"_links":{"self":[{"href":"http://aleppoapi.local/wp-json/wp/v2/tags/3"}],"collection":[{"href":"http://aleppoapi.local/wp-json/wp/v2/tags"}],"about":[{"href":"http://aleppoapi.local/wp-json/wp/v2/taxonomies/post_tag"}],"wp:post_type":[{"href":"http://aleppoapi.local/wp-json/wp/v2/posts?tags=3"}],"curies":[{"name":"wp","href":"https://api.w.org/{rel}","templated":true}]}}]'
-            cities='["Amsterdam","Berlin"]'
-            years='["2017","2016"]'
-          ></aleppo-filter>
+        <template>
+          <aleppo-content-slider
+            images='[{"src": "https://lorempixel.com/800/600?1", "description": "This is some text"},{"src": "https://lorempixel.com/800/600?2", "description": "Etiam porta sem malesuada magna mollis euismod. Maecenas sed diam eget risus varius blandit sit amet non magna."},{"src": "https://lorempixel.com/800/600?3", "description": "This is another text"}]'
+          ></aleppo-content-slider>
         </template>
       </demo-snippet>
     </div>
+
   </body>
 </html>

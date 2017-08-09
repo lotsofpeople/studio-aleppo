@@ -1,7 +1,8 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../iron-selector/iron-selector.html">
+<link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="aleppo-dropdown-menu.html">
-<link rel="import" href="aleppo-toggle-button.html">
 
 <!--
 `aleppo-filter`
@@ -20,6 +21,18 @@
       [hidden] {
         display: none!important;
       }
+
+      section {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+
+      .iron-selected {
+        --paper-button: {
+          background-color: blue
+        }
+      }
     </style>
 
     <iron-ajax
@@ -30,6 +43,19 @@
       last-response="{{tagsData}}"
     ></iron-ajax>
 
+    <main>
+      <section>
+        <aleppo-dropdown-menu items="[[cities]]" selected-item="{{studioLocation}}"></aleppo-dropdown-menu>
+        <aleppo-dropdown-menu items="[[years]]" selected-item="{{migrationYear}}"></aleppo-dropdown-menu>
+      </section>
+      <section>
+        <iron-selector attr-for-selected="tag-id" multi selected-values="{{activeTags}}">
+          <template is="dom-repeat" items="[[tagsData]]">
+            <paper-button tag-id="[[item.id]]">[[item.name]]</paper-button>
+          </template>
+        </iron-selector>
+      </section>
+    </main>
   </template>
 
   <script>
@@ -41,9 +67,33 @@
         apiEndpoint: {
           type: String
         },
+
         tagsData: {
+          type: Array
+        },
+
+        cities: {
+          type: Array
+        },
+        
+        years: {
+          type: Array
+        },        
+
+        activeTags: {
           type: Array,
-        }
+          notify: true
+        },
+
+        studioLocation: {
+          type: String,
+          notify: true
+        },
+
+        migrationYear: {
+          type: String,
+          notify: true
+        }        
       },
 
       observers: [
