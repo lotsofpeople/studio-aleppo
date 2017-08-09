@@ -1,0 +1,144 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-selector/iron-selector.html">
+
+<!--
+`aleppo-menu`
+
+
+@demo demo/aleppo-menu.html
+-->
+
+<dom-module id="aleppo-menu">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      [hidden] {
+        display: none!important;
+      }
+
+      iron-selector {
+        margin: auto;
+      }
+
+      #main-menu {
+        flex: none;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        margin: 0 auto;
+        white-space: nowrap;
+      }
+
+      #main-menu::-webkit-scrollbar {
+        display: none;
+      }
+
+      a {
+        flex: none;
+        display: inline-block;
+        padding: 12px 0;
+        margin: 0 12px;
+        font-family: 'Basic Sans';
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: 14px;
+        color: #10364B;
+        line-height: 18px;
+        text-decoration: none;
+        border-bottom: 3px solid transparent;
+      }
+
+      a.iron-selected {
+        border-bottom-color: #10364B;
+      }
+
+      div {
+        min-width: 100%;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        position: relative;
+      }
+
+      div:before,
+      div:after {
+        position: absolute;
+        top: 0;
+        width: 100px;
+        height: 100%;
+        content: '';
+        pointer-events: none;
+        transition: opacity 0.2s;     
+      }
+
+      div:before {
+        background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+        left: 0;
+      }
+
+      :host([scrolled-to-start]) div:before,
+      :host([scrolled-to-end]) div:after {
+        opacity: 0;
+      }
+
+      div:after {
+        background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+        right: 0;
+      }
+    </style>
+
+    <div>
+      <nav id="main-menu">
+        <iron-selector attr-for-selected="href">
+          <a href="#/browse">Browse</a>
+          <a href="#/curate">Curate</a>
+          <a href="#/about">About</a>
+          <a href="#/cities">Cities</a>
+          <a href="#/join">Join</a>
+          <a href="#/campaign">Campaign</a>
+        </iron-selector>
+      </nav>
+    </div>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'aleppo-menu',
+      properties: {
+        
+        scrolledToStart: {
+          type: Boolean,
+          value: true,
+          reflectToAttribute: true
+        },
+
+        scrolledToEnd: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        }
+
+      },
+
+      ready: function() {
+        this.$$('#main-menu').addEventListener('scroll', this._updateScrollProps.bind(this));
+      },
+
+      _updateScrollProps: function() {
+        var menu = this.$$('#main-menu');
+        this.scrolledToStart = menu.scrollLeft === 0;
+        this.scrolledToEnd = menu.offsetWidth + menu.scrollLeft === menu.scrollWidth;
+      }
+
+    });
+  </script>
+</dom-module>

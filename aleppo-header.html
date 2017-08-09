@@ -2,6 +2,7 @@
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="aleppo-logo.html">
+<link rel="import" href="aleppo-menu.html">
 
 <!--
 `aleppo-header`
@@ -21,65 +22,20 @@
       header {
         background-color: white;
         z-index: 2;
-        height: 136px;
         box-sizing: border-box;
-        padding: 16px 0;
+        padding: 0;
         box-shadow: 0px 5px 2px -3px rgba(0, 0, 0, 0.2);
       }
 
       aleppo-logo {
-        height: 40px;
-      }
-
-      #main-menu {
-        flex: none;
-        max-width: 100%;
-        box-sizing: border-box;
-        overflow: auto;
-        -webkit-overflow-scrolling: touch;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        margin: 40px auto 0 auto;
-        white-space: nowrap;
-      }
-
-      #main-menu::-webkit-scrollbar {
-        display: none;
-      }
-
-      a {
-        flex: none;
-        display: inline-block;
-        padding: 0 24px;
-        font-family: 'Basic Sans';
-        text-transform: uppercase;
-        font-weight: 600;
-        font-size: 18px;
-        color: #10364B;
-        line-height: 18px;
-        text-decoration: none;
-      }
-
-      div {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
+        height: 32px;
+        margin: 16px 0;
       }
     </style>
 
     <header>
-      <div>
       <aleppo-logo></aleppo-logo>
-      <nav id="main-menu">
-        <a href="#/browse">Browse citizens</a>
-        <a href="#/curate">Curate citizens</a>
-        <a href="#/about">About</a>
-        <a href="#/cities">Cities</a>
-        <a href="#/join">Join</a>
-        <a href="#/campaign">Campaign</a>
-      </nav>
-      </div>
+      <aleppo-menu></aleppo-menu>
     </header>
 
   </template>
