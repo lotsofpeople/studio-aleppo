@@ -1,6 +1,8 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="../iron-selector/iron-selector.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="aleppo-dropdown-menu.html">
 
@@ -23,13 +25,76 @@
       }
 
       section {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
+        background-color: #50E3C2;
+        overflow: hidden;
+        height: 48px;
+        position: sticky;
+        top: 0;
       }
 
-      .iron-selected {
-        background-color: blue;
+      :host([opened]) section {
+        height: auto;
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 4px 10px 4px 3px;
+        cursor: pointer;
+      }
+
+      h1 {
+        flex: 1;
+        margin: 0;
+        font-family: 'Basic Sans';
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: 14px;
+        color: #10364B;
+        line-height: 18px;
+        word-spacing: 3px;
+      }
+
+      paper-icon-button {
+        flex: none;
+      }
+
+      main {
+        width: 100%;
+      }
+
+      .dropdowns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-column-gap: 10px;
+        grid-row-gap: 10px;
+        padding: 10px;
+      }
+
+      .tags {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-column-gap: 10px;
+        grid-row-gap: 10px;
+        padding: 10px;
+      }
+
+      paper-button {
+        font-family: 'Basic Sans';
+        height: 40px;
+        text-transform: uppercase;
+        font-weight: 400;
+        font-size: 14px;
+        color: #10364B;
+        border: 1px solid #10364B;
+        border-radius: 0;
+        margin: 0;
+      }
+
+      paper-button.iron-selected {
+        background-color: #10364B;
         color: white;
       }
     </style>
@@ -42,25 +107,36 @@
       last-response="{{tagsData}}"
     ></iron-ajax>
 
-    <main>
-      <section>
-        <aleppo-dropdown-menu
-          items="[[studioLocations]]"
-          selected-item="{{studioLocation}}"
-        ></aleppo-dropdown-menu>
-        <aleppo-dropdown-menu
-          items="[[migrationYears]]"
-          selected-item="{{migrationYear}}"
-        ></aleppo-dropdown-menu>
-      </section>
-      <section>
-        <iron-selector attr-for-selected="tag-id" multi selected-values="{{activeTags}}">
+    <section>
+      <header on-tap="toggle">
+        <paper-icon-button icon="filter-list"></paper-icon-button>
+        <h1>Filter citizens</h1>
+      </header>
+
+      <main>
+
+        <div class="dropdowns">
+          <aleppo-dropdown-menu
+            label="Portrayed in"
+            items="[[studioLocations]]"
+            selected-item="{{studioLocation}}"
+          ></aleppo-dropdown-menu>
+          <aleppo-dropdown-menu
+            label="In town since?"
+            items="[[migrationYears]]"
+            selected-item="{{migrationYear}}"
+          ></aleppo-dropdown-menu>
+        </div>
+
+        <iron-selector class="tags" attr-for-selected="tag-id" multi selected-values="{{activeTags}}">
           <template is="dom-repeat" items="[[tagsData]]">
             <paper-button tag-id="[[item.id]]">[[item.name]]</paper-button>
           </template>
         </iron-selector>
-      </section>
-    </main>
+        </div>
+     </main>
+
+    </section>
   </template>
 
   <script>
@@ -98,6 +174,13 @@
 
         migrationYears: {
           type: Array,
+        },
+
+        opened: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+          observer: '_openedChanged'
         }
 
       },
@@ -106,8 +189,16 @@
         '_tagsDataChanged(tagsData.splices)'
       ],
 
+      toggle: function() {
+        this.opened = !this.opened;
+      },
+
       _tagsDataChanged: function(tagsDataSplice) {
         console.info('_tagsDataChanged!', JSON.stringify(this.tagsData));
+      },
+
+      _openedChanged: function(opened) {
+        //document.body.style.overflow = (opened) ? 'hidden' : 'auto';
       }
 
     });

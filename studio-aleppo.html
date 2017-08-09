@@ -3,7 +3,6 @@
 <link rel="import" href="../polymerfire/firebase-app.html">
 <link rel="import" href="../polymerfire/firebase-auth.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
-<link rel="import" href="aleppo-app-menu.html">
 <link rel="import" href="aleppo-header.html">
 <link rel="import" href="aleppo-browse-citizens.html">
 <link rel="import" href="aleppo-curate-citizens.html">
@@ -26,19 +25,6 @@ Site of Paradox&#39; Studio Aleppo project
     <style>
       :host {
         display: block;
-      }
-
-      aleppo-app-menu {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right:0;
-        bottom: 0;
-        z-index: 3;
-      }
-
-      aleppo-app-menu:not([menu-opened]) {
-        display: none;
       }
     </style>
 
@@ -95,9 +81,11 @@ Site of Paradox&#39; Studio Aleppo project
       signed-in="{{signedIn}}"      
     ></firebase-auth>
 
-    <aleppo-header browse-route-active="[[browseRouteActive]]" curate-route-active="[[curateRouteActive]]" menu-opened="{{appMenuOpened}}"></aleppo-header>
-
-    <aleppo-app-menu user-id="[[user.uid]]" menu-opened$="{{appMenuOpened}}" opened="{{appMenuOpened}}"></aleppo-app-menu>
+    <aleppo-header
+      browse-route-active="[[browseRouteActive]]"
+      curate-route-active="[[curateRouteActive]]"
+      menu-opened="{{appMenuOpened}}"
+    ></aleppo-header>
 
     <template is="dom-if" if="[[galleryRouteActive]]">
       <aleppo-personal-gallery

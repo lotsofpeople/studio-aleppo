@@ -16,15 +16,29 @@
     <style>
       :host {
         display: block;
+        padding: 0;
+        width: 100%;
+        box-sizing: border-box;
       }
 
       [hidden] {
         display: none!important;
       }
+
+      paper-dropdown-menu {
+        width: 100%;
+      }
     </style>
 
-     <paper-dropdown-menu label="[[label]]" horizontal-align="right" vertical-align="{{verticalAlign}}">
-      <paper-listbox class="dropdown-content" selected="{{selectedItem}}" attr-for-selected="data-item">
+     <paper-dropdown-menu
+      label="[[label]]"
+      horizontal-align="right"
+      vertical-align="{{verticalAlign}}">
+      <paper-listbox
+        class="dropdown-content"
+        selected="{{selectedItem}}"
+        attr-for-selected="data-item">
+        <paper-item data-item=""></paper-item>
         <template is="dom-repeat" items="{{items}}">
           <paper-item data-item="{{item}}">{{item}}</paper-item>
         </template>
@@ -52,7 +66,7 @@
 
         verticalAlign: {
           type: String,
-          value: "top"
+          value: 'top'
         }
       }
     });
