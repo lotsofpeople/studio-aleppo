@@ -1,5 +1,4 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../paper-card/paper-card.html">
 <link rel="import" href="aleppo-image-behavior.html">
 
 <!--
@@ -16,20 +15,114 @@
         display: flex;
       }
 
-      paper-card {
+      section {
         flex: 1;
+        position: relative;
+        overflow: hidden;
+        background-color: black;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+      }
+
+      figure {
+        position: absolute;
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        transition: filter 0.2s;
+      }
+
+      :host([anonymous]) figure,
+      :host(:hover) figure {
+        filter: blur(20px);
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 50%;
+      }
+
+      blockquote {
+        position: absolute;
+        display: inline-flex;
+        top: 27px;
+        left: 27px;
+        right: 27px;
+        bottom: 27px;
+        font-family: 'Bree Serif';
+        font-size: 14px;
+        font-weight: 400;
+        color: white;
+        margin: 0;
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+
+      @media screen and (min-width: 737px) {
+        blockquote {
+          font-size: 20px;
+        }        
+      }
+
+      @media screen and (min-width: 1280px) {
+        blockquote {
+          font-size: 28px;
+        }        
+      }
+
+      blockquote span:before,
+      blockquote span:after {
+        content: ' — ';
+      }
+
+      :host([anonymous]) blockquote,
+      :host(:hover) blockquote {
+        opacity: 1;
       }
 
       [hidden] {
         display: none!important;
       }
+
+      h1 {
+        flex: none;
+        display: inline-block;
+        box-sizing: border-box;
+        background-color: #FFE57B;
+        height: 40px;
+        display: flex;
+        padding: 12px;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Basic Sans';
+        font-size: 18px;
+        font-weight: 400;
+        color: #10364B;
+        position: relative;
+        z-index: 1;
+        margin: 32px;
+        transition: opacity 0.2s;
+        pointer-events: none;
+      }
+
+      :host([anonymous]) h1,
+      :host(:hover) h1 {
+        opacity: 0;
+      }
+
     </style>
 
-    <paper-card image$="[[images.medium]]">
-      <div class="card-content">
-      [[citizenName]]
-      </div>
-    </paper-card>
+    <section>
+      <figure>
+        <img src="[[image]]" on-load="_setHeight">
+      </figure>
+      <blockquote><span>[[quote]]</span></blockquote>
+      <h1>[[citizenName]]</h1>
+    </section>
 
   </template>
 
@@ -37,16 +130,39 @@
     Polymer({
 
       is: 'aleppo-citizen-card',
+      
       behaviors: [
         AleppoImageBehavior
       ],
+      
       properties: {
+        
         citizenName: {
           type: String,
         },
-        images: {
-          type: Object
+        
+        quote: {
+          type: String
+        },
+        
+        image: {
+          type: String
+        },
+
+        anonymous: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
         }
+
+      },
+
+      ready: function() {
+        window.addEventListener('resize', this._setHeight.bind(this));
+      },
+
+      _setHeight: function() {
+        this.style.height = this.offsetWidth * 1.4322580645 + 'px';
       }
 
     });

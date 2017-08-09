@@ -23,9 +23,21 @@
 
       .grid {
         display: grid;
-        grid-template-columns: auto auto auto;
-        grid-column-gap: 16px;
-        grid-row-gap: 16px;
+        grid-template-columns: 1fr 1fr;
+        grid-column-gap: 10px;
+        grid-row-gap: 10px;
+      }
+
+      @media screen and (min-width: 737px) {
+        .grid {
+          grid-template-columns: 1fr 1fr 1fr;
+        }        
+      }
+
+      @media screen and (min-width: 1025px) {
+        .grid {
+          grid-template-columns: 1fr 1fr 1fr 1fr;
+        }        
       }
 
       aleppo-citizen-card {
@@ -43,7 +55,8 @@
       <template is="dom-repeat" items="[[citizensData]]" as="citizen">
         <aleppo-citizen-card
           citizen-name="[[citizen.title]]"
-          images="[[citizen.portrait_url.sizes]]"
+          quote="[[citizen.quote]]"
+          image="[[citizen.portrait_url.sizes.medium]]"
         ></aleppo-citizen-card>
       </template>
     </section>

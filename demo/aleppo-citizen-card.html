@@ -33,8 +33,23 @@
       <h3>Basic aleppo-citizen-card demo</h3>
       <demo-snippet>
         <template is="dom-bind" id="demo">
-          <aleppo-citizen-card>
-          </aleppo-citizen-card>
+          <aleppo-citizen-card
+            citizen-name="John Doe"
+            quote="Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor."
+            image="http://aleppoapi.local/wp-content/uploads/2017/08/CF035155-566x750.jpg"
+          ></aleppo-citizen-card>
+        </template>
+      </demo-snippet>
+
+      <h3>Anonymous aleppo-citizen-card</h3>
+      <demo-snippet>
+        <template is="dom-bind" id="demo">
+          <aleppo-citizen-card
+            citizen-name="John Doe"
+            quote="Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor."
+            image="http://aleppoapi.local/wp-content/uploads/2017/08/CF035155-566x750.jpg"
+            anonymous
+          ></aleppo-citizen-card>
         </template>
       </demo-snippet>
     </div>
