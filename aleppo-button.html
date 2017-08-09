@@ -11,7 +11,43 @@
   <template>
     <style>
       :host {
-        display: block;
+      }
+
+      button {
+        width: 100%;
+        min-width: 294px;
+        height: var(--button-height, 54px);
+        position: relative;
+        box-sizing: border-box;
+        border-radius: 5px;
+        border: 0;
+        cursor: pointer;
+        background-color: var(--button-background-color, #FFE57B);
+        color: var(--button-color, #10364B);
+      }
+
+      section {
+        text-align: center;
+        height: 100%;
+        font-family: var(--aleppo-body, "sans-sherif");
+        font-size: 18px;        
+      }
+      
+      #text-section {
+        flex:1;
+        line-height: var(--button-height, 54px);
+      }
+
+      #number-section {
+        position: absolute;
+        right: 14px;
+        top: 11px;
+        width: 32px;
+        height: 32px;
+        line-height: 32px;        
+        border-radius: 50%;
+        background-color: var(--number-background-color, #000);
+        color: var(--number-color, white);        
       }
 
       [hidden] {
@@ -19,12 +55,26 @@
       }
     </style>
 
+    <button><section id="text-section">[[text]]</section> <section id="number-section" hidden$="[[!showNumber]]">[[number]]</section></button>
+
   </template>
 
   <script>
     Polymer({
 
-      is: 'aleppo-button'
+      is: 'aleppo-button',
+      properties: {
+        text: {
+          type: String
+        },
+        number: {
+          type: Number
+        },
+        showNumber: {
+          type: Boolean,
+          value: false
+        },                
+      }
 
     });
   </script>
