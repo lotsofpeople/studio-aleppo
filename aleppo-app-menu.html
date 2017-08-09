@@ -26,8 +26,8 @@
 
       paper-icon-button {
         position: absolute;
-        top: 34px;
-        right: 80px;
+        top: 24px;
+        right: 24px;
         color: #FFFFFF;
       }
 
@@ -89,11 +89,16 @@
         opened: {
           type: Boolean,
           value: false,
-          notify: true
+          notify: true,
+          observer: '_openedChanged'
         }
       },
       _closeMenu: function () {
         this.set('opened', false)
+      },
+
+      _openedChanged: function(opened) {
+        document.body.style.overflow = (opened) ? 'hidden' : 'auto';
       }
 
     });
