@@ -1,6 +1,4 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../app-layout/app-header/app-header.html">
-<link rel="import" href="../app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="aleppo-logo.html">
@@ -20,116 +18,69 @@
         background-color: transparent;
       }
 
-      app-header {
-        background-color: var(--ft-color-main-light);
+      header {
+        background-color: white;
         z-index: 2;
-      }
-
-      app-toolbar {
-        height: 72px;
-        pointer-events: all;
-      }
-
-      .logo-container {
-        flex: 3;
-        display: flex;
-        z-index: 10;
+        height: 136px;
+        box-sizing: border-box;
+        padding: 16px 0;
+        box-shadow: 0px 5px 2px -3px rgba(0, 0, 0, 0.2);
       }
 
       aleppo-logo {
+        height: 40px;
+      }
+
+      #main-menu {
         flex: none;
-        height: 24px;
-        position: relative;
-        cursor: pointer;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        margin: 40px auto 0 auto;
+        white-space: nowrap;
+      }
+
+      #main-menu::-webkit-scrollbar {
+        display: none;
       }
 
       a {
-        font-family: BasicSansAlt-Bold;
+        flex: none;
+        display: inline-block;
+        padding: 0 24px;
+        font-family: 'Basic Sans';
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: 18px;
+        color: #10364B;
+        line-height: 18px;
         text-decoration: none;
-        width: 80px;
-        padding: 0 43px;
-        font-size: 20px;
       }
 
-      @media screen and (max-device-width: 599px),
-        screen and (max-width: 599px){
-          a {
-            width: 40px;
-            font-size: 12px;
-            padding: 0 16px;
-        }
-      }
-
-      #home-button {
-        color: #FFFFFF;
-      }
-
-      #home-button:hover {
-        color: #FE5454;        
-      }
-
-      #browse-button[active], #browse-button:hover{
-        color: #86E6E9;
-      }
-
-      #curate-button[active], #curate-button:hover{
-        color: #FE5454;
-      }
-
-      :host([transparent])   {
-
-      }
-      
-      
-      #navigation-button-container {
+      div {
         display: flex;
-        flex-direction: row;
-      }
-
-      #navigation-button-container > * {
-        display: inline-flex;
-        align-self: center;
-      }      
-      
-      [hidden] {
-        display: none!important;
+        justify-content: center;
+        flex-direction: column;
       }
     </style>
 
-    <app-header reveals>
-      <app-toolbar>
-        
-        <div class="logo-container">
-          <a id="home-button" href="/home">
-            <aleppo-logo
-            ></aleppo-logo>
-          </a>
-        </div>
-        
-        <div id="navigation-button-container">
-
-          <a id="browse-button" href="/browse" active$="[[browseRouteActive]]">
-            Browse citizens
-          </a>
-
-          <paper-icon-button
-            id="filter-button"
-            icon="filter-list"
-          ></paper-icon-button>
-          
-          <a id="curate-button" href="/curate" active$="[[curateRouteActive]]">
-            Curate citizens
-          </a>
-          
-          <paper-icon-button
-            id="menu-button"
-            icon="menu"
-            on-tap="toggleMenu"
-          ></paper-icon-button>
-
-        </div>
-      </app-toolbar>
-    </app-header>
+    <header>
+      <div>
+      <aleppo-logo></aleppo-logo>
+      <nav id="main-menu">
+        <a href="#/browse">Browse citizens</a>
+        <a href="#/curate">Curate citizens</a>
+        <a href="#/about">About</a>
+        <a href="#/cities">Cities</a>
+        <a href="#/join">Join</a>
+        <a href="#/campaign">Campaign</a>
+      </nav>
+      </div>
+    </header>
 
   </template>
 
