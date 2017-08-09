@@ -17,15 +17,22 @@
       [hidden] {
         display: none!important;
       }
-    </style>
+</style>
+
+  <section>
+    - [[quote]] - 
+  </section>
 
   </template>
 
   <script>
     Polymer({
-
-      is: 'aleppo-quote'
-
+      is: 'aleppo-quote',
+      properties: {
+        quote: {
+          type: String
+        }
+      }
     });
   </script>
 </dom-module>

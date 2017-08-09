@@ -1,4 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../material-toggle-button/material-toggle-button.html">
+
 
 <!--
 `aleppo-toggle-button`
@@ -19,12 +21,23 @@
       }
     </style>
 
-  </template>
 
+    <material-toggle-button noink active="{{active}}">[[text]]</material-toggle-button>
+  </template>
   <script>
     Polymer({
 
-      is: 'aleppo-toggle-button'
+      is: 'aleppo-toggle-button',
+      properties: {
+        text: {
+          type: String
+        },
+        active: {
+          type: Boolean,
+          value: false,
+          notifies: true
+        }
+      }
 
     });
   </script>
