@@ -2,6 +2,7 @@
 <link rel="import" href="../app-route/app-route.html">
 <link rel="import" href="../polymerfire/firebase-app.html">
 <link rel="import" href="../polymerfire/firebase-auth.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="aleppo-app-menu.html">
 <link rel="import" href="aleppo-header.html">
 <link rel="import" href="aleppo-browse-citizens.html">
@@ -27,6 +28,14 @@ Site of Paradox&#39; Studio Aleppo project
         display: block;
       }
     </style>
+
+    <iron-ajax
+      url="[[apiEndpoint]]/wp-json/wp/v2/posts"
+      auto="[[apiEndpoint]]"
+      method="GET"
+      handle-as="json"
+      last-response="{{citizensData}}"
+    ></iron-ajax>
 
     <app-route
       route="{{route}}"
@@ -87,6 +96,7 @@ Site of Paradox&#39; Studio Aleppo project
     <template is="dom-if" if="[[browseRouteActive]]">
       <aleppo-browse-citizens
         api-endpoint="[[apiEndpoint]]"
+        citizens-data="[[citizensData]]"
       ></aleppo-browse-citizens>
     </template>
     
@@ -94,6 +104,7 @@ Site of Paradox&#39; Studio Aleppo project
       <aleppo-curate-citizens
         api-endpoint="[[apiEndpoint]]"
         user-id="[[user.uid]]"
+        citizens-data="[[citizensData]]"
       ></aleppo-curate-citizens>
     </template>
     
@@ -182,11 +193,20 @@ Site of Paradox&#39; Studio Aleppo project
         pageRouteActive: {
           type: Boolean,
           value: false
+        },
+
+        citizensData: {
+          type: Array
         }           
       },
+
       listeners: {
         'update-route' : "_updateRoute"
       },
+
+      observers: [
+        '_citizensDataChanged(citizensData.splices)'
+      ],
 
       signInAnonymously: function () {
         if(this.signedIn == true) return;
@@ -198,8 +218,12 @@ Site of Paradox&#39; Studio Aleppo project
 
       _updateRoute: function (evt, newRoute) {
         if(!newRoute) return;
+      },
 
+      _citizensDataChanged: function(citizensDataSplice) {
+        console.info('citizensDataSplice', citizensDataSplice);
       }
+
     });
   </script>
 </dom-module>

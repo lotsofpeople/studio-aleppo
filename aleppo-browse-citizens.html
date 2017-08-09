@@ -1,5 +1,4 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="aleppo-filter.html">
 <link rel="import" href="aleppo-citizen-grid.html">
 
@@ -21,14 +20,6 @@
         display: none!important;
       }
     </style>
-
-    <iron-ajax
-      url="[[apiEndpoint]]/wp-json/wp/v2/posts"
-      auto="[[apiEndpoint]]"
-      method="GET"
-      handle-as="json"
-      last-response="{{citizensData}}"
-    ></iron-ajax>
 
     <aleppo-filter
       api-endpoint="[[apiEndpoint]]"
@@ -54,14 +45,6 @@
           type: Array,
         }
       },
-
-      observers: [
-        '_citizensDataChanged(citizensData.splices)'
-      ],
-
-      _citizensDataChanged: function(citizensDataSplice) {
-        console.info('citizensDataSplice', citizensDataSplice);
-      }
 
     });
   </script>
