@@ -29,13 +29,13 @@
 
       aleppo-logo {
         height: 32px;
-        margin: 16px 0;
+        padding: 16px 0;
       }
     </style>
 
     <header>
       <aleppo-logo></aleppo-logo>
-      <aleppo-menu></aleppo-menu>
+      <aleppo-menu api-endpoint="[[apiEndpoint]]"></aleppo-menu>
     </header>
 
   </template>
@@ -46,6 +46,10 @@
       is: 'aleppo-header',
       properties: {
         
+        apiEndpoint: {
+          type: String
+        },
+
         /*
          * If true, the menu is displayed
          */

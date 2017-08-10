@@ -5,7 +5,7 @@
 <link rel="import" href="aleppo-header.html">
 <link rel="import" href="aleppo-browse-citizens.html">
 <link rel="import" href="aleppo-curate-citizens.html">
-<link rel="import" href="aleppo-page-shell.html">
+<link rel="import" href="aleppo-page.html">
 <link rel="import" href="aleppo-personal-gallery.html">
 
 
@@ -25,6 +25,11 @@ Site of Paradox&#39; Studio Aleppo project
     <style>
       :host {
         display: block;
+      }
+
+      aleppo-header {
+        position: relative;
+        z-index: 1;
       }
     </style>
 
@@ -76,6 +81,7 @@ Site of Paradox&#39; Studio Aleppo project
     ></firebase-app>
 
     <aleppo-header
+      api-endpoint="[[apiEndpoint]]"
       browse-route-active="[[browseRouteActive]]"
       curate-route-active="[[curateRouteActive]]"
       menu-opened="{{appMenuOpened}}"
@@ -103,10 +109,11 @@ Site of Paradox&#39; Studio Aleppo project
     </template>
     
     <template is="dom-if" if="[[pageRouteActive]]">
-      <aleppo-page-shell
+      <aleppo-page
         api-endpoint="[[apiEndpoint]]"
         page-id="[[pageRouteData.pageId]]"
-      ></aleppo-page-shell>
+        page-title="[[pageRouteData.title]]"
+      ></aleppo-page>
     </template>
 
   </template>
@@ -187,7 +194,8 @@ Site of Paradox&#39; Studio Aleppo project
       },
 
       listeners: {
-        'update-route' : "_updateRoute"
+        'update-route' : '_updateRoute',
+        'menu-item-selected': '_handleMenuItemSelected'
       },
 
       observers: [
@@ -200,6 +208,13 @@ Site of Paradox&#39; Studio Aleppo project
 
       _citizensDataChanged: function(citizensDataSplice) {
         console.info('_citizensDataChanged', this.citizensData);
+      },
+
+      _handleMenuItemSelected: function(evt, data) {
+        var anchor = document.createElement('a');
+        anchor.href = '#/' + data.route;
+        anchor.click();
+        this.set('pageRouteData.title', data.title);
       }
 
     });

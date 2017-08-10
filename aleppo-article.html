@@ -1,0 +1,150 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="aleppo-styles.html">
+<link rel="import" href="aleppo-image.html">
+<link rel="import" href="aleppo-quote.html">
+<link rel="import" href="aleppo-page.html">
+<link rel="import" href="aleppo-content-slider.html"> 
+
+<!--
+`aleppo-article`
+
+
+@demo demo/aleppo-article.html
+-->
+
+<dom-module id="aleppo-article">
+  <template>
+    <style include="aleppo-styles">
+      :host {
+        display: block;
+      }
+
+      [hidden] {
+        display: none!important;
+      }
+
+      section {
+        margin: auto;
+        width: 1280px;
+        max-width: 100%;
+        box-sizing: border-box;
+        padding: 0 16px;
+        position: relative;
+      }
+
+      header {
+        position: relative;
+        z-index: 2;        
+      }
+
+      h1 {
+        @apply --aleppo-font-heading1;
+        max-width: 100%;
+      }
+
+      @media screen and (min-width: 737px) {
+        h1 {
+          max-width: 50%;
+        }        
+      }
+
+      main {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-column-gap: 120px;
+        position: relative;
+        z-index: 2;
+      }
+
+      @media screen and (min-width: 737px) {
+        main {
+        grid-template-columns: 2fr 1fr;
+        }        
+      }
+
+      article {
+        @apply --aleppo-font-body;
+      }
+
+      aside {
+        @apply --aleppo-font-small;
+      }
+
+      section:after {
+        position: fixed;
+        top: 0;
+        left: 50%;
+        width: 50%;
+        height: 100%;
+        background-color: var(--aleppo-color-green);
+        z-index: 0;
+        content: '';
+      }
+
+      aleppo-content-slider {
+        margin-top: 24px;
+        height: 830px;
+        max-height: 40vh;
+        width: 100%;
+        display: flex;
+      }
+    </style>
+
+    <section>
+
+      <header>
+        <h1>[[title]]</h1>
+
+        <template is="dom-if" if="[[slideshowImages]]" restamp="true">
+          <aleppo-content-slider
+            images="[[slideshowImages]]"
+          ></aleppo-content-slider>
+        </template>
+
+      </header>
+      <main>
+        <article></article>
+        <aside></aside>
+      </main>
+
+    </section>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'aleppo-article',
+      properties: {
+        
+        title: {
+          type: String,
+        },
+
+        content: {
+          type: String,
+          observer: '_setContent'
+        },
+
+        sidebarContent: {
+          type: String,
+          observer: '_setSidebarContent'
+        },
+
+        slideshowImages: {
+          type: Array
+        }
+
+      },
+
+      _setContent: function(content) {
+        this.$$('article').innerHTML = content;
+      },
+
+      _setSidebarContent: function(sidebarContent) {
+        this.$$('aside').innerHTML = sidebarContent;
+      }
+
+    });
+  </script>
+</dom-module>

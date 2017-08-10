@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="aleppo-styles.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="../iron-selector/iron-selector.html">
 
 <!--
@@ -92,15 +93,22 @@
       }
     </style>
 
+    <iron-ajax
+      url="[[apiEndpoint]]/wp-json/wp/v2/pages"
+      auto="[[apiEndpoint]]"
+      method="GET"
+      handle-as="json"
+      last-response="{{pagesData}}"
+    ></iron-ajax>
+
     <div>
       <nav id="main-menu">
-        <iron-selector attr-for-selected="href">
-          <a href="#/browse">Browse</a>
-          <a href="#/curate">Curate</a>
-          <a href="#/about">About</a>
-          <a href="#/cities">Cities</a>
-          <a href="#/join">Join</a>
-          <a href="#/campaign">Campaign</a>
+        <iron-selector attr-for-selected="data-route" selected-item="{{selectedItem}}" >
+          <a data-route="browse">Browse</a>
+          <a data-route="curate">Curate</a>
+          <template is="dom-repeat" items="[[pagesData]]" as="page">
+            <a data-route$="pages/[[page.id]]" data-title$="[[page.title]]">[[page.title]]</a>            
+          </template>
         </iron-selector>
       </nav>
     </div>
@@ -112,6 +120,10 @@
 
       is: 'aleppo-menu',
       properties: {
+
+        apiEndpoint: {
+          type: String,
+        },
         
         scrolledToStart: {
           type: Boolean,
@@ -123,9 +135,22 @@
           type: Boolean,
           value: false,
           reflectToAttribute: true
+        },
+
+        pagesData: {
+          type: Array
+        },
+
+        selectedItem: {
+          type: Object,
+          value: null
         }
 
       },
+
+      observers: [
+        '_notifySelected(selectedItem)'
+      ],
 
       ready: function() {
         this.$$('#main-menu').addEventListener('scroll', this._updateScrollProps.bind(this));
@@ -135,6 +160,15 @@
         var menu = this.$$('#main-menu');
         this.scrolledToStart = menu.scrollLeft === 0;
         this.scrolledToEnd = menu.offsetWidth + menu.scrollLeft === menu.scrollWidth;
+      },
+
+      _notifySelected: function(selectedItem) {
+        if(!selectedItem) return;
+        var data = {
+          route: selectedItem.getAttribute('data-route'),
+          title: selectedItem.getAttribute('data-title')
+        }
+        this.fire('menu-item-selected', data);
       }
 
     });
