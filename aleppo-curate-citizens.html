@@ -48,12 +48,12 @@
 
     <firebase-query
       path="/evaluated-citizens/[[user.uid]]"
-      data="[[userEvaluatedCitizens]]"
+      data="{{userEvaluatedCitizens}}"
     ></firebase-query>
 
     <firebase-query
       path="/galleries/[[user.uid]]"
-      data="[[userGallery]]"
+      data="{{userGallery}}"
     ></firebase-query> 
 
     <main>
@@ -141,11 +141,13 @@
         },
 
         remainingCitizenIds: {
-          type: Array
+          type: Array,
+          value: []
         },
 
         userEvaluatedCitizens: {
-          type: Array
+          type: Array,
+          value: []
         },
 
         currentCitizenId: {
@@ -184,7 +186,9 @@
         var remainingCitizenIds = this.remainingCitizenIds;
 
         // Get random Id from filteredCitizensIds
-        var newCitizenId = remainingCitizenIds[Math.floor(Math.random() * remainingCitizenIds.length)];
+        var newCitizenId = remainingCitizenIds[Math.floor(
+          Math.random() * remainingCitizenIds.length)
+        ];
 
         // TODO if (!newCitizenId)
         this.set('currentCitizenId', newCitizenId);
@@ -209,16 +213,23 @@
       },
 
       _setRemainingCitizenIds: function (allCitizensIdsSplices, userEvaluatedCitizensSplices) {
-        var allCitizensIds = this.allCitizensIdsSplices;
+        var allCitizensIds = this.allCitizensIds;
         var userEvaluatedCitizens = this.userEvaluatedCitizens;
 
         // get Ids from Firebase Array with $key, $val.
-        var evaluatedCitizensIds = evaluatedCitizens.map(function(a) {return a.$key});           
+        var evaluatedCitizensIds = userEvaluatedCitizens.map(function(a) {
+          return parseInt(a.$key)
+        });
   
         // Filter out Ids from allCitizensIds that are in evaluatedCitizensIds.
-        var filteredCitizensIds = allCitizensIds.filter(function(e){return this.indexOf(e)<0;},evaluatedCitizensIds);
+        var unevaluatedCitizensIds = allCitizensIds.filter(function(citizenId) {
+          return evaluatedCitizensIds.indexOf(citizenId) === -1;
+        });
 
-        this.splice('remainingCitizenIds', 0, this.remainingCitizenIds.length, filteredCitizensIds);        
+        this.set('remainingCitizenIds', []);
+        for(var i = 0; i < unevaluatedCitizensIds.length; i++) {
+          this.push('remainingCitizenIds', unevaluatedCitizensIds[i]);
+        }        
       },
 
       _setCitizen: function (currentCitizenId) {
@@ -238,8 +249,11 @@
       _setCitizenIds: function (citizensDataSpliced) {
         var citizensData = this.citizensData;
         var citizensIds = citizensData.map(function(a) {return a.id;});
-        var allCitizensIdsLength = this.allCitizensIds ? this.allCitizensIds.length : 0;
-        this.splice('allCitizensIds', 0, allCitizensIdsLength, citizensIds);
+
+        this.set('allCitizensIds', []);
+        for(var i = 0; i < citizensIds.length; i++) {
+          this.push('allCitizensIds', citizensIds[i]);
+        }
       },
 
       _setUserGalleryLength: function (userGallerySplices) {
@@ -255,9 +269,8 @@
         if(!this.signedIn) this.signInAnonymously()
         this.set('_showCurateIntroSection', false);        
         this.set('_showCurateCitizenSection', true);
+        this.setNextCitizenId()
       }
-
-      
     });
   </script>
 </dom-module>
