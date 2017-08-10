@@ -36,9 +36,14 @@
         transition: filter 0.2s;
       }
 
-      :host([anonymous]) figure,
-      :host(:hover) figure {
+      :host([anonymous]) figure {
         filter: blur(20px);
+      }
+
+      @media screen and (min-width: 1025px) {
+        :host(:hover) figure {
+          filter: blur(20px);
+        }        
       }
 
       img {
@@ -67,9 +72,14 @@
         content: ' — ';
       }
 
-      :host([anonymous]) blockquote,
-      :host(:hover) blockquote {
+      :host([anonymous]) blockquote {
         opacity: 1;
+      }
+
+      @media screen and (min-width: 1025px) {
+        :host(:hover) blockquote {
+          filter: blur(20px);
+        }        
       }
 
       [hidden] {
@@ -95,9 +105,14 @@
         color: var(--aleppo-color-blue);
       }
 
-      :host([anonymous]) h1,
-      :host(:hover) h1 {
+      :host([anonymous]) h1 {
         opacity: 0;
+      }
+
+      @media screen and (min-width: 1025px) {
+        :host(:hover) h1 {
+          opacity: 0;
+        }        
       }
 
     </style>
