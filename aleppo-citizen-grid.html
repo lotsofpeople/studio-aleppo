@@ -46,17 +46,14 @@
       }
     </style>
 
-    <aleppo-citizen-detail-page
-      api-endpoint="[[apiEndpoint]]"
-      citizen-data="[[selectedCitizen]]"
-    ></aleppo-citizen-detail-page>
-
     <section class="grid">
       <template is="dom-repeat" items="[[citizensData]]" as="citizen">
         <aleppo-citizen-card
+          citizen-id="[[citizen.id]]"
           citizen-name="[[citizen.title]]"
           quote="[[citizen.quote]]"
           image="[[citizen.portrait_url.sizes.medium]]"
+          on-tap="_handleTapCitizenCard"
         ></aleppo-citizen-card>
       </template>
     </section>
@@ -90,6 +87,17 @@
 
       _selectedCitizenChanged: function(selectedCitizenChange) {
         console.info('_selectedCitizenChanged', selectedCitizenChange.base);
+      },
+
+      _handleTapCitizenCard: function(evt) {
+        var citizenData = this._getCitizenDataById(evt.currentTarget.citizenId);
+        this.fire('card-tapped', citizenData);
+      },
+
+      _getCitizenDataById: function(citizenId) {
+        return this.citizensData.filter(function(citizenData) {
+          return citizenData.id === citizenId
+        })[0] || {};
       }
 
     });

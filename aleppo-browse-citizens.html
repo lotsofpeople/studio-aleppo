@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="aleppo-filter.html">
 <link rel="import" href="aleppo-citizen-grid.html">
 
@@ -31,6 +32,40 @@
         top: 0;
         z-index: 2;
       }
+
+      aleppo-citizen-detail-page {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 3;
+        transition: 0.3s opacity;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      aleppo-citizen-detail-page[data-active] {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      #close-detail-page-button {
+        position: fixed;
+        top: 0;
+        right: 0;
+        z-index: 4;
+        transition: 0.3s opacity;
+        opacity: 0;
+        pointer-events: none;        
+      }
+
+      #close-detail-page-button[data-active] {
+        opacity: 1;
+        pointer-events: all;        
+      }
     </style>
 
     <aleppo-filter
@@ -47,7 +82,21 @@
     <aleppo-citizen-grid
       api-endpoint="[[apiEndpoint]]"
       citizens-data="[[filteredCitizens]]"
+      on-card-tapped="_handleCitizenCardTapped"
     ></aleppo-citizen-grid>
+
+    <aleppo-citizen-detail-page
+      api-endpoint="[[apiEndpoint]]"
+      data-active$="[[activeCitizen.id]]"
+      citizen-data="[[activeCitizen]]"
+    ></aleppo-citizen-detail-page>
+
+    <paper-icon-button
+      id="close-detail-page-button"
+      icon="close"
+      data-active$="[[activeCitizen.id]]"
+      on-tap="closeDetailPage"
+    ></paper-icon-button>
 
   </template>
 
@@ -108,12 +157,26 @@
           value: null
         },
 
+        activeCitizen: {
+          type: Object,
+        },
+
+        citizenActive: {
+          type: Boolean,
+          computed: '_computeCitizenActive(activeCitizen.id)',
+          observer: '_citizenActiveChanged'
+        }
+
       },
 
       observers: [
         '_filterCitizens(citizensData.*, activeTags.*, studioLocation, migrationYear)',
         '_filterCitizensChanged(filteredCitizens.splices)'
       ],
+
+      closeDetailPage: function() {
+        this.set('activeCitizen', null);
+      },
 
       _filterCitizens: function(citizensDataChange, activeTagsChange, studioLocation, migrationYear) {
         var citizensData = citizensDataChange.base;
@@ -181,6 +244,19 @@
 
       _computeLength: function(arrChange) {
         return arrChange.base.length;
+      },
+
+      _handleCitizenCardTapped: function(evt, citizenData) {
+        this.set('activeCitizen', citizenData);
+        this.notifyPath('activeCitizen.id', this.activeCitizen.id);
+      },
+
+      _computeCitizenActive: function(activeCitizenId) {
+        return !!activeCitizenId;
+      },
+
+      _citizenActiveChanged: function(citizenActive) {
+        document.body.style.overflow = (citizenActive) ? 'hidden' : '';
       }
 
     });

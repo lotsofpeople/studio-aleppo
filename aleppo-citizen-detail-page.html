@@ -1,7 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
-<link rel="import" href="aleppo-image.html">
-<link rel="import" href="aleppo-button.html">
+<link rel="import" href="aleppo-citizen-passport.html">
 
 <!--
 `aleppo-citizen-detail-page`
@@ -17,6 +16,13 @@
         display: block;
       }
 
+      aleppo-citizen-passport {
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
       [hidden] {
         display: none!important;
       }
@@ -27,8 +33,18 @@
       auto="[[citizenData.id]]"
       method="GET"
       handle-as="json"
-      last-response="{{interviewText}}"
+      on-request="_removeInterview"
+      last-response="{{interviewData}}"
     ></iron-ajax>
+
+    <aleppo-citizen-passport
+      citizen-name="[[citizenData.title]]"
+      age="[[citizenData.age]]"
+      portrait-url="[[citizenData.portrait_url.sizes.medium]]"
+      place-of-birth="Unknown"
+      residence="Unknown"
+      interview="[[interviewData.interview]]"
+    ></aleppo-citizen-passport>
 
   </template>
 
@@ -47,17 +63,13 @@
           type: Object,
         },
 
-        interviewText: {
-          type: String
+        interviewData: {
+          type: Object
         }
       },
 
-      observers: [
-        '_interviewTextChanged(interviewText)'
-      ],
-
-      _interviewTextChanged: function(interviewText) {
-        console.info('_interviewTextChanged', interviewText);
+      _removeInterview: function() {
+        this.set('interviewData', {});
       }
 
     });
