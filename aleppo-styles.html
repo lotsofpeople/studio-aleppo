@@ -1,0 +1,112 @@
+<link rel="import" href="../polymer/polymer.html">
+<script src="https://use.typekit.net/swg1zww.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+
+<style is="custom-style">
+  html {
+
+    /*
+    colors
+    */
+    --aleppo-color-yellow: #FFE57B;
+    --aleppo-color-blue: #10364B;
+    --aleppo-color-green: #86E6E9;
+    --aleppo-color-red: #FF5454;
+
+    /*
+    typography
+    */
+
+    --aleppo-font-base: {
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    --aleppo-font-sans: {
+      @apply --aleppo-font-base;
+      font-family: 'basic-sans', sans-serif;
+    }
+
+    --aleppo-font-serif: {
+      @apply --aleppo-font-base;
+      font-family: 'bree-serif', serif;;
+    }
+
+    --aleppo-font-small: {
+      @apply --aleppo-font-sans;
+      line-height: 1;
+      font-size: var(--font-size-small);
+    }
+
+    --aleppo-font-body: {
+      @apply --aleppo-font-serif;
+      line-height: 1.55;
+      font-size: var(--font-size-body);
+    }
+
+    --aleppo-font-body-sans: {
+      @apply --aleppo-font-sans;
+      line-height: 1.33;
+      font-size: var(--font-size-body);
+    }
+
+    --aleppo-font-heading1: {
+      @apply --aleppo-font-sans;
+      font-weight: 700;
+      line-height: 1.29;
+      font-size: var(--font-size-heading1);
+    }
+
+    --aleppo-font-heading2: {
+      @apply --aleppo-font-sans;
+      font-weight: 400;
+      line-height: 1.7;
+      font-size: var(--font-size-heading2);
+    }
+
+    --aleppo-font-quote: {
+      @apply --aleppo-font-serif;
+      line-height: 1.55;
+      font-size: var(--font-size-quote);
+    }
+
+    /* Font Sizes */
+    --font-size-small: 12px;
+    --font-size-body: 18px;
+    --font-size-heading1: 28px;
+    --font-size-heading2: 28px;
+    --font-size-quote: 18px;
+
+  }
+
+  /*
+  Tablet implementations
+  */
+
+  @media screen and (min-width: 737px) {
+    html {
+      /* Font Sizes */
+      --font-size-small: 12px;
+      --font-size-body: 18px;
+      --font-size-heading1: 28px;
+      --font-size-heading2: 28px;
+      --font-size-quote: 18px;      
+    }
+  }
+
+  /*
+  Desktop implementations
+  */
+  @media screen and (min-width: 1280px) {
+    html {
+      /* Font Sizes */
+      --font-size-small: 12px;
+      --font-size-body: 18px;
+      --font-size-heading1: 28px;
+      --font-size-heading2: 28px;
+      --font-size-quote: 18px;
+    }
+  }
+</style>
