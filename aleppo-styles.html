@@ -36,20 +36,31 @@
 
     --aleppo-font-small: {
       @apply --aleppo-font-sans;
+      font-weight: 400;
       line-height: 1;
       font-size: var(--font-size-small);
     }
 
     --aleppo-font-body: {
       @apply --aleppo-font-serif;
+      font-weight: 400;
       line-height: 1.55;
       font-size: var(--font-size-body);
     }
 
     --aleppo-font-body-sans: {
       @apply --aleppo-font-sans;
+      font-weight: 400;
       line-height: 1.33;
       font-size: var(--font-size-body);
+    }
+
+    --aleppo-font-button: {
+      @apply --aleppo-font-sans;
+      font-weight: 700;
+      line-height: 1.33;
+      font-size: var(--font-size-button);
+      user-select: none;
     }
 
     --aleppo-font-heading1: {
@@ -57,6 +68,7 @@
       font-weight: 700;
       line-height: 1.29;
       font-size: var(--font-size-heading1);
+      margin: 0;
     }
 
     --aleppo-font-heading2: {
@@ -64,6 +76,7 @@
       font-weight: 400;
       line-height: 1.7;
       font-size: var(--font-size-heading2);
+      margin: 0;
     }
 
     --aleppo-font-quote: {
@@ -74,6 +87,7 @@
 
     /* Font Sizes */
     --font-size-small: 12px;
+    --font-size-button: 14px;
     --font-size-body: 18px;
     --font-size-heading1: 28px;
     --font-size-heading2: 28px;
@@ -89,7 +103,8 @@
     html {
       /* Font Sizes */
       --font-size-small: 12px;
-      --font-size-body: 18px;
+      --font-size-button: 14px;
+      --font-size-body: 16px;
       --font-size-heading1: 28px;
       --font-size-heading2: 28px;
       --font-size-quote: 18px;      
@@ -103,7 +118,8 @@
     html {
       /* Font Sizes */
       --font-size-small: 12px;
-      --font-size-body: 18px;
+      --font-size-button: 14px;
+      --font-size-body: 16px;
       --font-size-heading1: 28px;
       --font-size-heading2: 28px;
       --font-size-quote: 18px;

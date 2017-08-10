@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="aleppo-styles.html">
 <link rel="import" href="aleppo-image-behavior.html">
 
 <!--
@@ -54,25 +55,11 @@
         left: 27px;
         right: 27px;
         bottom: 27px;
-        font-family: 'bree-serif',serif;;
-        font-size: 14px;
-        font-weight: 400;
         color: white;
         margin: 0;
         opacity: 0;
         transition: opacity 0.2s;
-      }
-
-      @media screen and (min-width: 737px) {
-        blockquote {
-          font-size: 20px;
-        }        
-      }
-
-      @media screen and (min-width: 1280px) {
-        blockquote {
-          font-size: 28px;
-        }        
+        @apply --aleppo-font-quote;
       }
 
       blockquote span:before,
@@ -93,21 +80,19 @@
         flex: none;
         display: inline-block;
         box-sizing: border-box;
-        background-color: #FFE57B;
+        background-color: var(--aleppo-color-yellow);
         height: 32px;
         display: flex;
-        padding: 6px 12px;
+        padding: 0 12px;
         align-items: center;
         justify-content: center;
-        font-family: 'basic-sans',sans-serif;;
-        font-size: 14px;
-        font-weight: 400;
-        color: #10364B;
         position: relative;
         z-index: 1;
         margin: 32px;
         transition: opacity 0.2s;
         pointer-events: none;
+        @apply --aleppo-font-small;
+        color: var(--aleppo-color-blue);
       }
 
       :host([anonymous]) h1,
