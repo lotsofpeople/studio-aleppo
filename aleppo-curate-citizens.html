@@ -57,7 +57,7 @@
     ></firebase-query> 
 
     <main>
-      <section>
+      <section hidden$="[[!_showCurateIntroSection]]">
         <article>
           Don’t trust first impressions. They’re often wrong. We judge on looks, clothes, background, religion, color, vocaburary. What if we take that away and force you to pick friends based on their interests, dream and hopes? 
 
@@ -74,7 +74,7 @@
         ></aleppo-button>        
       </section>
 
-      <section>
+      <section hidden$="[[!_showCurateCitizenSection]]">
         <aleppo-citizen-card
           citizen-name="[[currentCitizen.title]]"
           quote="[[currentCitizen.quote]]"
@@ -162,7 +162,17 @@
           type: Boolean,
           value: false,
           computed: '_computeShowGalleryViewableSpeechBalloon(userGalleryLength)'
-        }
+        },
+
+        _showCurateIntroSection: {
+          type: Boolean,
+          value: true
+        },
+
+        _showCurateCitizenSection: {
+          type: Boolean,
+          value: false
+        },        
       },
       observers: [
         '_setCitizenIds(citizensData.splices)',
@@ -243,7 +253,8 @@
 
       _handleMakeNewFriendsButtonTapped: function () {
         if(!this.signedIn) this.signInAnonymously()
-        // TODO hide home-screen section and show curate-game section
+        this.set('_showCurateIntroSection', false);        
+        this.set('_showCurateCitizenSection', true);
       }
 
       
