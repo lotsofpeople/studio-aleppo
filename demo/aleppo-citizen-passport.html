@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>aleppo-citizen-passport demo</title>
+
+    <script>
+      window.Polymer = {
+        useNativeCSSProperties: true,
+        lazyRegister: true,
+        dom: 'shadow'
+      };
+    </script>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../aleppo-citizen-passport.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+      demo-snippet {
+        --demo-snippet-demo: {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="vertical-section-container">
+      <h3>Basic aleppo-citizen-passport demo</h3>
+      <demo-snippet>
+        <template is="dom-bind" id="demo">
+          <aleppo-citizen-passport
+            citizen-name="Ava"
+            age="22"
+            portrait-url="http://aleppoapi.local/wp-content/uploads/2017/08/P4C0134-500x750.jpg"
+            place-of-birth="Aleppo"
+            residence="Amsterdam"
+            interview="<p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Maecenas faucibus mollis interdum. Donec id elit non mi porta gravida at eget metus.</p><p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Donec ullamcorper nulla non metus auctor fringilla. Cras mattis consectetur purus sit amet fermentum.</p><p>Nullam quis risus eget urna mollis ornare vel eu leo. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur blandit tempus porttitor. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>"
+          ></aleppo-citizen-passport>
+        </template>
+      </demo-snippet>
+    </div>
+  </body>
+</html>

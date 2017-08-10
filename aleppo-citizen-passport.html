@@ -1,0 +1,148 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="aleppo-styles.html">
+<link rel="import" href="aleppo-image.html">
+<link rel="import" href="aleppo-button.html">
+
+<!--
+`aleppo-citizen-passport`
+
+
+@demo demo/aleppo-citizen-passport.html
+-->
+
+<dom-module id="aleppo-citizen-passport">
+  <template>
+    <style include="aleppo-styles">
+      :host {
+        display: block;
+        background-color: var(--aleppo-color-yellow);
+      }
+
+      section {
+        display: flex;
+        flex-direction: column;
+        padding: 16px;
+        width: 1280px;
+        max-width: 100%;
+        margin: auto;
+        box-sizing: border-box;
+      }
+
+      @media screen and (min-width: 737px) {
+        section {
+          flex-direction: row;
+        }
+      }
+
+      header, main {
+        flex: 1;
+      }
+
+      header img {
+        max-width: 50%;
+      }
+
+      @media screen and (min-width: 737px) {
+        header img {
+          width: calc(100% - 100px);
+          max-width: 100%;
+        }
+      }
+
+      #info {
+        list-style: none;
+        padding: 0;
+        margin: 16px 0;
+        @apply --aleppo-font-body-sans;
+      }
+
+      @media screen and (min-width: 737px) {
+        #info {
+          margin: 0;
+        }
+      }
+
+      #info li {
+        padding: 0;
+      }
+
+      #info li span {
+        font-weight: 700;
+      }
+
+      #info li span:after {
+        content: ': ';
+      }
+
+      #interview {
+        @apply --aleppo-font-body;
+      }
+
+      [hidden] {
+        display: none!important;
+      }
+    </style>
+
+    <section>
+      <header>
+        <img src="[[portraitUrl]]">
+      </header>
+      <main>
+        <ul id="info">
+          <li><span>Name</span>[[citizenName]]</li>
+          <li><span>Age</span>[[age]]</li>
+          <li><span>From</span>[[placeOfBirth]]</li>
+          <li><span>Living in</span>[[residence]]</li>
+        </ul>
+
+        <article id="interview"></article>
+
+      </main>
+    </section>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'aleppo-citizen-passport',
+      
+      properties: {
+
+        citizenName: {
+          type: String,
+        },
+
+        age: {
+          type: String,
+        },
+
+        portraitUrl: {
+          type: String,
+        },
+
+        placeOfBirth: {
+          type: String,
+        },
+
+        residence: {
+          type: String,
+        },
+
+        interview: {
+          type: String,
+        }
+        
+      },
+
+      observers: [
+        'parseArticleHTML(interview)'
+      ],
+
+      parseArticleHTML: function(interview) {
+        this.$.interview.innerHTML = interview;
+      }
+
+    });
+  </script>
+</dom-module>
