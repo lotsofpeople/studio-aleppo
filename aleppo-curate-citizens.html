@@ -1,8 +1,9 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymerfire/firebase-query.html">
 <link rel="import" href="aleppo-button.html">
-<link rel="import" href="aleppo-image.html">
-<link rel="import" href="aleppo-quote.html">
 <link rel="import" href="aleppo-speech-balloon.html">
+<link rel="import" href="aleppo-citizen-card.html">
+<link rel="import" href="../polymerfire/firebase-auth.html">
 
 <!--
 `aleppo-curate-citizens`
@@ -18,13 +19,92 @@
         display: block;
       }
 
+      main {
+        
+      }
+      
+      aleppo-citizen-card {
+
+      }
+
+      aleppo-button {
+
+      }
+
+      aleppo-speech-balloon {
+
+      }
+
       [hidden] {
         display: none!important;
       }
     </style>
 
-  </template>
+    <firebase-auth
+      id="auth" 
+      user="{{user}}" 
+      signed-in="{{signedIn}}"      
+    ></firebase-auth>
 
+    <firebase-query
+      path="/evaluated-citizens/[[user.uid]]"
+      data="[[userEvaluatedCitizens]]"
+    ></firebase-query>
+
+    <firebase-query
+      path="/galleries/[[user.uid]]"
+      data="[[userGallery]]"
+    ></firebase-query> 
+
+    <main>
+      <section>
+        <article>
+          Don’t trust first impressions. They’re often wrong. We judge on looks, clothes, background, religion, color, vocaburary. What if we take that away and force you to pick friends based on their interests, dream and hopes? 
+
+          Studio Aleppo brings together citizens from cities across Europe. Born and raised there, or forced to leave their home country and building up a new life in a different city.
+
+          Tap the button below to curate your personal gallery of new friends, based on the quotes you like most. The portraits will be revealed once you've collected 5 quotes.          
+        </article>
+
+        <aleppo-logo></aleppo-logo>
+
+        <aleppo-button
+          text="Make new friends"
+          on-tap="_handleMakeNewFriendsButtonTapped"
+        ></aleppo-button>        
+      </section>
+
+      <section>
+        <aleppo-citizen-card
+          citizen-name="[[currentCitizen.title]]"
+          quote="[[currentCitizen.quote]]"
+          image="[[currentCitizen.portrait_url.url]]"
+          anonymous
+        ></aleppo-citizen-card>
+
+        <aleppo-button
+          text="Add friend to gallery"
+          on-tap="_handleAddCitizenToGalleryAttempt"
+        ></aleppo-button>
+
+        <aleppo-button
+          text="Next quote"
+          on-tap="_handleNextCitizenAttempt"
+        ></aleppo-button>      
+
+        <aleppo-speech-balloon hidden$="[[!_showGalleryViewableSpeechBalloon]]"></aleppo-speech-balloon>
+
+        <a href="#/galleries/[[user.uid]]">
+          <aleppo-button
+            text="My gallery"
+            number="[[userGalleryLength]]"
+            show-number      
+          ></aleppo-button>
+        </a>
+      </section>
+    </main>    
+
+  </template>
   <script>
     Polymer({
 
@@ -33,13 +113,140 @@
         apiEndpoint: {
           type: String
         },
-        userId: {
-          type: String
+
+        user: {
+          type: Object,
+          value: {}
+        },
+
+        signedIn: {
+          type: Boolean
         },
         citizensData: {
+          type: Array
+        },
+
+        allCitizensIds: {
           type: Array,
+          value: []
+        },
+
+        userGallery: {
+          type: Array,
+        },
+
+        userGalleryLength: {
+          type: Number,
+          value: 0
+        },
+
+        remainingCitizenIds: {
+          type: Array
+        },
+
+        userEvaluatedCitizens: {
+          type: Array
+        },
+
+        currentCitizenId: {
+          type: String,
+          observer: '_setEvaluatedCitizenInDatabase'
+        }, 
+
+        currentCitizen: {
+          type: Object,
+          computed: '_setCitizen(currentCitizenId)'
+        },         
+
+        _showGalleryViewableSpeechBalloon: {
+          type: Boolean,
+          value: false,
+          computed: '_computeShowGalleryViewableSpeechBalloon(userGalleryLength)'
         }
+      },
+      observers: [
+        '_setCitizenIds(citizensData.splices)',
+        '_setRemainingCitizenIds(allCitizensIds.splices, userEvaluatedCitizens.splices)',
+        '_setUserGalleryLength(userGallery.splices)'
+      ],
+
+      setNextCitizenId: function () {
+        var remainingCitizenIds = this.remainingCitizenIds;
+
+        // Get random Id from filteredCitizensIds
+        var newCitizenId = remainingCitizenIds[Math.floor(Math.random() * remainingCitizenIds.length)];
+
+        // TODO if (!newCitizenId)
+        this.set('currentCitizenId', newCitizenId);
+      },
+
+      signInAnonymously: function () {
+        if(this.signedIn == true) return;
+
+        firebase.auth().signInAnonymously().catch( 
+          console.log('error signing in')
+        );
+      },      
+
+      _handleAddCitizenToGalleryAttempt: function () {
+        if(!this.user.uid || !this.currentCitizenId) return;
+        firebase.database().ref().child('galleries/' + this.user.uid + '/' + this.currentCitizenId).set(true);
+        this.setNextCitizenId();
+      },
+
+      _handleNextCitizenAttempt: function () {
+        this.setNextCitizenId();
+      },
+
+      _setRemainingCitizenIds: function (allCitizensIdsSplices, userEvaluatedCitizensSplices) {
+        var allCitizensIds = this.allCitizensIdsSplices;
+        var userEvaluatedCitizens = this.userEvaluatedCitizens;
+
+        // get Ids from Firebase Array with $key, $val.
+        var evaluatedCitizensIds = evaluatedCitizens.map(function(a) {return a.$key});           
+  
+        // Filter out Ids from allCitizensIds that are in evaluatedCitizensIds.
+        var filteredCitizensIds = allCitizensIds.filter(function(e){return this.indexOf(e)<0;},evaluatedCitizensIds);
+
+        this.splice('remainingCitizenIds', 0, this.remainingCitizenIds.length, filteredCitizensIds);        
+      },
+
+      _setCitizen: function (currentCitizenId) {
+        var allCitizens = this.citizensData;
+        //  Find index of currentCitizenId from allCitizens Array.
+        var index = allCitizens.findIndex(x => x.id==currentCitizenId);
+        // Get Object of currentCitizen
+        var currentCitizen = allCitizens[index] || {};
+        return currentCitizen;
+      },
+
+      _setEvaluatedCitizenInDatabase: function () {
+        if(!this.user.uid || !this.currentCitizenId) return;     
+        firebase.database().ref().child('evaluated-citizens/' + this.user.uid + '/' + this.currentCitizenId).set(true);
+      },
+
+      _setCitizenIds: function (citizensDataSpliced) {
+        var citizensData = this.citizensData;
+        var citizensIds = citizensData.map(function(a) {return a.id;});
+        var allCitizensIdsLength = this.allCitizensIds ? this.allCitizensIds.length : 0;
+        this.splice('allCitizensIds', 0, allCitizensIdsLength, citizensIds);
+      },
+
+      _setUserGalleryLength: function (userGallerySplices) {
+        if (this.userGalleryLength) this.set('userGalleryLength', this.userGallery.length);
+      },
+
+      _computeShowGalleryViewableSpeechBalloon: function (galleryLength) {
+        if (galleryLength == 5) return true;
+        return false;
+      },
+
+      _handleMakeNewFriendsButtonTapped: function () {
+        if(!this.signedIn) this.signInAnonymously()
+        // TODO hide home-screen section and show curate-game section
       }
+
+      
     });
   </script>
 </dom-module>

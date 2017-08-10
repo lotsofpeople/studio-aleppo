@@ -1,7 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../app-route/app-route.html">
 <link rel="import" href="../polymerfire/firebase-app.html">
-<link rel="import" href="../polymerfire/firebase-auth.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="aleppo-header.html">
 <link rel="import" href="aleppo-browse-citizens.html">
@@ -76,12 +75,6 @@ Site of Paradox&#39; Studio Aleppo project
       messaging-sender-id="470476213085"
     ></firebase-app>
 
-    <firebase-auth
-      id="auth" 
-      user="{{user}}" 
-      signed-in="{{signedIn}}"      
-    ></firebase-auth>
-
     <aleppo-header
       browse-route-active="[[browseRouteActive]]"
       curate-route-active="[[curateRouteActive]]"
@@ -105,7 +98,6 @@ Site of Paradox&#39; Studio Aleppo project
     <template is="dom-if" if="[[curateRouteActive]]">
       <aleppo-curate-citizens
         api-endpoint="[[apiEndpoint]]"
-        user-id="[[user.uid]]"
         citizens-data="[[citizensData]]"
       ></aleppo-curate-citizens>
     </template>
@@ -130,14 +122,6 @@ Site of Paradox&#39; Studio Aleppo project
         
         route: {
           type: Object
-        },
-
-        user: {
-          type: Object
-        },
-
-        signedIn: {
-          type: Boolean
         },
 
         appMenuOpened: {
@@ -209,14 +193,6 @@ Site of Paradox&#39; Studio Aleppo project
       observers: [
         '_citizensDataChanged(citizensData.splices)'
       ],
-
-      signInAnonymously: function () {
-        if(this.signedIn == true) return;
-
-        firebase.auth().signInAnonymously().catch( 
-          console.log('error signing in')
-        );
-      },
 
       _updateRoute: function (evt, newRoute) {
         if(!newRoute) return;
