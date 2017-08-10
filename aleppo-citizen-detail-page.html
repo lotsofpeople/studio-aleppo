@@ -33,7 +33,6 @@
       auto="[[citizenData.id]]"
       method="GET"
       handle-as="json"
-      on-request="_removeInterview"
       last-response="{{interviewData}}"
     ></iron-ajax>
 
@@ -67,6 +66,10 @@
           type: Object
         }
       },
+
+      observers: [
+        '_removeInterview(citizenData.id)'
+      ],
 
       _removeInterview: function() {
         this.set('interviewData', {});
