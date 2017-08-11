@@ -1,4 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="speech-balloon-footer-svg.html">
+
 
 <!--
 `aleppo-speech-balloon`
@@ -17,14 +19,41 @@
       [hidden] {
         display: none!important;
       }
-    </style>
+      section {
+        @apply --aleppo-font-body;
+        font-size: 18px;
+        background: #FFFFFF;
+        border-radius: 35px;
+        text-align: center;
+        padding: 54px 34px 62px 34px;
+      }
+      footer{
+        width: 100%;
+        margin: -42px 0;
+      }
+
+      speech-balloon-footer-svg {
+        --logo-color: #FFFFFF;
+      }
+
+</style>
+
+  <main>
+    <section>[[text]]</section>
+    <footer><speech-balloon-footer-svg></speech-balloon-footer-svg></footer>
+  </main>
 
   </template>
 
   <script>
     Polymer({
 
-      is: 'aleppo-speech-balloon'
+      is: 'aleppo-speech-balloon',
+      properties: {
+        text: {
+          type: String
+        }
+      }
 
     });
   </script>

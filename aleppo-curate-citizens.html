@@ -95,15 +95,22 @@
             on-tap="_handleNextCitizenAttempt"
           ></aleppo-button>      
 
-          <aleppo-speech-balloon hidden$="[[!_showGalleryViewableSpeechBalloon]]"></aleppo-speech-balloon>
+          <footer>
 
-          <a href="#/galleries/[[user.uid]]">
-            <aleppo-button
-              text="My gallery"
-              number="[[userGalleryLength]]"
-              show-number      
-            ></aleppo-button>
-          </a>
+            <aleppo-speech-balloon 
+              hidden$="[[!_showGalleryViewableSpeechBalloon]]"
+              text="[[speechBalloonText]]"
+              on-tap="hideSpeechBalloon"
+            ></aleppo-speech-balloon>
+
+            <a href="#/galleries/[[user.uid]]">
+              <aleppo-button
+                text="My gallery"
+                number="[[userGalleryLength]]"
+                show-number      
+              ></aleppo-button>
+            </a>
+          </footer>
         </section>
       </template>
       
@@ -173,10 +180,15 @@
           computed: '_setCitizen(currentCitizenId)'
         },         
 
+        speechBalloonText: {
+          type: String,
+          value: "Great! Your collection is complete. Now it's time to checkout your gallery and get to know the people behind the quotes."
+        },
+
         _showGalleryViewableSpeechBalloon: {
           type: Boolean,
           value: false,
-          computed: '_computeShowGalleryViewableSpeechBalloon(userGalleryLength)'
+          computed: ''
         },
 
         _showCurateIntroSection: {
@@ -193,7 +205,8 @@
         '_setCitizenIds(citizensData.splices)',
         '_setRemainingCitizenIds(allCitizensIds.splices, userEvaluatedCitizens.*)',
         '_setUserGalleryLength(userGallery.splices)',
-        '_setCurrentCitizenEvaluatedToSignedInUser(user.uid)'
+        '_setCurrentCitizenEvaluatedToSignedInUser(user.uid)',
+        '_computeShowGalleryViewableSpeechBalloon(userGalleryLength)'
       ],
 
       setNextCitizenId: function () {
@@ -215,6 +228,10 @@
           console.log('error signing in')
         );
       },      
+
+      hideSpeechBalloon: function () {
+        this.set('_showGalleryViewableSpeechBalloon', false);
+      },
 
       _handleAddCitizenToGalleryAttempt: function () {
         if(!this.user.uid || !this.currentCitizenId) return;
@@ -278,8 +295,8 @@
       },
 
       _computeShowGalleryViewableSpeechBalloon: function (galleryLength) {
-        if (galleryLength == 5) return true;
-        return false;
+        if (galleryLength == 5) return this.set('_showGalleryViewableSpeechBalloon', true);
+        this.hideSpeechBalloon();
       },
 
       _handleMakeNewFriendsButtonTapped: function () {
