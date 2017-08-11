@@ -120,7 +120,7 @@
 
     <section>
       <figure>
-        <img src="[[image]]" on-load="_setHeight">
+        <img src="[[image]]">
       </figure>
       <blockquote><span>[[quote]]</span></blockquote>
       <h1>[[citizenName]]</h1>
@@ -158,14 +158,6 @@
         }
 
       },
-
-      ready: function() {
-        window.addEventListener('resize', this._setHeight.bind(this));
-      },
-
-      _setHeight: function() {
-        this.style.height = this.offsetWidth * 1.4322580645 + 'px';
-      }
 
     });
   </script>

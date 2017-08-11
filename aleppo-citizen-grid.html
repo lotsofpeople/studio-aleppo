@@ -40,12 +40,14 @@
       @media screen and (min-width: 1025px) {
         .grid {
           grid-template-columns: 1fr 1fr 1fr 1fr;
+          grid-template-rows: 1fr;
         }        
       }
 
       aleppo-citizen-card {
         display: flex;
         align-items: stretch;
+        height: var(--card-height);
       }
 
       aleppo-citizen-card:hover {
@@ -54,7 +56,11 @@
     </style>
 
     <section class="grid">
-      <template is="dom-repeat" items="[[citizensData]]" as="citizen">
+      <template
+        is="dom-repeat"
+        items="[[citizensData]]"
+        as="citizen"
+        on-dom-change="_updateCardHeight">
         <aleppo-citizen-card
           citizen-id="[[citizen.id]]"
           citizen-name="[[citizen.name]]"
@@ -98,6 +104,10 @@
         '_selectedCitizenChanged(selectedCitizen.*)'
       ],
 
+      ready: function() {
+        window.addEventListener('resize', this._updateCardHeight.bind(this));
+      },
+
       _selectedCitizenChanged: function(selectedCitizenChange) {
         console.info('_selectedCitizenChanged', selectedCitizenChange.base);
       },
@@ -112,6 +122,12 @@
         return this.citizensData.filter(function(citizenData) {
           return citizenData.id === citizenId
         })[0] || {};
+      },
+
+      _updateCardHeight: function() {
+        var cardWidth = this.$$('aleppo-citizen-card').offsetWidth;
+        this.customStyle['--card-height'] = cardWidth * 1.43 + 'px';
+        this.updateStyles();
       }
 
     });
