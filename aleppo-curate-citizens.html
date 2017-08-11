@@ -18,10 +18,14 @@
     <style include="aleppo-styles">
       :host {
         display: block;
-        position: fixed;
-        height: calc(100% - 108px);
+        height: 100%;
         width: 100%;
         background-color: #10364B;        
+      }
+
+      :host([_showCurateCitizenSection]) {
+        position: fixed;
+        height: calc(100% - 108px);
       }
 
       main, section, aleppo-citizen-card{
@@ -30,7 +34,6 @@
 
       #intro-screen-container {
         padding: 28px;
-        overflow: scroll;
         box-sizing: border-box;
         display: flex;
         flex-direction: column;        
