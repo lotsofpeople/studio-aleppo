@@ -1,6 +1,8 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../app-route/app-location.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="aleppo-styles.html">
 <link rel="import" href="aleppo-logo.html">
 <link rel="import" href="aleppo-menu.html">
 
@@ -20,6 +22,7 @@
       }
 
       header {
+        height: 68px;
         background-color: white;
         z-index: 2;
         box-sizing: border-box;
@@ -27,18 +30,82 @@
         box-shadow: 0px 5px 2px -3px rgba(0, 0, 0, 0.2);
       }
 
+      @media screen and (min-width: 737px) {
+        header {
+          height: 100px;
+        }
+      }
+
+      .container {
+        height: 100%;
+        display: flex;
+        width: 1296px;
+        max-width: 100%;
+        padding: 0 16px;
+        margin: auto;
+        align-items: center;
+        justify-content: space-between;
+        box-sizing: border-box; 
+      }
+
       aleppo-logo {
-        height: 32px;
+        height: 36px;
+        width: 88px;
         padding: 16px 0;
+        flex: none;
+        cursor: pointer;
+      }
+
+      @media screen and (min-width: 737px) {
+        aleppo-logo {
+          width: 296px;
+        }
+      }
+
+      nav {
+        flex: 1;
+        text-align: right;
+      }
+
+      a {
+        @apply --aleppo-font-button;
+        text-transform: uppercase;
+        width: 90px;
+        display: inline-block;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      a:nth-child(1).iron-selected {
+        color: var(--aleppo-color-green);
+      }
+
+      a:nth-child(2).iron-selected {
+        color: var(--aleppo-color-red);
       }
     </style>
 
+    <app-location
+      path="{{path}}"
+      use-hash-as-path="[[useHashAsPath]]"
+    ></app-location>
+
     <header>
-      <aleppo-logo></aleppo-logo>
-      <aleppo-menu
-        api-endpoint="[[apiEndpoint]]"
-        use-hash-as-path="[[useHashAsPath]]"
-      ></aleppo-menu>
+      <div class="container">
+        <iron-selector attr-for-selected="data-href" selected="{{path}}">
+          <aleppo-logo data-href="/browse"></aleppo-logo>
+        </iron-selector>
+        <nav>
+          <iron-selector attr-for-selected="data-href" selected="{{path}}">
+            <a data-href="/browse">Browse citizens</a>
+            <a data-href="/curate">Curate citizens</a>
+          </iron-selector>
+        </nav>
+<!--         <aleppo-menu
+          api-endpoint="[[apiEndpoint]]"
+          use-hash-as-path="[[useHashAsPath]]"
+        ></aleppo-menu>
+ -->      </div>
     </header>
 
   </template>
