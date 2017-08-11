@@ -34,7 +34,7 @@ Site of Paradox&#39; Studio Aleppo project
     </style>
 
     <iron-ajax
-      url="[[apiEndpoint]]/wp-json/wp/v2/posts"
+      url="[[apiEndpoint]]?q=citizens"
       auto="[[apiEndpoint]]"
       method="GET"
       handle-as="json"
@@ -67,7 +67,7 @@ Site of Paradox&#39; Studio Aleppo project
 
     <app-route
       route="{{route}}"
-      pattern="/pages/:pageId"
+      pattern="/pages/:slug"
       data="{{pageRouteData}}"
       tail="{{pageTail}}"    
       active="{{pageRouteActive}}"
@@ -111,8 +111,7 @@ Site of Paradox&#39; Studio Aleppo project
     <template is="dom-if" if="[[pageRouteActive]]">
       <aleppo-page
         api-endpoint="[[apiEndpoint]]"
-        page-id="[[pageRouteData.pageId]]"
-        page-title="[[pageRouteData.title]]"
+        slug="[[pageRouteData.slug]]"
       ></aleppo-page>
     </template>
 
@@ -214,7 +213,6 @@ Site of Paradox&#39; Studio Aleppo project
         var anchor = document.createElement('a');
         anchor.href = '#/' + data.route;
         anchor.click();
-        this.set('pageRouteData.title', data.title);
       }
 
     });

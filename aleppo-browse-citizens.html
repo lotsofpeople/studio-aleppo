@@ -87,8 +87,9 @@
 
     <aleppo-citizen-detail-page
       api-endpoint="[[apiEndpoint]]"
-      data-active$="[[activeCitizen.id]]"
+      citizen-id="[[activeCitizen.id]]"
       citizen-data="[[activeCitizen]]"
+      data-active$="[[activeCitizen.id]]"
     ></aleppo-citizen-detail-page>
 
     <paper-icon-button
@@ -190,14 +191,14 @@
         var filteredCitizens = citizensData.filter(function(citizenData) {
 
           //a. check if there are any matches between activeTags and citizenTags
-          var citizenTags = citizenData.tags;
+          var citizenTags = citizenData.tag_ids;
           var citizenTagsMatches = citizenTags.filter(function(tagId) {
-            return activeTags.indexOf(tagId) !== -1;
+            return activeTags.indexOf(parseInt(tagId)) !== -1;
           })
           var citizenHasTagMatches = activeTags.length === 0 || citizenTagsMatches.length > 0;
 
           //b. check if active studioLocation == citizenLocation
-          var citizenStudioLocationMatches = !studioLocation || (studioLocation.toLowerCase() === citizenData.portrait_location.toLowerCase());
+          var citizenStudioLocationMatches = !studioLocation || (studioLocation.toLowerCase() === citizenData.studio_location.toLowerCase());
 
           //c. check if active migrationYear == citizenMigrationYear
           var citizenMigrationYearMatches = !migrationYear || (migrationYear == citizenData.migration_date.substr(0, 4));
@@ -217,7 +218,7 @@
       _computeStudioLocations: function(citizensDataChange) {
         var citizensData = citizensDataChange.base;
         var citizensStudioLocations = citizensData.map(function(citizenData) {
-          return citizenData.portrait_location;
+          return citizenData.studio_location;
         })
         var studioLocations = citizensStudioLocations.filter(this._unique);
         studioLocations = studioLocations.sort(function(a, b) {

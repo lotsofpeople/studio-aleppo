@@ -29,20 +29,20 @@
     </style>
 
     <iron-ajax
-      url="[[apiEndpoint]]/wp-json/acf/v2/post/[[citizenData.id]]/interview"
-      auto="[[citizenData.id]]"
+      url="[[apiEndpoint]]?q=citizen&id=[[citizenId]]"
+      auto="[[citizenId]]"
       method="GET"
       handle-as="json"
-      last-response="{{interviewData}}"
+      last-response="{{citizenData}}"
     ></iron-ajax>
 
     <aleppo-citizen-passport
       citizen-name="[[citizenData.title]]"
       age="[[citizenData.age]]"
-      portrait-url="[[citizenData.portrait_url.sizes.medium]]"
+      portrait-url="[[citizenData.portrait_url]]"
       place-of-birth="[[citizenData.place_of_birth]]"
       residence="[[citizenData.residence]]"
-      interview="[[interviewData.interview]]"
+      interview="[[citizenData.interview]]"
     ></aleppo-citizen-passport>
 
   </template>
@@ -58,21 +58,23 @@
           type: String
         },
         
+        citizenId: {
+          type: String,
+        },
+
         citizenData: {
           type: Object,
         },
 
-        interviewData: {
-          type: Object
-        }
       },
 
       observers: [
-        '_removeInterview(citizenData.id)'
+        '_removeInterview(citizenId)'
       ],
 
-      _removeInterview: function() {
-        this.set('interviewData', {});
+      _removeInterview: function(citizenId) {
+        if(citizenId) return;
+        this.set('citizenData.interview', '');
       }
 
     });

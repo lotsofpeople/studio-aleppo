@@ -26,18 +26,18 @@
   </style>
 
   <iron-ajax
-    url="[[apiEndpoint]]/wp-json/acf/v2/page/[[pageId]]"
-    auto="[[pageId]]"
+    url="[[apiEndpoint]]?q=page&slug=[[slug]]"
+    auto="[[slug]]"
     method="GET"
     handle-as="json"
     last-response="{{pageData}}"
   ></iron-ajax>
 
   <aleppo-article
-    title="[[pageTitle]]"
-    content="[[pageData.acf.content]]"
-    sidebar-content="[[pageData.acf.sidebar_content]]"
-    slideshow-images="[[_parseImages(pageData.acf.slideshow_images.*)]]"
+    title="[[pageData.title]]"
+    content="[[pageData.content]]"
+    sidebar-content="[[pageData.sidebar_content]]"
+    slideshow-images="[[_parseImages(pageData.slideshow_images.*)]]"
   ></aleppo-article>
      
   </template>
@@ -52,11 +52,7 @@
           type: String,
         },
 
-        pageId: {
-          type: String
-        },
-
-        pageTitle: {
+        slug: {
           type: String
         },
 
@@ -74,7 +70,7 @@
       _parseImages: function(pageDataImagesChange) {
         var pageDataImages = pageDataImagesChange.base;
         return pageDataImages.map(function(pageDataImage) {
-          return {src: pageDataImage.sizes.medium, description: pageDataImage.caption}
+          return {src: pageDataImage.medium, description: pageDataImage.caption}
         })
       }
 

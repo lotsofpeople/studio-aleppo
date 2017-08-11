@@ -94,7 +94,7 @@
     </style>
 
     <iron-ajax
-      url="[[apiEndpoint]]/wp-json/wp/v2/pages"
+      url="[[apiEndpoint]]"
       auto="[[apiEndpoint]]"
       method="GET"
       handle-as="json"
@@ -107,7 +107,7 @@
           <a data-route="browse">Browse</a>
           <a data-route="curate">Curate</a>
           <template is="dom-repeat" items="[[pagesData]]" as="page">
-            <a data-route$="pages/[[page.id]]" data-title$="[[page.title]]">[[page.title]]</a>            
+            <a data-route$="pages/[[page.slug]]">[[page.title]]</a>            
           </template>
         </iron-selector>
       </nav>
@@ -166,7 +166,6 @@
         if(!selectedItem) return;
         var data = {
           route: selectedItem.getAttribute('data-route'),
-          title: selectedItem.getAttribute('data-title')
         }
         this.fire('menu-item-selected', data);
       }
