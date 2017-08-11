@@ -1,6 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../polymerfire/firebase-query.html">
-
 <link rel="import" href="aleppo-citizen-grid.html">
 <!--
 `aleppo-personal-gallery`
@@ -26,10 +25,10 @@
       data="{{galleryCitizenIds}}"
     ></firebase-query>
 
-      <aleppo-citizen-grid
-        citizens-data="[[galleryCitizensData]]"
-        show-all-citizens-anonymous="[[!galleryReachedMinimumLength]]"
-      ></aleppo-citizen-grid>
+    <aleppo-citizen-grid
+      citizens-data="[[galleryCitizensData]]"
+      show-all-citizens-anonymous="[[!galleryReachedMinimumLength]]"
+    ></aleppo-citizen-grid>
   
   </template>
   <script>
@@ -65,16 +64,11 @@
           type: Boolean,
           value: false,
           computed: "_computeGalleryReachedMinimumLength(userGalleryLength)"
-        }
-
-
-        
-
+        }      
       },
       observers: [
         '_setGalleryCitizens(citizensData.*, galleryCitizenIds.*)',        
         '_setUserGalleryLength(userGallery.splices)',
-
       ],
 
       _setGalleryCitizens: function (allCitizensIdsSplices, galleryCitizenIdsChanged) {
@@ -102,9 +96,6 @@
       _computeGalleryReachedMinimumLength: function (userGalleryLength) {
         return userGalleryLength > 4;
       }
-      
-
-
     });
   </script>
 </dom-module>
