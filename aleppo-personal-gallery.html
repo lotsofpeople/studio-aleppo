@@ -1,4 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymerfire/firebase-query.html">
+
 <link rel="import" href="aleppo-citizen-grid.html">
 <!--
 `aleppo-personal-gallery`
@@ -19,6 +21,15 @@
       }
     </style>
 
+    <firebase-query
+      path="/galleries/[[galleryId]]"
+      data="{{galleryCitizenIds}}"
+    ></firebase-query>
+
+      <aleppo-citizen-grid
+        citizens-data="[[galleryCitizensData]]"
+      ></aleppo-citizen-grid>
+  
   </template>
   <script>
     Polymer({
@@ -27,8 +38,45 @@
       properties: {
         galleryId: {
           type: String
+        },
+
+        galleryCitizenIds: {
+          type: Array,
+          value: []
+        },
+
+        citizensData: {
+          type: Array,
+          value: []
+        },
+
+        galleryCitizensData: {
+          type: Array,
+          value: []
+        },        
+
+      },
+      observers: [
+        '_setGalleryCitizens(citizensData.*, galleryCitizenIds.*)',        
+      ],
+
+      _setGalleryCitizens: function (allCitizensIdsSplices, galleryCitizenIdsChanged) {
+        var galleryCitizenIds = this.galleryCitizenIds;
+        var citizensData = this.citizensData;
+        
+        if(galleryCitizenIds.length > 0) this.set('galleryCitizensData', []);
+
+
+        for(var i = 0; i < galleryCitizenIds.length; i++) {
+          var index = citizensData.findIndex(x => x.id=== parseInt(galleryCitizenIds[i].$key));
+
+          // Get Object of currentCitizen
+          var currentCitizen = citizensData[index] || {};          
+
+          this.push('galleryCitizensData', currentCitizen);
         }
-      }
+      },
+
 
     });
   </script>

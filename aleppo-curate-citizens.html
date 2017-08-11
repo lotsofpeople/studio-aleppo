@@ -258,7 +258,7 @@
       },
 
       _setEvaluatedCitizenInDatabase: function () {
-        if(!this.user || !this.currentCitizenId) return;  
+        if(!this.signedIn || !this.user || !this.currentCitizenId) return;  
         firebase.database().ref().child('evaluated-citizens/' + this.user.uid + '/' + this.currentCitizenId).set(true);
       },
 
