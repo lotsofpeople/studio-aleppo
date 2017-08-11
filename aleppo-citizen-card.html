@@ -68,6 +68,20 @@
         color: white;
       }
 
+      :host([large-quote]) blockquote {
+        position: absolute;        
+        top: 20px;
+        bottom: 0;
+        left: 50%;
+        font-size: 24px;
+        transform: translateX(-50%);   
+
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0 16px;                   
+      }
+      
+
       blockquote span:before,
       blockquote span:after {
         content: ' — ';
@@ -82,6 +96,19 @@
           opacity: 1;
         }        
       }
+
+      @media screen and (min-width: 737px) {
+        :host([large-quote]) blockquote {
+          top: 100px;
+          bottom: 0;
+          left: 50%;
+          font-size: 64px;
+          width: 100%;
+           max-width: 1296px; 
+          padding: 0 16px;
+          transform: translateX(-50%);          
+        }
+      }      
 
       [hidden] {
         display: none!important;
@@ -155,6 +182,11 @@
           type: Boolean,
           value: false,
           reflectToAttribute: true
+        },
+
+        largeQuote: {
+          type: Boolean,
+          value: false
         }
 
       },
