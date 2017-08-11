@@ -185,14 +185,13 @@
                 text="[[allCitizensEvaluatedSpeechBalloonText]]"
               ></aleppo-speech-balloon>            
 
-              <a href="#/galleries/[[user.uid]]">
                 <aleppo-button
                   id="my-gallery-button"              
                   text="My gallery"
                   number="[[userGalleryLength]]"
+                  on-tap="_handleGalleryButtonTapped"
                   show-number      
                 ></aleppo-button>
-              </a>
             </div>
           </footer>
         </section>
@@ -426,6 +425,13 @@
 
       _setCurrentCitizenEvaluatedToSignedInUser: function (userId) {
         if(userId) this._setEvaluatedCitizenInDatabase();
+      },
+
+      _handleGalleryButtonTapped: function () {
+        var a = document.createElement('a');
+        a.href = "#/galleries/" + this.user.uid;
+        a.click();
+        delete a;
       }
     });
   </script>
