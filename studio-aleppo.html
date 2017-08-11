@@ -29,7 +29,7 @@ Site of Paradox&#39; Studio Aleppo project
 
       aleppo-header {
         position: relative;
-        z-index: 1;
+        z-index: 9;
       }
     </style>
 
@@ -208,6 +208,10 @@ Site of Paradox&#39; Studio Aleppo project
       observers: [
         '_citizensDataChanged(citizensData.splices)'
       ],
+
+      openMenu: function() {
+        this.appMenuOpened = true;
+      },
 
       _updateRoute: function (evt, newRoute) {
         if(!newRoute) return;

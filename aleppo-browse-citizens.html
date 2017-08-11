@@ -41,7 +41,7 @@
         right: 0;
         width: 100%;
         height: 100%;
-        z-index: 3;
+        z-index: 10;
         transition: 0.3s opacity;
         opacity: 0;
         pointer-events: none;
@@ -95,16 +95,9 @@
     <aleppo-citizen-detail-page
       api-endpoint="[[apiEndpoint]]"
       citizen-id="[[activeCitizen.id]]"
-      citizen-data="[[activeCitizen]]"
+      citizen-data="{{activeCitizen}}"
       data-active$="[[activeCitizen.id]]"
     ></aleppo-citizen-detail-page>
-
-    <paper-icon-button
-      id="close-detail-page-button"
-      icon="close"
-      data-active$="[[activeCitizen.id]]"
-      on-tap="closeDetailPage"
-    ></paper-icon-button>
 
   </template>
 

@@ -1,6 +1,11 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../iron-selector/iron-selector.html">
+<link rel="import" href="../app-route/app-location.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="aleppo-toolbar.html">
+<link rel="import" href="aleppo-styles.html">
 
 <!--
 `aleppo-app-menu`
@@ -13,67 +18,111 @@
   <template>
     <style>
       :host {
-        display: block;
-        background-color: #10364B;
-        font-family: var(--aleppo-body, "basic-sans-alt");
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        background-color: var(--aleppo-color-blue);
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.3s opacity;
+      }
+
+      :host([opened]) {
+        opacity: 1;
+        pointer-events: all;
       }
 
       main {
         position: relative;
-        width: 100%;
-        height: 100%;
-      }
-
-      paper-icon-button {
-        position: absolute;
-        top: 24px;
-        right: 24px;
-        color: #FFFFFF;
+        width: 1296px;
+        min-height: 100%;
+        max-width: 100%;
+        margin: auto;
+        padding: 0 16px;
+        box-sizing: border-box;
       }
 
       ul {
         list-style: none;
-        position: absolute;
-        top: 100px;
-        left: 80px;
+        padding: 0;
+      }
+
+      li {
+        @apply --aleppo-font-heading2;        
       }
 
       a {
         text-decoration: none;
         color: #FFFFFF;
-        font-size: 60px;
+        cursor: pointer;
       }
 
       [hidden] {
         display: none!important;
       }
+
+      header {
+        height: 68px;
+        background-color: white;
+        z-index: 2;
+        box-sizing: border-box;
+        padding: 0;
+        box-shadow: 0px 5px 2px -3px rgba(0, 0, 0, 0.2);
+      }
+
+      @media screen and (min-width: 737px) {
+        header {
+          height: 100px;
+        }
+      }
+
+      aleppo-toolbar {
+        --aleppo-toolbar-background-color: transparent;
+        --aleppo-toolbar-tint-color: white;
+      }
+
+      paper-icon-button {
+        color: white;
+        padding: 4px;      
+      }
+
     </style>
 
-    <main>
-      <paper-icon-button icon="close" on-tap="_closeMenu"></paper-icon-button>
-      <ul>
-        <li on-tap="_closeMenu">
-          <a href="/pages/about">About</a>
-        </li>
-        <li on-tap="_closeMenu">
-          <a href="/pages/cities">Cities</a>
-        </li>
-        <li on-tap="_closeMenu">
-          <a href="/pages/join">Join</a>
-        </li>
-        <li on-tap="_closeMenu">
-          <a href="/pages/campaign">Campaign</a>
-        </li>
-        <li on-tap="_closeMenu">
-          <a href="/galleries/[[userId]]">My Gallery</a>
-        </li>                
-      </ul>    
-    </main>
+    <app-location
+      path="{{path}}"
+      use-hash-as-path="[[useHashAsPath]]"
+    ></app-location>
 
+    <iron-ajax
+      url="[[apiEndpoint]]"
+      auto="[[apiEndpoint]]"
+      method="GET"
+      handle-as="json"
+      last-response="{{pagesData}}"
+    ></iron-ajax>
 
+    <aleppo-toolbar>
+      <paper-icon-button
+        icon="close"
+        on-tap="_closeMenu"
+      ></paper-icon-button>              
+    </aleppo-toolbar>
 
+    <section>
 
+      <main>
+        <ul>
+          <iron-selector attr-for-selected="data-href" selected="{{path}}">
+            <template is="dom-repeat" items="[[pagesData]]" as="page">
+              <li data-href$="/pages/[[page.slug]]" on-tap="_closeMenu">
+                <a>[[page.title]]</a>
+              </li>
+            </template>
+          </iron-selector>          
+        </ul>    
+      </main>
 
+    </section>
 
   </template>
 
@@ -82,19 +131,39 @@
 
       is: 'aleppo-app-menu',
       properties:{
+
+        apiEndpoint: {
+          type: String
+        },
+
+        useHashAsPath: {
+          type: Boolean,
+          value: false
+        },
+
+        path: {
+          type: String
+        },
+
         userId:{
           type: String
         },
 
         opened: {
           type: Boolean,
-          value: false,
           notify: true,
+          reflectToAttribute: true,
           observer: '_openedChanged'
         }
+
       },
+
+      listeners: {
+        'tap': '_closeMenu'
+      },
+
       _closeMenu: function () {
-        this.set('opened', false)
+        this.opened = false;
       },
 
       _openedChanged: function(opened) {
