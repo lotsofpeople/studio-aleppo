@@ -51,14 +51,13 @@
       main {
         display: grid;
         grid-template-columns: 1fr;
-        grid-column-gap: 120px;
         position: relative;
         z-index: 2;
       }
 
       @media screen and (min-width: 737px) {
         main {
-        grid-template-columns: 2fr 1fr;
+        grid-template-columns: 0.60fr 0.40fr;
         }        
       }
 
@@ -68,6 +67,12 @@
 
       aside {
         @apply --aleppo-font-small;
+      }
+
+      @media screen and (min-width: 737px) {
+        aside {
+          padding-left: 50%;
+        }        
       }
 
       section:after {
@@ -82,11 +87,17 @@
       }
 
       aleppo-content-slider {
-        margin-top: 24px;
+        margin: 24px 0;
         height: 830px;
         max-height: 40vh;
         width: 100%;
         display: flex;
+      }
+
+      @media screen and (min-width: 1025px) {
+        aleppo-content-slider {
+          max-height: 680px;
+        }
       }
     </style>
 

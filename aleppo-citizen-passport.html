@@ -12,7 +12,8 @@
   <template>
     <style include="aleppo-styles">
       :host {
-        display: block;
+        display: flex;
+        align-items: flex-start;
         background-color: var(--aleppo-color-yellow);
       }
 
@@ -22,13 +23,14 @@
         padding: 16px;
         width: 1280px;
         max-width: 100%;
-        margin: auto;
+        margin: 0 auto;
         box-sizing: border-box;
       }
 
       @media screen and (min-width: 737px) {
         section {
           flex-direction: row;
+          align-self: center;
         }
       }
 
