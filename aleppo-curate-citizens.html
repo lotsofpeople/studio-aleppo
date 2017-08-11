@@ -1,6 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../polymerfire/firebase-query.html">
 <link rel="import" href="aleppo-button.html">
+<link rel="import" href="aleppo-logo.html">
 <link rel="import" href="aleppo-speech-balloon.html">
 <link rel="import" href="aleppo-citizen-card.html">
 <link rel="import" href="../polymerfire/firebase-auth.html">
@@ -17,23 +18,93 @@
     <style>
       :host {
         display: block;
+        position: fixed;
+        height: 100%;
+        width: 100%;
       }
 
-      main {
-   
+      main, section, aleppo-citizen-card, article{
+        height: 100%;
       }
-      
-      aleppo-citizen-card {
+
+      article {
+        background-color: #10364B;
+      }
+
+      footer {
+        width: 100%;
+        box-sizing: border-box;
+        position:fixed;
+        bottom: 40px;
+        z-index: 2;
+        padding: 0 16px;
+
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 10px;
+      }
+
+      aleppo-speech-balloon {
+        margin-top: -30px;
 
       }
 
       aleppo-button {
-
+         width: 100%;         
       }
 
-      aleppo-speech-balloon {
-
+      #add-friend-button {
+        --button-background-color: #FFE57B;        
+         grid-column: 1 / 2;  
+        grid-row: 1 / 2;
+        grid-column-start: 1; 
+        grid-column-end: 3;         
+      }          
+      
+      #next-quote-button {
+        --button-background-color: #FFFFFF;
       }
+
+      #my-gallery-button {
+        --button-background-color: #FF5454;
+      }      
+
+      #my-gallery-container[sole-button] {
+        grid-column: 1 / 2;  
+        grid-row: 1 / 2;        
+        grid-column-start: 1; 
+        grid-column-end: 3;   
+      }
+
+      @media screen and (min-width: 1025px) {
+
+        footer {
+          grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        }
+        #add-friend-button {
+          --button-background-color: #FFE57B;        
+          grid-column: 1 / 5;  
+          grid-row: 1 / 1;
+          grid-column-start: 1; 
+          grid-column-end: 1;         
+        }
+        #next-quote-button {
+          grid-column-start: 2; 
+          grid-column-end: 2;                   
+        }
+        #my-gallery-container {
+          grid-column-start: 5; 
+          grid-column-end: 5;                   
+        }        
+        #my-gallery-container[sole-button] {
+          grid-column-start: 5; 
+          grid-column-end: 5;  
+        }        
+        
+      }
+
+  
+      
 
       [hidden] {
         display: none!important;
@@ -81,42 +152,46 @@
           <aleppo-citizen-card
             citizen-name="[[currentCitizen.title]]"
             quote="[[currentCitizen.quote]]"
-            image="[[currentCitizen.portrait_url.url]]"
+            image="[[currentCitizen.portrait_url]]"
             anonymous
           ></aleppo-citizen-card>
 
-          <aleppo-button
-            text="Add friend to gallery"
-            on-tap="_handleAddCitizenToGalleryAttempt"
-            hidden$="[[_lastCitizenEvaluated]]"
-          ></aleppo-button>
-
-          <aleppo-button
-            text="Next quote"
-            on-tap="_handleNextCitizenAttempt"
-            hidden$="[[_lastCitizenEvaluated]]"            
-          ></aleppo-button>      
-
           <footer>
+            <aleppo-button
+              id="add-friend-button"
+              text="Add friend to gallery"
+              on-tap="_handleAddCitizenToGalleryAttempt"
+              hidden$="[[_lastCitizenEvaluated]]"
+            ></aleppo-button>
 
-            <aleppo-speech-balloon 
-              hidden$="[[!_showGalleryViewableSpeechBalloon]]"
-              text="[[galleryVisibleSpeechBalloonText]]"
-              on-tap="hideSpeechBalloon"
-            ></aleppo-speech-balloon>
+            <aleppo-button
+              id="next-quote-button"
+              text="Next quote"
+              on-tap="_handleNextCitizenAttempt" 
+              hidden$="[[_lastCitizenEvaluated]]"                                           
+            ></aleppo-button>      
 
-            <aleppo-speech-balloon 
-              hidden$="[[!_lastCitizenEvaluated]]"
-              text="[[allCitizensEvaluatedSpeechBalloonText]]"
-            ></aleppo-speech-balloon>            
+            <div id="my-gallery-container" sole-button$="[[_lastCitizenEvaluated]]">
+              <aleppo-speech-balloon 
+                hidden$="[[!_showGalleryViewableSpeechBalloon]]"
+                text="[[galleryVisibleSpeechBalloonText]]"
+                on-tap="hideSpeechBalloon"
+              ></aleppo-speech-balloon>
 
-            <a href="#/galleries/[[user.uid]]">
-              <aleppo-button
-                text="My gallery"
-                number="[[userGalleryLength]]"
-                show-number      
-              ></aleppo-button>
-            </a>
+              <aleppo-speech-balloon 
+                hidden$="[[!_lastCitizenEvaluated]]"
+                text="[[allCitizensEvaluatedSpeechBalloonText]]"
+              ></aleppo-speech-balloon>            
+
+              <a href="#/galleries/[[user.uid]]">
+                <aleppo-button
+                  id="my-gallery-button"              
+                  text="My gallery"
+                  number="[[userGalleryLength]]"
+                  show-number      
+                ></aleppo-button>
+              </a>
+            </div>
           </footer>
         </section>
       </template>
