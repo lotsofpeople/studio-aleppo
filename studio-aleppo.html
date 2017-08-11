@@ -85,6 +85,7 @@ Site of Paradox&#39; Studio Aleppo project
       browse-route-active="[[browseRouteActive]]"
       curate-route-active="[[curateRouteActive]]"
       menu-opened="{{appMenuOpened}}"
+      use-hash-as-path="[[useHashAsPath]]"
     ></aleppo-header>
 
     <template is="dom-if" if="[[galleryRouteActive]]">
@@ -190,7 +191,13 @@ Site of Paradox&#39; Studio Aleppo project
 
         citizensData: {
           type: Array,
-        }           
+        },
+
+        useHashAsPath: {
+          type: Boolean,
+          value: false
+        }
+
       },
 
       listeners: {

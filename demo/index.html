@@ -18,6 +18,7 @@
 
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../iron-demo-helpers/url-bar.html">
 
     <link rel="import" href="../../app-route/app-location.html">
     
@@ -35,19 +36,22 @@
   </head>
   <body>
 
-    <template is="dom-bind" id="demo">          
+    <template is="dom-bind" id="demo">    
+
       <aleppo-config
         api-endpoint="{{apiEndpoint}}"
       ></aleppo-config>
       
       <app-location
         route="{{route}}"
+        path="[[path]]"
         use-hash-as-path
       ></app-location>
 
       <studio-aleppo
         api-endpoint="[[apiEndpoint]]"
         route="[[route]]"
+        use-hash-as-path
       ></studio-aleppo>
     </template>
     

@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="aleppo-styles.html">
+<link rel="import" href="../app-route/app-location.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="../iron-selector/iron-selector.html">
 
@@ -52,6 +53,7 @@
         @apply --aleppo-font-button;
         color: var(--aleppo-color-blue);
         text-transform: uppercase;
+        cursor: pointer;
       }
 
       a.iron-selected {
@@ -101,13 +103,18 @@
       last-response="{{pagesData}}"
     ></iron-ajax>
 
+    <app-location
+      path="{{path}}"
+      use-hash-as-path="[[useHashAsPath]]"
+    ></app-location>
+
     <div>
       <nav id="main-menu">
-        <iron-selector attr-for-selected="data-route" selected-item="{{selectedItem}}" >
-          <a data-route="browse">Browse</a>
-          <a data-route="curate">Curate</a>
+        <iron-selector attr-for-selected="data-href" selected="{{path}}">
+          <a data-href="/browse">Browse</a>
+          <a data-href="/curate">Curate</a>
           <template is="dom-repeat" items="[[pagesData]]" as="page">
-            <a data-route$="pages/[[page.slug]]">[[page.title]]</a>            
+            <a data-href$="/pages/[[page.slug]]">[[page.title]]</a>            
           </template>
         </iron-selector>
       </nav>
@@ -144,13 +151,18 @@
         selectedItem: {
           type: Object,
           value: null
+        },
+
+        path: {
+          type: String
+        },
+
+        useHashAsPath: {
+          type: Boolean,
+          value: false
         }
 
       },
-
-      observers: [
-        '_notifySelected(selectedItem)'
-      ],
 
       ready: function() {
         this.$$('#main-menu').addEventListener('scroll', this._updateScrollProps.bind(this));
@@ -161,14 +173,6 @@
         this.scrolledToStart = menu.scrollLeft === 0;
         this.scrolledToEnd = menu.offsetWidth + menu.scrollLeft === menu.scrollWidth;
       },
-
-      _notifySelected: function(selectedItem) {
-        if(!selectedItem) return;
-        var data = {
-          route: selectedItem.getAttribute('data-route'),
-        }
-        this.fire('menu-item-selected', data);
-      }
 
     });
   </script>

@@ -35,7 +35,10 @@
 
     <header>
       <aleppo-logo></aleppo-logo>
-      <aleppo-menu api-endpoint="[[apiEndpoint]]"></aleppo-menu>
+      <aleppo-menu
+        api-endpoint="[[apiEndpoint]]"
+        use-hash-as-path="[[useHashAsPath]]"
+      ></aleppo-menu>
     </header>
 
   </template>
@@ -65,7 +68,13 @@
 
         browseRouteActive: {
           type: Boolean
-        }        
+        },
+
+        useHashAsPath: {
+          type: Boolean,
+          value: false
+        }
+
       },
 
       /*
