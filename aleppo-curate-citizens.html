@@ -88,20 +88,27 @@
           <aleppo-button
             text="Add friend to gallery"
             on-tap="_handleAddCitizenToGalleryAttempt"
+            hidden$="[[_lastCitizenEvaluated]]"
           ></aleppo-button>
 
           <aleppo-button
             text="Next quote"
             on-tap="_handleNextCitizenAttempt"
+            hidden$="[[_lastCitizenEvaluated]]"            
           ></aleppo-button>      
 
           <footer>
 
             <aleppo-speech-balloon 
               hidden$="[[!_showGalleryViewableSpeechBalloon]]"
-              text="[[speechBalloonText]]"
+              text="[[galleryVisibleSpeechBalloonText]]"
               on-tap="hideSpeechBalloon"
             ></aleppo-speech-balloon>
+
+            <aleppo-speech-balloon 
+              hidden$="[[!_lastCitizenEvaluated]]"
+              text="[[allCitizensEvaluatedSpeechBalloonText]]"
+            ></aleppo-speech-balloon>            
 
             <a href="#/galleries/[[user.uid]]">
               <aleppo-button
@@ -180,10 +187,15 @@
           computed: '_setCitizen(currentCitizenId)'
         },         
 
-        speechBalloonText: {
+        galleryVisibleSpeechBalloonText: {
           type: String,
-          value: "Great! Your collection is complete. Now it's time to checkout your gallery and get to know the people behind the quotes."
+          value: "Great! Your collection is now visible. Now it's time to checkout your gallery and get to know the people behind the quotes."
         },
+
+        allCitizensEvaluatedSpeechBalloonText: {
+          type: String,
+          value: "Great! You've seen all citizens for now. Check back later to add more to your gallery!"
+        },        
 
         _showGalleryViewableSpeechBalloon: {
           type: Boolean,
@@ -200,13 +212,25 @@
           type: Boolean,
           value: false
         },        
+
+        _noNextCitizenAvailable: {
+          type: Boolean,
+          value: false
+        },
+
+        _lastCitizenEvaluated: {
+          type: Boolean,
+          value: false
+        }
       },
       observers: [
         '_setCitizenIds(citizensData.splices)',
         '_setRemainingCitizenIds(allCitizensIds.splices, userEvaluatedCitizens.*)',
         '_setUserGalleryLength(userGallery.splices)',
         '_setCurrentCitizenEvaluatedToSignedInUser(user.uid)',
-        '_computeShowGalleryViewableSpeechBalloon(userGalleryLength)'
+        '_computeShowGalleryViewableSpeechBalloon(userGalleryLength)',
+        '_handleRemainingCitizensChanged(remainingCitizenIds.splices)',
+        
       ],
 
       setNextCitizenId: function () {
@@ -236,10 +260,12 @@
       _handleAddCitizenToGalleryAttempt: function () {
         if(!this.user.uid || !this.currentCitizenId) return;
         firebase.database().ref().child('galleries/' + this.user.uid + '/' + this.currentCitizenId).set(true);
+        if(this._noNextCitizenAvailable) return this._handleLastCitizenEvaluated();        
         this.setNextCitizenId();
       },
 
       _handleNextCitizenAttempt: function () {
+        if(this._noNextCitizenAvailable) return this._handleLastCitizenEvaluated();
         this.setNextCitizenId();
       },
 
@@ -264,6 +290,14 @@
 
         if(!this.currentCitizenId && unevaluatedCitizensIds.length > 0) this.setNextCitizenId();
       },
+
+      _handleRemainingCitizensChanged: function () {
+        (this.remainingCitizenIds.length === 0) ? this.set('_noNextCitizenAvailable', true) : this.set('_noNextCitizenAvailable', false);
+      },
+
+      _handleLastCitizenEvaluated: function () {
+        this.set('_lastCitizenEvaluated', true);
+      },     
 
       _setCitizen: function (currentCitizenId) {
         var allCitizens = this.citizensData;
