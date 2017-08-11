@@ -56,16 +56,25 @@
       blockquote {
         position: absolute;
         display: inline-flex;
-        top: 27px;
-        left: 27px;
-        right: 27px;
-        bottom: 27px;
+        top: 16px;
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
         color: white;
-        margin: auto;
+        margin: 0 auto;
         opacity: 0;
         transition: opacity 0.2s;
         @apply --aleppo-font-quote;
         color: white;
+      }
+
+      @media screen and (min-width: 1025px) {
+        blockquote {
+          top: 27px;
+          left: 27px;
+          right: 27px;
+          bottom: 27px;
+        }        
       }
 
       :host([large-quote]) blockquote {
@@ -73,7 +82,7 @@
         top: 20px;
         bottom: 0;
         left: 50%;
-        font-size: 24px;
+        font-size: var(--font-size-heading2);
         transform: translateX(-50%);   
 
         width: 100%;
@@ -102,18 +111,12 @@
           top: 100px;
           bottom: 0;
           left: 50%;
-          font-size: 40px;
           width: 100%;
-           max-width: 1296px; 
+          max-width: 1296px; 
           padding: 0 16px;
-          transform: translateX(-50%);          
+          transform: translateX(-50%);
         }
-      }      
-      @media screen and (min-width: 1025px) {
-        :host([large-quote]) blockquote {
-          font-size: 64px;          
-        }
-      }      
+      }
 
       [hidden] {
         display: none!important;
@@ -126,7 +129,7 @@
         background-color: var(--aleppo-color-yellow);
         height: 32px;
         display: flex;
-        padding: 0 12px;
+        padding: 0 16px;
         align-items: center;
         justify-content: center;
         position: relative;

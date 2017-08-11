@@ -31,7 +31,7 @@
         right: 0;
         width: 100%;
         height: 100%;
-        z-index: 3;
+        z-index: 10;
         transition: 0.3s opacity;
         opacity: 0;
         pointer-events: none;
@@ -42,20 +42,9 @@
         pointer-events: all;
       }
 
-      #close-detail-page-button {
-        position: fixed;
-        top: 0;
-        right: 0;
-        z-index: 4;
-        transition: 0.3s opacity;
-        opacity: 0;
-        pointer-events: none;        
+      aleppo-citizen-grid {
+        padding: 16px;
       }
-
-      #close-detail-page-button[data-active] {
-        opacity: 1;
-        pointer-events: all;        
-      }      
     </style>
 
     <firebase-query
@@ -71,16 +60,10 @@
 
     <aleppo-citizen-detail-page
       api-endpoint="[[apiEndpoint]]"
+      citizen-id="[[activeCitizen.id]]"
+      citizen-data="{{activeCitizen}}"
       data-active$="[[activeCitizen.id]]"
-      citizen-data="[[activeCitizen]]"
-    ></aleppo-citizen-detail-page>    
-
-    <paper-icon-button
-      id="close-detail-page-button"
-      icon="close"
-      data-active$="[[activeCitizen.id]]"
-      on-tap="closeDetailPage"
-    ></paper-icon-button>
+    ></aleppo-citizen-detail-page>
   
   </template>
   <script>
@@ -112,35 +95,32 @@
           value: 0
         },
 
-        activeCitizen: {
-          type: Object,
-        },
-
         minimumGalleryLength: {
           type: Number,
           value: 5
+        },
+
+        galleryReachedMinimumLength: {
+          type: Boolean,
+          value: false,
+          computed: "_computeGalleryReachedMinimumLength(userGalleryLength)"
+        },
+
+        activeCitizen: {
+          type: Object,
         },
 
         citizenActive: {
           type: Boolean,
           computed: '_computeCitizenActive(activeCitizen.id)',
           observer: '_citizenActiveChanged'
-        },        
+        },      
 
-        galleryReachedMinimumLength: {
-          type: Boolean,
-          value: false,
-          computed: "_computeGalleryReachedMinimumLength(userGalleryLength)"
-        }      
       },
       observers: [
         '_setGalleryCitizens(citizensData.*, galleryCitizenIds.*)',        
         '_setUserGalleryLength(userGallery.splices)',
       ],
-
-      closeDetailPage: function() {
-        this.set('activeCitizen', null);
-      },
 
       _setGalleryCitizens: function (allCitizensIdsSplices, galleryCitizenIdsChanged) {
         var galleryCitizenIds = this.galleryCitizenIds;
@@ -174,7 +154,6 @@
 
       _handleCitizenCardTapped: function(evt, citizenData) {
         this.set('activeCitizen', citizenData);
-        this.notifyPath('activeCitizen.id', this.activeCitizen.id);
       },      
 
       _citizenActiveChanged: function(citizenActive) {
