@@ -1,6 +1,10 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../polymerfire/firebase-query.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="aleppo-citizen-grid.html">
+<link rel="import" href="aleppo-citizen-detail-page.html">
+
 <!--
 `aleppo-personal-gallery`
 
@@ -18,6 +22,40 @@
       [hidden] {
         display: none!important;
       }
+      
+      aleppo-citizen-detail-page {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 3;
+        transition: 0.3s opacity;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      aleppo-citizen-detail-page[data-active] {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      #close-detail-page-button {
+        position: fixed;
+        top: 0;
+        right: 0;
+        z-index: 4;
+        transition: 0.3s opacity;
+        opacity: 0;
+        pointer-events: none;        
+      }
+
+      #close-detail-page-button[data-active] {
+        opacity: 1;
+        pointer-events: all;        
+      }      
     </style>
 
     <firebase-query
@@ -28,7 +66,21 @@
     <aleppo-citizen-grid
       citizens-data="[[galleryCitizensData]]"
       show-all-citizens-anonymous="[[!galleryReachedMinimumLength]]"
+      on-card-tapped="_handleCitizenCardTapped"
     ></aleppo-citizen-grid>
+
+    <aleppo-citizen-detail-page
+      api-endpoint="[[apiEndpoint]]"
+      data-active$="[[activeCitizen.id]]"
+      citizen-data="[[activeCitizen]]"
+    ></aleppo-citizen-detail-page>    
+
+    <paper-icon-button
+      id="close-detail-page-button"
+      icon="close"
+      data-active$="[[activeCitizen.id]]"
+      on-tap="closeDetailPage"
+    ></paper-icon-button>
   
   </template>
   <script>
@@ -60,6 +112,16 @@
           value: 0
         },
 
+        activeCitizen: {
+          type: Object,
+        },
+
+        citizenActive: {
+          type: Boolean,
+          computed: '_computeCitizenActive(activeCitizen.id)',
+          observer: '_citizenActiveChanged'
+        },        
+
         galleryReachedMinimumLength: {
           type: Boolean,
           value: false,
@@ -70,6 +132,10 @@
         '_setGalleryCitizens(citizensData.*, galleryCitizenIds.*)',        
         '_setUserGalleryLength(userGallery.splices)',
       ],
+
+      closeDetailPage: function() {
+        this.set('activeCitizen', null);
+      },
 
       _setGalleryCitizens: function (allCitizensIdsSplices, galleryCitizenIdsChanged) {
         var galleryCitizenIds = this.galleryCitizenIds;
@@ -95,7 +161,20 @@
 
       _computeGalleryReachedMinimumLength: function (userGalleryLength) {
         return userGalleryLength > 4;
-      }
+      },
+
+      _computeCitizenActive: function(activeCitizenId) {
+        return !!activeCitizenId;
+      },      
+
+      _handleCitizenCardTapped: function(evt, citizenData) {
+        this.set('activeCitizen', citizenData);
+        this.notifyPath('activeCitizen.id', this.activeCitizen.id);
+      },      
+
+      _citizenActiveChanged: function(citizenActive) {
+        document.body.style.overflow = (citizenActive) ? 'hidden' : '';
+      }      
     });
   </script>
 </dom-module>
