@@ -116,6 +116,11 @@
           type: Object,
         },
 
+        minimumGalleryLength: {
+          type: Number,
+          value: 5
+        },
+
         citizenActive: {
           type: Boolean,
           computed: '_computeCitizenActive(activeCitizen.id)',
@@ -160,7 +165,7 @@
       },
 
       _computeGalleryReachedMinimumLength: function (userGalleryLength) {
-        return userGalleryLength > 4;
+        return userGalleryLength >= this.minimumGalleryLength;
       },
 
       _computeCitizenActive: function(activeCitizenId) {
