@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-    <title>aleppo-speech-balloon demo</title>
+    <title>speech-balloon-footer-svg demo</title>
 
     <script>
       window.Polymer = {
@@ -18,27 +18,28 @@
 
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-    <link rel="import" href="../aleppo-speech-balloon.html">
+    <link rel="import" href="../speech-balloon-footer-svg.html">
 
     <style is="custom-style" include="demo-pages-shared-styles">
       demo-snippet {
         --demo-snippet-demo: {
           display: block;
-          background-color: #10364B;
         }
       }
     </style>
   </head>
   <body>
+
     <div class="vertical-section-container centered">
-      <h3>Basic aleppo-speech-balloon demo</h3>
+      <h3>Basic speech-balloon-footer-svg demo</h3>
       <demo-snippet>
-        <template is="dom-bind" id="demo">
-          <aleppo-speech-balloon
-          text="Great! Your collection is complete. Now it's time to checkout your gallery and get to know the people behind the quotes. Great! Your collection is complete. Now it's time to checkout your gallery and get to know the people behind the quotes."
-          ></aleppo-speech-balloon>
+        <template>
+          <speech-balloon-footer-svg></speech-balloon-footer-svg>
         </template>
       </demo-snippet>
     </div>
+
   </body>
 </html>
+
+
