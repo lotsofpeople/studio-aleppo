@@ -102,11 +102,16 @@
           top: 100px;
           bottom: 0;
           left: 50%;
-          font-size: 64px;
+          font-size: 40px;
           width: 100%;
            max-width: 1296px; 
           padding: 0 16px;
           transform: translateX(-50%);          
+        }
+      }      
+      @media screen and (min-width: 1025px) {
+        :host([large-quote]) blockquote {
+          font-size: 64px;          
         }
       }      
 
