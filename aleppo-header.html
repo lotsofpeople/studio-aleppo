@@ -25,11 +25,17 @@
       a {
         @apply --aleppo-font-button;
         text-transform: uppercase;
-        width: 90px;
+        width: 60px;
         display: inline-block;
         text-align: center;
         cursor: pointer;
       }
+
+      @media screen and (min-width: 737px) {
+        a {
+          width: 90px;
+        }
+      }    
 
       a:nth-child(1).iron-selected {
         color: var(--aleppo-color-green);
