@@ -1,7 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../polymerfire/firebase-query.html">
 <link rel="import" href="aleppo-button.html">
-<link rel="import" href="aleppo-logo.html">
+<link rel="import" href="aleppo-styles.html">
 <link rel="import" href="aleppo-speech-balloon.html">
 <link rel="import" href="aleppo-citizen-card.html">
 <link rel="import" href="../polymerfire/firebase-auth.html">
@@ -15,20 +15,32 @@
 
 <dom-module id="aleppo-curate-citizens">
   <template>
-    <style>
+    <style include="aleppo-styles">
       :host {
         display: block;
         position: fixed;
-        height: 100%;
+        height: calc(100% - 108px);
         width: 100%;
+        background-color: #10364B;        
       }
 
-      main, section, aleppo-citizen-card, article{
+      main, section, aleppo-citizen-card{
         height: 100%;
+      }
+
+      #intro-screen-container {
+        padding: 28px;
+        overflow: scroll;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;        
       }
 
       article {
-        background-color: #10364B;
+        color: #ffffff;
+        @apply --aleppo-font-body-sans;
+        flex: 1;
+        max-width: 788px;
       }
 
       footer {
@@ -46,11 +58,10 @@
 
       aleppo-speech-balloon {
         margin-top: -30px;
-
       }
 
       aleppo-button {
-         width: 100%;         
+        width: 100%;          
       }
 
       #add-friend-button {
@@ -68,7 +79,6 @@
       #my-gallery-button {
         --button-background-color: #FF5454;
         --button-color: #FFFFFF;
-        
       }      
 
       #my-gallery-container[sole-button] {
@@ -79,9 +89,23 @@
       }
 
       @media screen and (min-width: 1025px) {
+        #intro-screen-container {
+          max-width: 1296px;
+          padding: 104px 16px;
+          margin: auto;
+        }
 
         footer {
           grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+          max-width: 1296px;
+          padding: 0 16px;
+          left:50%;
+          transform: translateX(-50%);
+        }
+
+        #start-gallery-button {
+          flex:0;
+          width: 300px;
         }
         #add-friend-button {
           --button-background-color: #FFE57B;        
@@ -105,9 +129,6 @@
         
       }
 
-  
-      
-
       [hidden] {
         display: none!important;
       }
@@ -130,26 +151,26 @@
     ></firebase-query> 
 
     <main>
-      <template is="dom-if" if="[[_showCurateIntroSection]]" restamp="true">
-        <section>
+      <template is="dom-if" if="[[_showCurateCitizenSection]]" restamp="true">
+        <section id="intro-screen-container">
           <article>
-            Don’t trust first impressions. They’re often wrong. We judge on looks, clothes, background, religion, color, vocaburary. What if we take that away and force you to pick friends based on their interests, dream and hopes? 
 
-            Studio Aleppo brings together citizens from cities across Europe. Born and raised there, or forced to leave their home country and building up a new life in a different city.
+            <p>Don’t trust first impressions. They’re often wrong. We judge on looks, clothes, background, religion, color, vocaburary. What if we take that away and force you to pick friends based on their interests, dream and hopes?</p> 
 
-            Tap the button below to curate your personal gallery of new friends, based on the quotes you like most. The portraits will be revealed once you've collected 5 quotes.          
+            <p>Studio Aleppo brings together citizens from cities across Europe. Born and raised there, or forced to leave their home country and building up a new life in a different city.</p>
+
+            <p>Tap the button below to curate your personal gallery of new friends, based on the quotes you like most. The portraits will be revealed once you've collected 5 quotes.</p>
           </article>
 
-          <aleppo-logo></aleppo-logo>
-
           <aleppo-button
+            id="start-gallery-button"
             text="Make new friends"
             on-tap="_handleMakeNewFriendsButtonTapped"
           ></aleppo-button>        
         </section>
       </template>
 
-      <template is="dom-if" if="[[_showCurateCitizenSection]]" restamp="true">
+      <template is="dom-if" if="[[_showCurateIntroSection]]" restamp="true">
         <section>
           <aleppo-citizen-card
             citizen-name="[[currentCitizen.title]]"
