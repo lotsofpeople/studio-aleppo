@@ -19,7 +19,7 @@
       :host {
         display: block;
         position: fixed;
-        height: calc(100% - 108px);
+        height: calc(100% - 68px);
         width: 100%;
         background-color: #10364B;        
       }
@@ -37,9 +37,9 @@
       }
 
       article {
-        color: #ffffff;
         @apply --aleppo-font-body-sans;
         flex: 1;
+        color: #ffffff;
         max-width: 788px;
       }
 
@@ -88,10 +88,10 @@
         grid-column-end: 3;   
       }
 
-      @media screen and (min-width: 1025px) {
+      @media screen and (min-width: 737px) {
         #intro-screen-container {
           max-width: 1296px;
-          padding: 104px 16px;
+          padding: 100px 16px;
           margin: auto;
         }
 
@@ -176,6 +176,7 @@
             citizen-name="[[currentCitizen.title]]"
             quote="[[currentCitizen.quote]]"
             image="[[currentCitizen.portrait_url]]"
+            large-quote
             anonymous
           ></aleppo-citizen-card>
 
