@@ -273,7 +273,8 @@
       },
 
       _setUserGalleryLength: function (userGallerySplices) {
-        if (this.userGalleryLength) this.set('userGalleryLength', this.userGallery.length);
+        var galleryLength = this.userGallery.length ? this.userGallery.length : 0;
+        this.set('userGalleryLength', galleryLength);
       },
 
       _computeShowGalleryViewableSpeechBalloon: function (galleryLength) {
