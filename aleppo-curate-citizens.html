@@ -151,7 +151,7 @@
     ></firebase-query> 
 
     <main>
-      <template is="dom-if" if="[[_showCurateCitizenSection]]" restamp="true">
+      <template is="dom-if" if="[[_showCurateIntroSection]]" restamp="true">
         <section id="intro-screen-container">
           <article>
 
@@ -170,7 +170,7 @@
         </section>
       </template>
 
-      <template is="dom-if" if="[[_showCurateIntroSection]]" restamp="true">
+      <template is="dom-if" if="[[_showCurateCitizenSection]]" restamp="true">
         <section>
           <aleppo-citizen-card
             citizen-name="[[currentCitizen.title]]"
