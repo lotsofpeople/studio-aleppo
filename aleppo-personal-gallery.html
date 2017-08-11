@@ -28,6 +28,7 @@
 
       <aleppo-citizen-grid
         citizens-data="[[galleryCitizensData]]"
+        show-all-citizens-anonymous="[[!galleryReachedMinimumLength]]"
       ></aleppo-citizen-grid>
   
   </template>
@@ -53,11 +54,27 @@
         galleryCitizensData: {
           type: Array,
           value: []
-        },        
+        },
+        
+        userGalleryLength: {
+          type: Number,
+          value: 0
+        },
+
+        galleryReachedMinimumLength: {
+          type: Boolean,
+          value: false,
+          computed: "_computeGalleryReachedMinimumLength(userGalleryLength)"
+        }
+
+
+        
 
       },
       observers: [
         '_setGalleryCitizens(citizensData.*, galleryCitizenIds.*)',        
+        '_setUserGalleryLength(userGallery.splices)',
+
       ],
 
       _setGalleryCitizens: function (allCitizensIdsSplices, galleryCitizenIdsChanged) {
@@ -76,6 +93,16 @@
           this.push('galleryCitizensData', currentCitizen);
         }
       },
+
+      _setUserGalleryLength: function (userGallerySplices) {
+        var galleryLength = this.userGallery.length ? this.userGallery.length : 0;
+        this.set('userGalleryLength', galleryLength);
+      },
+
+      _computeGalleryReachedMinimumLength: function (userGalleryLength) {
+        return userGalleryLength > 4;
+      }
+      
 
 
     });

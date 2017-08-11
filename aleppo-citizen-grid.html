@@ -54,6 +54,7 @@
           quote="[[citizen.quote]]"
           image="[[citizen.portrait_url.sizes.medium]]"
           on-tap="_handleTapCitizenCard"
+          anonymous="[[showAllCitizensAnonymous]]"
         ></aleppo-citizen-card>
       </template>
     </section>
@@ -77,6 +78,11 @@
 
         selectedCitizen: {
           type: Object
+        },
+
+        showAllCitizensAnonymous: {
+          type: Boolean,
+          value: false
         }
 
       },
