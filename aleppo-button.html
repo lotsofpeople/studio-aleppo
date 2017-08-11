@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="aleppo-styles.html">
 
 <!--
 `aleppo-button`
@@ -9,15 +10,16 @@
 
 <dom-module id="aleppo-button">
   <template>
-    <style>
+    <style include="aleppo-styles">
       :host {
         display: block;
       }
 
       button {
         width: 100%;
-        height: var(--button-height, 54px);
+        height: 40px;
         position: relative;
+        display: flex;
         box-sizing: border-box;
         border-radius: 5px;
         border: 0;
@@ -27,27 +29,44 @@
       }
 
       section {
-        text-align: center;
         height: 100%;
-        font-family: var(--aleppo-body, "sans-sherif");
-        font-size: 18px;        
+        justify-content: center;
+        font-family: var(--aleppo-font-body);
+        display: flex;
+        flex-direction: column;
       }
       
       #text-section {
-        flex:1;
-        line-height: var(--button-height, 54px);
+        width: 100%;
+        justify-content: center;
+        font-size: 14px;        
       }
 
       #number-section {
-        position: absolute;
-        right: 14px;
-        top: 11px;
-        width: 32px;
-        height: 32px;
-        line-height: 32px;        
+        position:absolute;
         border-radius: 50%;
+        right: 6px;
+        width: 28px;
+        height: 28px;
+        line-height: 28px;
+        top: 5.5px;        
         background-color: var(--number-background-color, #000);
         color: var(--number-color, white);        
+      }
+
+      @media screen and (min-width: 737px) {
+        button {
+          height: 49px;
+        }        
+        #number-section {
+          width: 32px;
+          height: 32px;
+          top: 8.5px;
+          line-height: 32px;
+        }
+        #text-section {
+          font-size: 18px;
+        }
       }
 
       [hidden] {
@@ -55,7 +74,10 @@
       }
     </style>
 
-    <button><section id="text-section">[[text]]</section> <section id="number-section" hidden$="[[!showNumber]]">[[number]]</section></button>
+    <button>
+      <span id="text-section">[[text]]</span> 
+      <span id="number-section" hidden$="[[!showNumber]]">[[number]]</span>
+    </button>
 
   </template>
 
