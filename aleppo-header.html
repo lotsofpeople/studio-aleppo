@@ -31,9 +31,15 @@
         cursor: pointer;
       }
 
-      @media screen and (min-width: 737px) {
+      /*@media screen and (min-width: 737px) {
         a {
           width: 90px;
+        }
+      } */   
+
+      @media screen and (min-width: 737px) {
+        a {
+          width: 132px;
         }
       }    
 
@@ -46,7 +52,19 @@
       }
 
       #menu-button {
-        padding: 4px;
+        padding: 0;
+        margin-left: 12px;
+        margin-top: -3px;
+        height: 36px;
+        width: 36px;
+      }
+
+      @media screen and (min-width: 737px) {
+        #menu-button {
+          margin-left: 24px;
+          height: 42px;
+          width: 42px;          
+        }
       }
 
       aleppo-app-menu {
@@ -82,8 +100,8 @@
 
     <aleppo-toolbar>
       <iron-selector attr-for-selected="data-href" selected="{{path}}">
-        <a data-href="/browse">Browse citizens</a>
-        <a data-href="/curate">Curate citizens</a>
+        <a data-href="/browse">Browse<br>citizens</a>
+        <a data-href="/curate">Curate<br>citizens</a>
       </iron-selector>
       <paper-icon-button
         id="menu-button"
