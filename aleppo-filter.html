@@ -81,16 +81,14 @@
       .dropdowns {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-column-gap: 16px;
-        grid-row-gap: 16px;
+        grid-gap: 16px;
         padding: 0;
       }
 
       .tags {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
-        grid-column-gap: 16px;
-        grid-row-gap: 16px;
+        grid-gap: 16px;
         padding: 16px 0;
       }
 
@@ -104,7 +102,7 @@
         height: 40px;
         text-transform: capitalize;
         border: 1px solid var(--aleppo-color-blue);
-        border-radius: 2px;
+        border-radius: 0;
         margin: 0;
         @apply --aleppo-font-button;
         color: var(--aleppo-color-blue);
@@ -138,12 +136,12 @@
 
         <div class="dropdowns">
           <aleppo-dropdown-menu
-            label="Portrayed in"
+            placeholder="Portrayed in"
             items="[[studioLocations]]"
             selected-item="{{studioLocation}}"
           ></aleppo-dropdown-menu>
           <aleppo-dropdown-menu
-            label="In town since?"
+            placeholder="In town since"
             items="[[migrationYears]]"
             selected-item="{{migrationYear}}"
           ></aleppo-dropdown-menu>
