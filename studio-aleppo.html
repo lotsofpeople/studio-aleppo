@@ -82,8 +82,6 @@ Site of Paradox&#39; Studio Aleppo project
 
     <aleppo-header
       api-endpoint="[[apiEndpoint]]"
-      browse-route-active="[[browseRouteActive]]"
-      curate-route-active="[[curateRouteActive]]"
       menu-opened="{{appMenuOpened}}"
       use-hash-as-path="[[useHashAsPath]]"
     ></aleppo-header>
@@ -130,7 +128,7 @@ Site of Paradox&#39; Studio Aleppo project
         },
         
         route: {
-          type: Object
+          type: Object,
         },
 
         appMenuOpened: {
@@ -207,7 +205,8 @@ Site of Paradox&#39; Studio Aleppo project
       },
 
       observers: [
-        '_citizensDataChanged(citizensData.splices)'
+        '_citizensDataChanged(citizensData.splices)',
+        '_watchPath(route.path)'
       ],
 
       openMenu: function() {
@@ -226,6 +225,12 @@ Site of Paradox&#39; Studio Aleppo project
         var anchor = document.createElement('a');
         anchor.href = '#/' + data.route;
         anchor.click();
+      },
+
+      _watchPath(routePath) {
+        if(routePath === '/') {
+          this.set('route.path', '/browse');
+        }
       }
 
     });
