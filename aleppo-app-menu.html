@@ -86,9 +86,21 @@
         --aleppo-toolbar-tint-color: white;
       }
 
-      paper-icon-button {
+      #close-button {
+        padding: 0;
+        margin-left: 12px;
+        margin-top: -3px;
+        height: 36px;
+        width: 36px;
         color: white;
-        padding: 4px;      
+      }
+
+      @media screen and (min-width: 737px) {
+        #close-button {
+          margin-left: 24px;
+          height: 42px;
+          width: 42px;          
+        }
       }
 
     </style>
@@ -108,6 +120,7 @@
 
     <aleppo-toolbar>
       <paper-icon-button
+        id="close-button"
         icon="close"
         on-tap="_closeMenu"
       ></paper-icon-button>              

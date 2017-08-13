@@ -33,6 +33,22 @@
       [hidden] {
         display: none!important;
       }
+
+      #close-button {
+        padding: 0;
+        margin-left: 12px;
+        margin-top: -3px;
+        height: 36px;
+        width: 36px;
+      }
+
+      @media screen and (min-width: 737px) {
+        #close-button {
+          margin-left: 24px;
+          height: 42px;
+          width: 42px;          
+        }
+      }
     </style>
 
     <iron-ajax
@@ -45,6 +61,7 @@
 
     <aleppo-toolbar>
       <paper-icon-button
+        id="close-button"
         icon="close"
         on-tap="close"
       ></paper-icon-button>              
