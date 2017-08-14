@@ -66,6 +66,8 @@
     <aleppo-citizen-grid
       citizens-data="[[galleryCitizensData]]"
       on-card-tapped="_handleCitizenCardTapped"
+      show-all-citizens-anonymous="[[!galleryReachedMinimumLength]]"
+      cards-are-clickable="[[galleryReachedMinimumLength]]"
     ></aleppo-citizen-grid>
 
     <aleppo-citizen-detail-page
@@ -163,7 +165,7 @@
       },      
 
       _handleCitizenCardTapped: function(evt, citizenData) {
-        this.set('activeCitizen', citizenData);
+        if(this.galleryReachedMinimumLength) this.set('activeCitizen', citizenData);
       },      
 
       _citizenActiveChanged: function(citizenActive) {

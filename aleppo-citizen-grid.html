@@ -48,7 +48,7 @@
         height: var(--card-height);
       }
 
-      aleppo-citizen-card:hover {
+      aleppo-citizen-card[clickable]:hover {
         cursor: pointer;
       }
     </style>
@@ -72,6 +72,7 @@
           image="[[citizen.portrait_url]]"
           on-tap="_handleTapCitizenCard"
           anonymous="[[showAllCitizensAnonymous]]"
+          clickable$="[[cardsAreClickable]]"
         ></aleppo-citizen-card>
       </template>
     </section>
@@ -101,6 +102,11 @@
         showAllCitizensAnonymous: {
           type: Boolean,
           value: false
+        },
+
+        cardsAreClickable: {
+          type: Boolean,
+          value: true
         }
 
       },
