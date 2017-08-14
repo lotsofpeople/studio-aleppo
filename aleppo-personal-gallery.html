@@ -89,7 +89,7 @@
           value: []
         },
         
-        userGalleryLength: {
+        galleryLength: {
           type: Number,
           value: 0
         },
@@ -102,7 +102,7 @@
         galleryReachedMinimumLength: {
           type: Boolean,
           value: false,
-          computed: "_computeGalleryReachedMinimumLength(userGalleryLength)"
+          computed: "_computeGalleryReachedMinimumLength(galleryLength)"
         },
 
         activeCitizen: {
@@ -118,7 +118,7 @@
       },
       observers: [
         '_setGalleryCitizens(citizensData.*, galleryCitizenIds.*)',        
-        '_setUserGalleryLength(userGallery.splices)',
+        '_setUserGalleryLength(galleryCitizenIds.splices)',
       ],
 
       _setGalleryCitizens: function (allCitizensIdsSplices, galleryCitizenIdsChanged) {
@@ -138,13 +138,13 @@
         }
       },
 
-      _setUserGalleryLength: function (userGallerySplices) {
-        var galleryLength = this.userGallery.length ? this.userGallery.length : 0;
-        this.set('userGalleryLength', galleryLength);
+      _setUserGalleryLength: function (galleryCitizenIdsSplices) {
+        var galleryLength = this.galleryCitizenIds.length ? this.galleryCitizenIds.length : 0;
+        this.set('galleryLength', galleryLength);
       },
 
-      _computeGalleryReachedMinimumLength: function (userGalleryLength) {
-        return userGalleryLength >= this.minimumGalleryLength;
+      _computeGalleryReachedMinimumLength: function (galleryLength) {
+        return galleryLength >= this.minimumGalleryLength;
       },
 
       _computeCitizenActive: function(activeCitizenId) {
