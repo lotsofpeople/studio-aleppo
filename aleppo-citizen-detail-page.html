@@ -57,6 +57,7 @@
       method="GET"
       handle-as="json"
       last-response="{{citizenData}}"
+      loading="{{interviewLoading}}"
     ></iron-ajax>
 
     <aleppo-toolbar>
@@ -74,6 +75,7 @@
       place-of-birth="[[citizenData.place_of_birth]]"
       residence="[[citizenData.residence]]"
       interview="[[citizenData.interview]]"
+      interview-loading="[[interviewLoading]]"
     ></aleppo-citizen-passport>
 
   </template>
@@ -97,6 +99,11 @@
           type: Object,
           notify: true
         },
+
+        interviewLoading: {
+          type: Boolean,
+          value: true
+        }
 
       },
 

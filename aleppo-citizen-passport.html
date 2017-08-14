@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-spinner/paper-spinner-lite.html">
 <link rel="import" href="aleppo-styles.html">
 
 <!--
@@ -81,6 +82,11 @@
       [hidden] {
         display: none!important;
       }
+
+      paper-spinner-lite {
+        margin: 16px 0;
+        --paper-spinner-color: var(--aleppo-color-blue);
+      }
     </style>
 
     <section>
@@ -96,6 +102,10 @@
         </ul>
 
         <article id="interview"></article>
+        
+        <paper-spinner-lite
+          active="[[interviewLoading]]"
+        ></paper-spinner-lite>
 
       </main>
     </section>
@@ -131,6 +141,11 @@
 
         interview: {
           type: String,
+        },
+
+        interviewLoading: {
+          type: Boolean,
+          value: true
         }
         
       },
