@@ -226,6 +226,11 @@ Example:
       },
 
       _getCaption: function(imagesChange, currentItem) {
+        var images = imagesChange.base;
+        var currentImage = images[currentItem];
+        if(! (images && currentImage)) {
+          return;
+        }
         return this._objectToArray(imagesChange.base)[currentItem].description;
       },
 

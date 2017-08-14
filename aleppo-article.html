@@ -65,8 +65,22 @@
         @apply --aleppo-font-body;
       }
 
+      article img,
+      article::slotted(* > img) {
+        width: auto;
+        height: auto;
+        max-width: 100%;
+      }
+
       aside {
         @apply --aleppo-font-small;
+      }
+
+      aside img,
+      aside::slotted(* > img) {
+        width: auto;
+        height: auto;
+        max-width: 50%;
       }
 
       @media screen and (min-width: 737px) {
@@ -106,7 +120,7 @@
       <header>
         <h1>[[title]]</h1>
 
-        <template is="dom-if" if="[[slideshowImages]]" restamp="true">
+        <template is="dom-if" if="[[hasSlideshowImages]]" restamp="true">
           <aleppo-content-slider
             images="[[slideshowImages]]"
           ></aleppo-content-slider>
@@ -143,7 +157,14 @@
         },
 
         slideshowImages: {
-          type: Array
+          type: Array,
+          value: []
+        },
+
+        hasSlideshowImages: {
+          type: Boolean,
+          value: false,
+          computed: '_computeHasSlideshowImages(slideshowImages.*)'
         }
 
       },
@@ -154,6 +175,10 @@
 
       _setSidebarContent: function(sidebarContent) {
         this.$$('aside').innerHTML = sidebarContent;
+      },
+
+      _computeHasSlideshowImages: function(slideshowImagesSplice) {
+        return this.slideshowImages.length > 0;
       }
 
     });
