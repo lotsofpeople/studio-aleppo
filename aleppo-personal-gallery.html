@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../polymerfire/firebase-query.html">
+<link rel="import" href="../polymerfire/firebase-auth.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="aleppo-citizen-grid.html">
@@ -70,6 +71,12 @@
       data="{{galleryCitizenIds}}"
     ></firebase-query>
 
+    <firebase-auth
+      id="auth" 
+      user="{{user}}"
+      signed-in="{{signedIn}}"
+    ></firebase-auth>
+  
     <article hidden$="[[galleryReachedMinimumLength]]">
       Add 5 friends minimum to reveal the photos of your friends.
     </article>
@@ -82,10 +89,17 @@
     ></aleppo-citizen-grid>
 
     <footer>
-      <aleppo-button
-        on-tap="_handleTapFindMoreFriendsButton"
-        text="Find more friends"
-      ></aleppo-button>      
+      <template is="dom-if" if="[[_userIsGalleryAuthor(user.uid, galleryId)]]">
+        <aleppo-button
+          on-tap="_handleTapFindMoreFriendsButton"
+          text="Find more friends"
+        ></aleppo-button>
+
+        <aleppo-button
+          on-tap="_handleTapNewGalleryButton"
+          text="Start new gallery"
+        ></aleppo-button>
+      </template> 
     </footer>
 
     <aleppo-citizen-detail-page
@@ -195,6 +209,10 @@
 
       _citizenActiveChanged: function(citizenActive) {
         document.body.style.overflow = (citizenActive) ? 'hidden' : '';
+      },
+
+      _userIsGalleryAuthor: function (userId, galleryId) {
+        return userId === galleryId;
       },
 
       _handleTapFindMoreFriendsButton: function () {
