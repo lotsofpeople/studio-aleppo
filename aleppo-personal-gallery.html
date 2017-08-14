@@ -6,6 +6,8 @@
 <link rel="import" href="aleppo-citizen-grid.html">
 <link rel="import" href="aleppo-citizen-detail-page.html">
 <link rel="import" href="aleppo-styles.html">
+<link rel="import" href="aleppo-facebook-icon.html">
+<link rel="import" href="aleppo-twitter-icon.html">
 
 <!--
 `aleppo-personal-gallery`
@@ -48,21 +50,45 @@
         padding: 16px;
       }
 
-      article {
-        text-align: center;
-        margin-top: 8px;
-        @apply --aleppo-font-body;
-      }
-
       footer {
         display: flex;
         flex-direction: row;
         justify-content: center;
       }
 
+      article {
+        text-align: center;
+        max-width: 600px;
+        margin-top: 60px;
+        @apply --aleppo-font-body;
+      }
+
       aleppo-button {
         width: 222px;
         margin: 20px;
+      }
+
+      #start-new-gallery-button {
+        --button-background-color: var(--aleppo-color-green);
+      }
+
+      #social-buttons-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+/* TODO  */
+      #social-buttons-container span {
+        line-height: 78px;
+      }
+
+      .social-share-icon {
+        height: 46px;
+        margin: 16px;
+        width: 46px;
+        cursor: pointer;
       }
     </style>
 
@@ -77,8 +103,13 @@
       signed-in="{{signedIn}}"
     ></firebase-auth>
   
-    <article hidden$="[[galleryReachedMinimumLength]]">
-      Add 5 friends minimum to reveal the photos of your friends.
+    <article>
+      Welcome to your personal gallery. It contains aerospace engineers, students and pancake lovers. Tap on each of the avatars below to meet Marcel's new fellow European Citizens.
+      <div id="social-buttons-container">
+        <span>Share on social media</span>
+        <aleppo-facebook-icon class="social-share-icon" on-tap="shareOnFacebook" class="icon" slot="footer"></aleppo-facebook-icon>
+        <aleppo-twitter-icon class="social-share-icon" on-tap="shareOnTwitter" class="icon" slot="footer"></aleppo-twitter-icon>          
+      </div>
     </article>
 
     <aleppo-citizen-grid
@@ -88,20 +119,21 @@
       cards-are-clickable="[[galleryReachedMinimumLength]]"
     ></aleppo-citizen-grid>
 
-    <footer>
-      <template is="dom-if" if="[[_userIsGalleryAuthor(user.uid, galleryId)]]">
-        <aleppo-button
-          on-tap="_handleTapFindMoreFriendsButton"
-          text="Find more friends"
-        ></aleppo-button>
+    <template is="dom-if" if="[[_userIsGalleryAuthor(user.uid, galleryId)]]">
+      <footer>
+          <aleppo-button
+            on-tap="_handleTapFindMoreFriendsButton"
+            text="Find more friends"
+          ></aleppo-button>
 
-        <aleppo-button
-          on-tap="_handleTapNewGalleryButton"
-          text="Start new gallery"
-        ></aleppo-button>
-      </template> 
-    </footer>
-
+          <aleppo-button
+            id="start-new-gallery-button"
+            on-tap="_handleTapNewGalleryButton"
+            text="Start new gallery"
+          ></aleppo-button>
+      </footer>
+    </template>
+     
     <aleppo-citizen-detail-page
       api-endpoint="[[apiEndpoint]]"
       citizen-id="[[activeCitizen.id]]"
@@ -146,7 +178,6 @@
 
         galleryReachedMinimumLength: {
           type: Boolean,
-          value: false,
           computed: "_computeGalleryReachedMinimumLength(galleryLength)"
         },
 
@@ -172,6 +203,16 @@
         a.click();
         delete a;        
       },
+
+      shareOnTwitter: function() {
+        var url = 'https://twitter.com/intent/tweet?url=' + this._getHostUrl() + '/galleries/' + this.galleryId;
+        window.open(url,"Share on Twitter");
+      },
+
+      shareOnFacebook: function() {
+        var url = 'https://www.facebook.com/sharer.php?s=100&p[url]=' + this._getHostUrl() + '/galleries/' + this.galleryId;
+        window.open(url,"Share on Facebook");
+      },  
 
       _setGalleryCitizens: function (allCitizensIdsSplices, galleryCitizenIdsChanged) {
         var galleryCitizenIds = this.galleryCitizenIds;
@@ -224,6 +265,10 @@
         if(!doStartNewGallery) return;
         this.$.auth.signOut();
         this.navigateToCuratePage();
+      },
+
+      _getHostUrl: function() {
+        return window.location.protocol + '//' + window.location.host;
       }
     });
   </script>
