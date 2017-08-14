@@ -52,6 +52,17 @@
         margin-top: 8px;
         @apply --aleppo-font-body;
       }
+
+      footer {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+      }
+
+      aleppo-button {
+        width: 222px;
+        margin: 20px;
+      }
     </style>
 
     <firebase-query
@@ -69,6 +80,13 @@
       show-all-citizens-anonymous="[[!galleryReachedMinimumLength]]"
       cards-are-clickable="[[galleryReachedMinimumLength]]"
     ></aleppo-citizen-grid>
+
+    <footer>
+      <aleppo-button
+        on-tap="_handleTapFindMoreFriendsButton"
+        text="Find more friends"
+      ></aleppo-button>      
+    </footer>
 
     <aleppo-citizen-detail-page
       api-endpoint="[[apiEndpoint]]"
@@ -134,6 +152,13 @@
         '_setUserGalleryLength(galleryCitizenIds.splices)',
       ],
 
+      navigateToCuratePage: function () {
+        var a = document.createElement('a');
+        a.href = "/curate";
+        a.click();
+        delete a;        
+      },
+
       _setGalleryCitizens: function (allCitizensIdsSplices, galleryCitizenIdsChanged) {
         var galleryCitizenIds = this.galleryCitizenIds;
         var citizensData = this.citizensData;
@@ -170,7 +195,11 @@
 
       _citizenActiveChanged: function(citizenActive) {
         document.body.style.overflow = (citizenActive) ? 'hidden' : '';
-      }      
+      },
+
+      _handleTapFindMoreFriendsButton: function () {
+        this.navigateToCuratePage()
+      }
     });
   </script>
 </dom-module>
