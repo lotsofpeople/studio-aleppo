@@ -1,5 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../paper-spinner/paper-spinner-lite.html">
+<link rel="import" href="aleppo-styles.html">
 <link rel="import" href="aleppo-article.html">
 
 <!--
@@ -23,6 +25,14 @@
       aleppo-article {
         padding: 24px 0;
       }
+
+      paper-spinner-lite {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        --paper-spinner-color: var(--aleppo-color-blue);
+      }
   </style>
 
   <iron-ajax
@@ -31,6 +41,7 @@
     method="GET"
     handle-as="json"
     last-response="{{pageData}}"
+    loading="{{pageDataLoading}}"
   ></iron-ajax>
 
   <aleppo-article
@@ -39,6 +50,10 @@
     sidebar-content="[[pageData.sidebar_content]]"
     slideshow-images="[[_parseImages(pageData.slideshow_images.*)]]"
   ></aleppo-article>
+
+  <paper-spinner-lite
+    active="[[pageDataLoading]]"
+  ></paper-spinner-lite>
      
   </template>
 
@@ -58,6 +73,11 @@
 
         pageData: {
           type: Object
+        },
+
+        pageDataLoading: {
+          type: Boolean,
+          value: true
         }
 
       },
