@@ -57,16 +57,26 @@
         justify-content: center;
       }
 
+      .container {
+        width: 1296px;
+        max-width: 100%;
+        padding: 0 16px;
+        box-sizing: border-box;
+        margin: 60px auto 0 auto;
+      }
+
       article {
         text-align: center;
-        max-width: 600px;
-        margin-top: 60px;
+        width: 600px;
+        max-width: 100%;
+        margin: auto;
         @apply --aleppo-font-body;
       }
 
       aleppo-button {
         width: 222px;
-        margin: 20px;
+        max-width: 100%;
+        margin: 16px;
       }
 
       #start-new-gallery-button {
@@ -86,9 +96,9 @@
       }
 
       .social-share-icon {
-        height: 46px;
-        margin: 16px;
-        width: 46px;
+        height: 32px;
+        width: 32px;
+        margin: 24px 16px;
         cursor: pointer;
       }
     </style>
@@ -109,14 +119,23 @@
       signed-in="{{signedIn}}"
     ></firebase-auth>
   
+    <div class="container">
     <article>
-      Welcome to your personal gallery. It contains aerospace engineers, students and pancake lovers. Tap on each of the avatars below to meet Marcel's new fellow European Citizens.
+      Welcome to your personal gallery. Tap on each of the portraits to get to know your new friends. If you would like to share your gallery with people you know, tap the Facebook or Twitter button below.
       <div id="social-buttons-container">
-        <span>Share on social media</span>
-        <aleppo-facebook-icon class="social-share-icon" on-tap="shareOnFacebook" class="icon" slot="footer"></aleppo-facebook-icon>
-        <aleppo-twitter-icon class="social-share-icon" on-tap="shareOnTwitter" class="icon" slot="footer"></aleppo-twitter-icon>          
+        <aleppo-facebook-icon
+          class="social-share-icon"
+          on-tap="shareOnFacebook"
+          class="icon"
+        ></aleppo-facebook-icon>
+        <aleppo-twitter-icon
+          class="social-share-icon"
+          on-tap="shareOnTwitter"
+          class="icon"
+        ></aleppo-twitter-icon>          
       </div>
     </article>
+    </div>
 
     <aleppo-citizen-grid
       citizens-data="[[galleryCitizensData]]"
@@ -135,7 +154,7 @@
           <aleppo-button
             id="start-new-gallery-button"
             on-tap="_handleTapNewGalleryButton"
-            text="Start new gallery"
+            text="Start all over"
           ></aleppo-button>
       </footer>
     </template>
@@ -273,7 +292,7 @@
       },
 
       _handleTapNewGalleryButton: function () {
-        var doStartNewGallery = window.confirm('You cannot alter your current gallery after start a new one. Are you sure you want to start a new gallery?');
+        var doStartNewGallery = window.confirm('Are you sure you want to create a new gallery? Your current gallery will be preserved under the current URL, but the contents cannot be changed anymore.');
         if(!doStartNewGallery) return;
         this.$.auth.signOut();
         this.navigateToCuratePage();
