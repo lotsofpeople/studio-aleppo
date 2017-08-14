@@ -467,7 +467,7 @@
       }, 
 
       _handleMinimumGalleryLengthReached: function (galleryLengthReached) {
-        if (galleryLengthReached) this._computeShowGalleryViewableSpeechBalloon()
+        if (galleryLengthReached && this.userGalleryLength === 5) this._computeShowGalleryViewableSpeechBalloon()
       },
 
       _computeMinimumGalleryLengthReached: function (userGalleryLength) {
