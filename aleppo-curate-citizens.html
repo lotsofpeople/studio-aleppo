@@ -59,7 +59,6 @@
 
       aleppo-speech-balloon {
         margin-top: -30px;
-        display: none!important;
       }
 
       aleppo-button {
@@ -128,7 +127,6 @@
           grid-column-start: 5; 
           grid-column-end: 5;  
         }        
-        
       }
 
       [hidden] {
@@ -430,9 +428,9 @@
       },
 
       _computeShowGalleryViewableSpeechBalloon: function (galleryLength) {
-        if (galleryLength == 5) return this.set('_showGalleryViewableSpeechBalloon', true);
+        if (galleryLength == 5 && !this.remainingCitizenIds.length === 0) return this.set('_showGalleryViewableSpeechBalloon', true);
         this.hideSpeechBalloon();
-      },
+      }, 
 
       _handleMakeNewFriendsButtonTapped: function () {
         if(!this.signedIn) return this.signInAnonymously();        
