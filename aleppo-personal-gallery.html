@@ -4,6 +4,7 @@
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="aleppo-citizen-grid.html">
 <link rel="import" href="aleppo-citizen-detail-page.html">
+<link rel="import" href="aleppo-styles.html">
 
 <!--
 `aleppo-personal-gallery`
@@ -14,7 +15,7 @@
 
 <dom-module id="aleppo-personal-gallery">
   <template>
-    <style>
+    <style include="aleppo-styles">
       :host {
         display: block;
       }
@@ -45,12 +46,22 @@
       aleppo-citizen-grid {
         padding: 16px;
       }
+
+      article {
+        text-align: center;
+        margin-top: 8px;
+        @apply --aleppo-font-body;
+      }
     </style>
 
     <firebase-query
       path="/galleries/[[galleryId]]"
       data="{{galleryCitizenIds}}"
     ></firebase-query>
+
+    <article hidden$="[[galleryReachedMinimumLength]]">
+      Add 5 friends minimum to reveal the photos of your friends.
+    </article>
 
     <aleppo-citizen-grid
       citizens-data="[[galleryCitizensData]]"
