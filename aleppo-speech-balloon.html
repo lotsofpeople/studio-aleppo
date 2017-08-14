@@ -19,6 +19,11 @@
       [hidden] {
         display: none!important;
       }
+
+      main {
+        position: relative;
+      }
+
       section {
         @apply --aleppo-font-body;
         font-size: 18px;
@@ -26,30 +31,33 @@
         border-radius: 35px;
         text-align: center;
         padding: 24px;
-        margin: -30px 0;        
-      }
-
-      @media screen and (min-width: 1025px) {
-        section {
-          padding: 56px 32px;          
-        }
-      }
-
-      footer{
-        width: 100%;
       }
 
       speech-balloon-footer-svg {
+        position: absolute;
+        left: 75%;
+        transform: translateX(-25%);        
         --logo-color: #FFFFFF;
+        height: 60px;
+        width: 60px;
+      }
+
+      @media screen and (min-width: 737px) {
+        speech-balloon-footer-svg {
+          left: 50%;
+          transform: translateX(-50%);
+        }
+
+        section {
+          padding: 56px 32px;
+        }
       }
 
 </style>
 
   <main>
     <section>[[text]]</section>
-    <footer>
-      <speech-balloon-footer-svg></speech-balloon-footer-svg>
-    </footer>
+    <speech-balloon-footer-svg></speech-balloon-footer-svg>
   </main>
 
   </template>
