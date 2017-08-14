@@ -222,6 +222,7 @@
               text="My gallery"
               number="[[userGalleryLength]]"
               on-tap="_handleGalleryButtonTapped"
+              disabled="[[!_minimumGalleryLengthReached]]"
               show-number
               sole-button$="[[_lastCitizenEvaluated]]"
             ></aleppo-button>
@@ -329,6 +330,13 @@
         _lastCitizenEvaluated: {
           type: Boolean,
           value: false
+        },
+
+        _minimumGalleryLengthReached: {
+          type: Boolean,
+          value: false,
+          computed: '_computeMinimumGalleryLengthReached(userGalleryLength)',
+          observer: '_handleMinimumGalleryLengthReached'
         }
       },
       observers: [
@@ -336,7 +344,6 @@
         '_setRemainingCitizensArray(allCitizensIds.splices)',
         '_updateRemainingCitizenIds(userGallery.splices, remainingCitizenIds.splices)',
         '_setUserGalleryLength(userGallery.splices)',
-        '_computeShowGalleryViewableSpeechBalloon(userGalleryLength)',
         '_handleRemainingCitizensChanged(remainingCitizenIds.splices)'
       ],
 
@@ -439,10 +446,18 @@
         this.set('userGalleryLength', galleryLength);
       },
 
-      _computeShowGalleryViewableSpeechBalloon: function (galleryLength) {
-        if (galleryLength == 5 && !this.remainingCitizenIds.length === 0) return this.set('_showGalleryViewableSpeechBalloon', true);
-        this.hideSpeechBalloon();
+      _computeShowGalleryViewableSpeechBalloon: function () {
+        return this.set('_showGalleryViewableSpeechBalloon', true);
       }, 
+
+      _handleMinimumGalleryLengthReached: function (galleryLengthReached) {
+        if (galleryLengthReached) this._computeShowGalleryViewableSpeechBalloon()
+      },
+
+      _computeMinimumGalleryLengthReached: function (userGalleryLength) {
+        if (userGalleryLength >= 5) return true;
+        return false;
+      },
 
       _handleMakeNewFriendsButtonTapped: function () {
         if(!this.signedIn) return this.signInAnonymously();        
@@ -463,6 +478,7 @@
       },
 
       _handleGalleryButtonTapped: function () {
+        if (!this._minimumGalleryLengthReached) return;
         var a = document.createElement('a');
         a.href = "/galleries/" + this.user.uid;
         a.click();
