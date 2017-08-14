@@ -58,7 +58,11 @@
       }
 
       aleppo-speech-balloon {
-        margin-top: -30px;
+        position: absolute;
+        bottom: 50px;
+        width: 75%;       
+        left:50%;
+        transform: translateX(-50%);
       }
 
       aleppo-button {
@@ -82,7 +86,7 @@
         --button-color: #FFFFFF;
       }      
 
-      #my-gallery-container[sole-button] {
+      #my-gallery-button[sole-button] {
         grid-column: 1 / 2;  
         grid-row: 1 / 2;        
         grid-column-start: 1; 
@@ -119,14 +123,21 @@
           grid-column-start: 2; 
           grid-column-end: 2;                   
         }
-        #my-gallery-container {
+        #my-gallery-button {
           grid-column-start: 5; 
           grid-column-end: 5;                   
         }        
-        #my-gallery-container[sole-button] {
+        #my-gallery-button[sole-button] {
           grid-column-start: 5; 
           grid-column-end: 5;  
-        }        
+        }
+
+        aleppo-speech-balloon {
+          grid-column-start: 5; 
+          grid-column-end: 5;   
+          width: 222px; 
+          bottom: 60px;         
+        }
       }
 
       [hidden] {
@@ -195,26 +206,25 @@
               hidden$="[[_lastCitizenEvaluated]]"                                           
             ></aleppo-button>      
 
-            <div id="my-gallery-container" sole-button$="[[_lastCitizenEvaluated]]">
-              <aleppo-speech-balloon 
-                hidden$="[[!_showGalleryViewableSpeechBalloon]]"
-                text="[[galleryVisibleSpeechBalloonText]]"
-                on-tap="hideSpeechBalloon"
-              ></aleppo-speech-balloon>
+            <aleppo-speech-balloon
+              hidden$="[[!_showGalleryViewableSpeechBalloon]]"
+              text="[[galleryVisibleSpeechBalloonText]]"
+              on-tap="hideSpeechBalloon"
+            ></aleppo-speech-balloon>
 
-              <aleppo-speech-balloon 
-                hidden$="[[!_lastCitizenEvaluated]]"
-                text="[[allCitizensEvaluatedSpeechBalloonText]]"
-              ></aleppo-speech-balloon>            
+            <aleppo-speech-balloon 
+              hidden$="[[!_lastCitizenEvaluated]]"
+              text="[[allCitizensEvaluatedSpeechBalloonText]]"
+            ></aleppo-speech-balloon>            
 
-                <aleppo-button
-                  id="my-gallery-button"              
-                  text="My gallery"
-                  number="[[userGalleryLength]]"
-                  on-tap="_handleGalleryButtonTapped"
-                  show-number      
-                ></aleppo-button>
-            </div>
+            <aleppo-button
+              id="my-gallery-button"              
+              text="My gallery"
+              number="[[userGalleryLength]]"
+              on-tap="_handleGalleryButtonTapped"
+              show-number
+              sole-button$="[[_lastCitizenEvaluated]]"
+            ></aleppo-button>
           </footer>
         </section>
       </template>
