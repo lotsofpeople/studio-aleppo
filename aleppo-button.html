@@ -66,12 +66,17 @@
         }
       }
 
+      button[disabled] {
+        background-color: grey;
+        pointer-events: none;
+      }
+
       [hidden] {
         display: none!important;
       }
     </style>
 
-    <button>
+    <button disabled$="[[disabled]]">
       <span id="text-section">[[text]]</span> 
       <span id="number-section" hidden$="[[!showNumber]]">[[number]]</span>
     </button>
@@ -92,7 +97,11 @@
         showNumber: {
           type: Boolean,
           value: false
-        },                
+        },
+        disabled: {
+          type: Boolean,
+          value: false
+        }      
       }
 
     });
