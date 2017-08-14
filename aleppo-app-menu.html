@@ -132,6 +132,12 @@
       <main>
         <ul>
           <iron-selector attr-for-selected="data-href" selected="{{path}}">
+            <li data-href="/browse" on-tap="_closeMenu">
+              <a>Browse</a>
+            </li>
+            <li data-href="/curate" on-tap="_closeMenu">
+              <a>Curate</a>
+            </li>
             <template is="dom-repeat" items="[[pagesData]]" as="page">
               <li data-href$="/pages/[[page.slug]]" on-tap="_closeMenu">
                 <a>[[page.title]]</a>
