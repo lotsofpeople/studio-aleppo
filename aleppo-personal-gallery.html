@@ -62,7 +62,13 @@
         max-width: 100%;
         padding: 0 16px;
         box-sizing: border-box;
-        margin: 60px auto 0 auto;
+        margin: 24px auto 0 auto;
+      }
+
+      @media screen and (min-width: 737px) {
+        .container {
+          margin-top: 60px;
+        }
       }
 
       article {
@@ -121,7 +127,7 @@
   
     <div class="container">
     <article>
-      Welcome to your personal gallery. Tap on each of the portraits to get to know your new friends. If you would like to share your gallery with people you know, tap the Facebook or Twitter button below.
+      Welcome to this personal gallery. Tap on each of the portraits to get to know your new friends. If you would like to share your gallery with people you know, tap the Facebook or Twitter button below.
       <div id="social-buttons-container">
         <aleppo-facebook-icon
           class="social-share-icon"
