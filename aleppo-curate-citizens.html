@@ -287,8 +287,7 @@
         },
 
         currentCitizenId: {
-          type: String,
-          observer: '_setEvaluatedCitizenInDatabase'
+          type: String
         }, 
 
         currentCitizen: {
@@ -334,24 +333,21 @@
       },
       observers: [
         '_setCitizenIds(citizensData.splices)',
-        '_setRemainingCitizenIds(allCitizensIds.splices, userEvaluatedCitizens.*)',
+        '_setRemainingCitizensArray(allCitizensIds.splices)',
+        '_updateRemainingCitizenIds(userGallery.splices, remainingCitizenIds.splices)',
         '_setUserGalleryLength(userGallery.splices)',
-        '_setCurrentCitizenEvaluatedToSignedInUser(user.uid)',
         '_computeShowGalleryViewableSpeechBalloon(userGalleryLength)',
-        '_handleRemainingCitizensChanged(remainingCitizenIds.splices)',
-        
+        '_handleRemainingCitizensChanged(remainingCitizenIds.splices)'
       ],
 
       setNextCitizenId: function () {
         var remainingCitizenIds = this.remainingCitizenIds;
-
-        // Get random Id from filteredCitizensIds
-        var newCitizenId = remainingCitizenIds[Math.floor(
-          Math.random() * remainingCitizenIds.length)
-        ];
-
-        // TODO if (!newCitizenId)
-        this.set('currentCitizenId', newCitizenId);
+        
+        var currentCitizenId = this.currentCitizenId;
+        if(currentCitizenId) {
+          this._placeEvaluatedCitizenAtEndOfArray(currentCitizenId);
+        }
+        this.set('currentCitizenId', remainingCitizenIds[0]);
       },
 
       signInAnonymously: function () {
@@ -378,48 +374,45 @@
         this.setNextCitizenId();
       },
 
-      _setRemainingCitizenIds: function (allCitizensIdsSplices, userEvaluatedCitizensSplices) {
+      _setRemainingCitizensArray: function (allCitizensIdsSplices) {
+        this.set('remainingCitizenIds', []);
         var allCitizensIds = this.allCitizensIds;
-        var userEvaluatedCitizens = this.userEvaluatedCitizens;
+        for(var i = 0; i < allCitizensIds.length; i++) {
+          this.push('remainingCitizenIds', allCitizensIds[i]);
+        }
+        if(!this.currentCitizenId && this.remainingCitizenIds.length > 0) this.setNextCitizenId();        
+      },
+
+      _updateRemainingCitizenIds: function (userEvaluatedCitizensSplices) {
+        var userGallery = this.userGallery;
+        var remainingCitizenIds = this.remainingCitizenIds;
 
         // get Ids from Firebase Array with $key, $val.
-        var evaluatedCitizensIds = userEvaluatedCitizens.map(function(a) {
+        var userGallery = userGallery.map(function(a) {
           return parseInt(a.$key)
-        });
-  
-        // Filter out Ids from allCitizensIds that are in evaluatedCitizensIds.
-        var unevaluatedCitizensIds = allCitizensIds.filter(function(citizenId) {
-          return evaluatedCitizensIds.indexOf(citizenId) === -1;
-        });        
+        });  
 
-        this.set('remainingCitizenIds', []);
-        for(var i = 0; i < unevaluatedCitizensIds.length; i++) {
-          this.push('remainingCitizenIds', unevaluatedCitizensIds[i]);
+        for(var i = 0; i < userGallery.length; i++) {
+          var index = remainingCitizenIds.indexOf(userGallery[i]);         
+          if (index !== -1) this.splice('remainingCitizenIds', index, 1);
         }
 
-        if(!this.currentCitizenId && unevaluatedCitizensIds.length > 0) this.setNextCitizenId();
+        if (userGallery.length > 0 && this.remainingCitizenIds.length === 0) this._handleLastCitizenEvaluated();
       },
 
       _handleRemainingCitizensChanged: function () {
         (this.remainingCitizenIds.length === 0) ? this.set('_noNextCitizenAvailable', true) : this.set('_noNextCitizenAvailable', false);
       },
 
-      _handleLastCitizenEvaluated: function () {
-        this.set('_lastCitizenEvaluated', true);
-      },     
-
-      _setCitizen: function (currentCitizenId) {
-        var allCitizens = this.citizensData;
-        //  Find index of currentCitizenId from allCitizens Array.
-        var index = allCitizens.findIndex(x => x.id==currentCitizenId);
-        // Get Object of currentCitizen
-        var currentCitizen = allCitizens[index] || {};
-        return currentCitizen;
-      },
-
-      _setEvaluatedCitizenInDatabase: function () {
-        if(!this.signedIn || !this.user || !this.currentCitizenId) return;  
-        firebase.database().ref().child('evaluated-citizens/' + this.user.uid + '/' + this.currentCitizenId).set(true);
+      _placeEvaluatedCitizenAtEndOfArray: function (currentCitizenId) {
+        var currentCitizenId = currentCitizenId || this.currentCitizenId;
+        var remainingCitizenIds = this.remainingCitizenIds;
+        
+        var index = remainingCitizenIds.indexOf(currentCitizenId);
+        if (index !== -1) {
+          this.splice('remainingCitizenIds', index, 1);
+          this.push('remainingCitizenIds', currentCitizenId);
+        }
       },
 
       _setCitizenIds: function (citizensDataSpliced) {
@@ -431,6 +424,15 @@
           this.push('allCitizensIds', citizensIds[i]);
         }
       },
+
+      _setCitizen: function (currentCitizenId) {
+        var allCitizens = this.citizensData;
+        //  Find index of currentCitizenId from allCitizens Array.
+        var index = allCitizens.findIndex(x => x.id==currentCitizenId);
+        // Get Object of currentCitizen
+        var currentCitizen = allCitizens[index] || {};
+        return currentCitizen;
+      },      
 
       _setUserGalleryLength: function (userGallerySplices) {
         var galleryLength = this.userGallery.length ? this.userGallery.length : 0;
@@ -446,6 +448,10 @@
         if(!this.signedIn) return this.signInAnonymously();        
       },
 
+      _handleLastCitizenEvaluated: function () {
+        this.set('_lastCitizenEvaluated', true);
+      },           
+
       _handleSignedInChanged: function (signedIn) {
         if(signedIn) {
           this.set('_showCurateIntroSection', false);        
@@ -454,10 +460,6 @@
           this.set('_showCurateIntroSection', true);        
           this.set('_showCurateCitizenSection', false);
         }
-      },
-
-      _setCurrentCitizenEvaluatedToSignedInUser: function (userId) {
-        if(userId) this._setEvaluatedCitizenInDatabase();
       },
 
       _handleGalleryButtonTapped: function () {
