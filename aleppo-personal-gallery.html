@@ -217,6 +217,13 @@
 
       _handleTapFindMoreFriendsButton: function () {
         this.navigateToCuratePage()
+      },
+
+      _handleTapNewGalleryButton: function () {
+        var doStartNewGallery = window.confirm('You cannot alter your current gallery after start a new one. Are you sure you want to start a new gallery?');
+        if(!doStartNewGallery) return;
+        this.$.auth.signOut();
+        this.navigateToCuratePage();
       }
     });
   </script>
