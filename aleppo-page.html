@@ -69,6 +69,7 @@
 
       _parseImages: function(pageDataImagesChange) {
         var pageDataImages = pageDataImagesChange.base;
+        if(!pageDataImages) return;
         return pageDataImages.map(function(pageDataImage) {
           return {src: pageDataImage.medium, description: pageDataImage.caption}
         })
