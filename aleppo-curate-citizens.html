@@ -325,7 +325,6 @@
         _showGalleryViewableSpeechBalloon: {
           type: Boolean,
           value: false,
-          computed: ''
         },
 
         _showCurateIntroSection: {
@@ -381,6 +380,9 @@
         );
       },      
 
+      showSpeechBalloon: function () {
+        this.set('_showGalleryViewableSpeechBalloon', true);
+      },
       hideSpeechBalloon: function () {
         this.set('_showGalleryViewableSpeechBalloon', false);
       },
@@ -462,12 +464,8 @@
         this.set('userGalleryLength', galleryLength);
       },
 
-      _computeShowGalleryViewableSpeechBalloon: function () {
-        return this.set('_showGalleryViewableSpeechBalloon', true);
-      }, 
-
       _handleMinimumGalleryLengthReached: function (galleryLengthReached) {
-        if (galleryLengthReached && this.userGalleryLength === 5) this._computeShowGalleryViewableSpeechBalloon()
+        if (galleryLengthReached && this.userGalleryLength === 5) this.showSpeechBalloon()
       },
 
       _computeMinimumGalleryLengthReached: function (userGalleryLength) {
