@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-ripple/paper-ripple.html">
 <link rel="import" href="aleppo-styles.html">
 
 <!--
@@ -24,8 +25,9 @@
         border-radius: 5px;
         border: 0;
         cursor: pointer;
-        background-color: var(--button-background-color, #FFE57B);
-        color: var(--button-color, #10364B);
+        background-color: var(--button-background-color, var(--aleppo-color-yellow));
+        color: var(--button-color, var(--aleppo-color-blue));
+        outline: none;
       }
 
       span {
@@ -77,6 +79,7 @@
     </style>
 
     <button disabled$="[[disabled]]">
+      <paper-ripple></paper-ripple>
       <span id="text-section">[[text]]</span> 
       <span id="number-section" hidden$="[[!showNumber]]">[[number]]</span>
     </button>

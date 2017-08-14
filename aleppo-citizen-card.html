@@ -83,14 +83,16 @@
         bottom: 0;
         left: 50%;
         font-size: var(--font-size-heading2);
-        transform: translateX(-50%);   
-
+        transform: translateX(-50%);
         width: 100%;
         box-sizing: border-box;
         padding: 0 16px;                   
       }
       
-
+      :host([large-quote]) blockquote span {
+        max-width: 750px;
+      }
+      
       blockquote span:before,
       blockquote span:after {
         content: ' — ';
@@ -108,7 +110,7 @@
 
       @media screen and (min-width: 737px) {
         :host([large-quote]) blockquote {
-          top: 100px;
+          top: 64px;
           bottom: 0;
           left: 50%;
           width: 100%;
