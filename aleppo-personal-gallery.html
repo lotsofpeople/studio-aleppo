@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../app-route/app-location.html">
 <link rel="import" href="../polymerfire/firebase-query.html">
 <link rel="import" href="../polymerfire/firebase-auth.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
@@ -92,6 +93,11 @@
       }
     </style>
 
+    <app-location
+      path="{{path}}"
+      use-hash-as-path="[[useHashAsPath]]"
+    ></app-location>    
+
     <firebase-query
       path="/galleries/[[galleryId]]"
       data="{{galleryCitizenIds}}"
@@ -151,6 +157,15 @@
           type: String
         },
 
+        path: {
+          type: String
+        },
+
+        useHashAsPath: {
+          type: Boolean,
+          value: false
+        },        
+
         galleryCitizenIds: {
           type: Array,
           value: []
@@ -198,10 +213,7 @@
       ],
 
       navigateToCuratePage: function () {
-        var a = document.createElement('a');
-        a.href = "/curate";
-        a.click();
-        delete a;        
+        this.set('path', "/curate/")   
       },
 
       shareOnTwitter: function() {
