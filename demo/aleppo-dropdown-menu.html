@@ -18,12 +18,14 @@
 
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../aleppo-styles.html">
     <link rel="import" href="../aleppo-dropdown-menu.html">
 
     <style is="custom-style" include="demo-pages-shared-styles">
       demo-snippet {
         --demo-snippet-demo: {
           display: block;
+          background-color: var(--aleppo-color-green);
         }
       }
     </style>
@@ -34,8 +36,9 @@
       <demo-snippet>
         <template is="dom-bind" id="demo">
           <aleppo-dropdown-menu
-          items='["Amsterdam", "Berlin"]'>
-          </aleppo-dropdown-menu>
+            placeholder="I live in "
+            items='["Amsterdam", "Rotterdam", "Utrecht", "The Hague"]'
+          ></aleppo-dropdown-menu>
         </template>
       </demo-snippet>
     </div>
