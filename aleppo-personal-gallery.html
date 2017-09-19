@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="../app-route/app-location.html">
 <link rel="import" href="../polymerfire/firebase-query.html">
 <link rel="import" href="../polymerfire/firebase-auth.html">
@@ -9,7 +10,6 @@
 <link rel="import" href="aleppo-styles.html">
 <link rel="import" href="aleppo-facebook-icon.html">
 <link rel="import" href="aleppo-twitter-icon.html">
-
 <!--
 `aleppo-personal-gallery`
 
@@ -79,6 +79,11 @@
         @apply --aleppo-font-body;
       }
 
+      #tags-container {
+        display: block;
+        margin: 16px;
+      }
+
       aleppo-button {
         width: 222px;
         max-width: 100%;
@@ -109,6 +114,14 @@
       }
     </style>
 
+    <iron-ajax
+    url="[[apiEndpoint]]?q=tags"
+    auto="[[apiEndpoint]]"
+    method="GET"
+    handle-as="json"
+    last-response="{{tagsData}}"
+    ></iron-ajax>
+
     <app-location
       path="{{path}}"
       use-hash-as-path="[[useHashAsPath]]"
@@ -128,6 +141,12 @@
     <div class="container">
     <article>
       Welcome to this personal gallery. Tap on each of the portraits to get to know your new friends. If you would like to share your gallery with people you know, tap the Facebook or Twitter button below.
+      <div id="tags-container">
+        <template is="dom-repeat" items="[[userGalleryTags]]">
+          <span>[[item.name]]</span>
+        </template>
+      </div>
+      
       <div id="social-buttons-container">
         <aleppo-facebook-icon
           class="social-share-icon"
@@ -142,6 +161,8 @@
       </div>
     </article>
     </div>
+
+    
 
     <aleppo-citizen-grid
       citizens-data="[[galleryCitizensData]]"
@@ -182,6 +203,10 @@
           type: String
         },
 
+        apiEndpoint: {
+          type: String
+        },
+
         path: {
           type: String
         },
@@ -202,6 +227,15 @@
         },
 
         galleryCitizensData: {
+          type: Array,
+          value: []
+        },
+
+        tagsData: {
+          type: Array
+        },
+
+        userGalleryTagsIds: {
           type: Array,
           value: []
         },
@@ -235,6 +269,8 @@
       observers: [
         '_setGalleryCitizens(citizensData.*, galleryCitizenIds.*)',        
         '_setUserGalleryLength(galleryCitizenIds.splices)',
+        '_setUserGalleryTagsIds(galleryCitizensData.splices)',
+        '_setUserGalleryTags(userGalleryTagsIds.*, tagsData.*)'
       ],
 
       navigateToCuratePage: function () {
@@ -254,13 +290,11 @@
       _setGalleryCitizens: function (allCitizensIdsSplices, galleryCitizenIdsChanged) {
         var galleryCitizenIds = this.galleryCitizenIds;
         var citizensData = this.citizensData;
-        
         if(galleryCitizenIds.length > 0) this.set('galleryCitizensData', []);
 
 
         for(var i = 0; i < galleryCitizenIds.length; i++) {
-          var index = citizensData.findIndex(x => x.id=== parseInt(galleryCitizenIds[i].$key));
-
+          var index = citizensData.findIndex(x => x.id == parseInt(galleryCitizenIds[i].$key));
           // Get Object of currentCitizen
           var currentCitizen = citizensData[index] || {};          
 
@@ -271,6 +305,38 @@
       _setUserGalleryLength: function (galleryCitizenIdsSplices) {
         var galleryLength = this.galleryCitizenIds.length ? this.galleryCitizenIds.length : 0;
         this.set('galleryLength', galleryLength);
+      },
+
+      _setUserGalleryTagsIds: function (galleryCitizensDataSplices) {
+        var galleryCitizensData = this.galleryCitizensData;
+        var tagArray = [];
+        for (i = 0; i < galleryCitizensData.length; i++) {
+          for (y = 0; y < galleryCitizensData[i].tag_ids.length; y++) {
+          tagArray.push(parseInt(galleryCitizensData[i].tag_ids[y]))
+          }
+        }
+        var uniqueTagsIds = tagArray.sort().filter(
+          function(item, pos, ary) {
+            return !pos || item != ary[pos - 1];
+          }
+        );
+        this.set('userGalleryTagsIds',uniqueTagsIds);
+        this.notifySplices('userGalleryTagsIds')
+      },
+
+      _setUserGalleryTags: function (userGalleryTagsIdsSplices, tagsDataSplices) {
+        var tagsData = this.tagsData;
+        var userGalleryTagsIds = this.userGalleryTagsIds;
+
+        if (tagsData.length == 0 || userGalleryTagsIds.length == 0) return;
+        this.set('userGalleryTags', []);
+
+        for(var i = 0; i < userGalleryTagsIds.length; i++) {
+          
+          var index = tagsData.findIndex(a => parseInt(a.id) == parseInt(userGalleryTagsIds[i]));
+          if (index !== -1) this.push('userGalleryTags', tagsData[index]);
+        }
+
       },
 
       _computeGalleryReachedMinimumLength: function (galleryLength) {
