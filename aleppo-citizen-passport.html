@@ -99,6 +99,7 @@
           <li><span>Age</span>[[age]]</li>
           <li><span>From</span>[[placeOfBirth]]</li>
           <li><span>Living in</span>[[residence]]</li>
+          <li><span>Since</span>[[migrationDate]]</li>
           <li hidden="[[!photographerKnown]]"><span>Photograph by</span>[[photographer]]</li>
         </ul>
 
@@ -141,6 +142,10 @@
         },
 
         residence: {
+          type: String,
+        },
+
+        migrationDate: {
           type: String,
         },
 
