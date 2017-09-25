@@ -132,7 +132,7 @@
       <div class="overlay" on-tap="close"></div>
     </template>
 
-    <section>
+    <section id="filter">
       <header on-tap="toggle">
         <paper-icon-button icon="filter-list"></paper-icon-button>
         <h1>Showing [[citizensDisplayed]] of [[citizensTotal]] citizens</h1>
@@ -219,6 +219,10 @@
           type: Number
         }
 
+      },
+
+      listeners: {
+        'filter.mouseleave': 'close'
       },
 
       observers: [
