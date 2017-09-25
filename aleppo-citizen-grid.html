@@ -111,16 +111,8 @@
 
       },
 
-      observers: [
-        '_selectedCitizenChanged(selectedCitizen.*)'
-      ],
-
       ready: function() {
         window.addEventListener('resize', this._updateCardHeight.bind(this));
-      },
-
-      _selectedCitizenChanged: function(selectedCitizenChange) {
-        console.info('_selectedCitizenChanged', selectedCitizenChange.base);
       },
 
       _handleTapCitizenCard: function(evt) {
