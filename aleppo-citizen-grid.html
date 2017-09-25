@@ -64,15 +64,17 @@
         items="[[citizensData]]"
         as="citizen"
       >
-        <aleppo-citizen-card
-          citizen-id="[[citizen.id]]"
-          citizen-name="[[citizen.name]]"
-          quote="[[citizen.quote]]"
-          image="[[citizen.portrait_url]]"
-          on-tap="_handleTapCitizenCard"
-          anonymous="[[showAllCitizensAnonymous]]"
-          clickable$="[[cardsAreClickable]]"
-        ></aleppo-citizen-card>
+        <div id="card-container">
+          <aleppo-citizen-card
+            citizen-id="[[citizen.id]]"
+            citizen-name="[[citizen.name]]"
+            quote="[[citizen.quote]]"
+            image="[[citizen.portrait_url]]"
+            on-tap="_handleTapCitizenCard"
+            anonymous="[[showAllCitizensAnonymous]]"
+            clickable$="[[cardsAreClickable]]"
+          ></aleppo-citizen-card>
+        </div>
       </template>
     </section>
 
