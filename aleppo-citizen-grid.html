@@ -63,7 +63,6 @@
         is="dom-repeat"
         items="[[citizensData]]"
         as="citizen"
-        on-dom-change="_updateCardHeight"
       >
         <aleppo-citizen-card
           citizen-id="[[citizen.id]]"
@@ -111,10 +110,6 @@
 
       },
 
-      ready: function() {
-        window.addEventListener('resize', this._updateCardHeight.bind(this));
-      },
-
       _handleTapCitizenCard: function(evt) {
         var citizenData = this._getCitizenDataById(evt.currentTarget.citizenId);
         citizenData.interview = '';
@@ -125,12 +120,6 @@
         return this.citizensData.filter(function(citizenData) {
           return citizenData.id === citizenId
         })[0] || {};
-      },
-
-      _updateCardHeight: function() {
-        var cardWidth = this.$$('aleppo-citizen-card').offsetWidth;
-        this.customStyle['--card-height'] = cardWidth * 1.43 + 'px';
-        this.updateStyles();
       }
 
     });
