@@ -20,32 +20,34 @@
       }
 
       .grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-column-gap: 16px;
-        grid-row-gap: 16px;
+        display: flex;
         width: 1264px;
         max-width: 100%;
+        height: auto;
         margin: auto;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+
+      aleppo-citizen-card {
+        width: calc(50% - 8px);
+        margin-bottom: 16px;
+        display: flex;
+        align-items: stretch;
+        height: var(--card-height);
+        box-sizing: border-box;
       }
 
       @media screen and (min-width: 737px) {
-        .grid {
-          grid-template-columns: 1fr 1fr 1fr;
+        aleppo-citizen-card {
+          width: calc(33.3333% - 10px);
         }        
       }
 
       @media screen and (min-width: 1025px) {
-        .grid {
-          grid-template-columns: 1fr 1fr 1fr 1fr;
-          grid-template-rows: 1fr;
+        aleppo-citizen-card {
+          width: calc(25% - 12px);
         }        
-      }
-
-      aleppo-citizen-card {
-        display: flex;
-        align-items: stretch;
-        height: var(--card-height);
       }
 
       aleppo-citizen-card[clickable]:hover {
