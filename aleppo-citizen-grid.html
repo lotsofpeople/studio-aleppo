@@ -29,7 +29,7 @@
         justify-content: space-between;
       }
 
-      aleppo-citizen-card {
+      aleppo-citizen-card, .spacer {
         width: calc(50% - 8px);
         margin-bottom: 16px;
         display: flex;
@@ -39,13 +39,13 @@
       }
 
       @media screen and (min-width: 737px) {
-        aleppo-citizen-card {
+        aleppo-citizen-card, .spacer {
           width: calc(33.3333% - 10px);
         }        
       }
 
       @media screen and (min-width: 1025px) {
-        aleppo-citizen-card {
+        aleppo-citizen-card, .spacer {
           width: calc(25% - 12px);
         }        
       }
@@ -77,6 +77,13 @@
           clickable$="[[cardsAreClickable]]"
         ></aleppo-citizen-card>
       </template>
+
+      <template
+        is="dom-repeat"
+        items="[[_gridSpacers]]"
+      >
+        <div class="spacer"></div>
+      </template>      
     </section>
 
   </template>
@@ -95,6 +102,11 @@
         
         citizensData: {
           type: Array
+        },
+
+        _gridSpacers: {
+          type: Array,
+          computed: '_computeGridSpacers(citizensData.splices)'
         },
 
         selectedCitizen: {
@@ -141,7 +153,34 @@
         var cardWidth = this.$$('aleppo-citizen-card').offsetWidth;
         this.customStyle['--card-height'] = cardWidth * 1.43 + 'px';
         this.updateStyles();
-      }
+      },
+
+      _computeGridSpacers: function(citizensDataSplice) {
+        var numCitizens = this.citizensData.length;
+        var windowWidth = window.innerWidth;
+        
+        if(windowWidth >= 1025) {
+          var gridCols = 4;
+        } else if(windowWidth >= 737) {
+          var gridCols = 3;
+        } else {
+          gridCols = 2;
+        }
+
+        var fraction = numCitizens / gridCols;
+        var wholeNumber = Math.floor(fraction);
+        var decimals = fraction - wholeNumber;
+
+        var spacers = [];
+        var addedSpacers = decimals * gridCols;
+        for(var i = 0; i<addedSpacers;i++) {
+          spacers.push(i);
+        }
+
+        return spacers;
+
+      },
+
 
     });
   </script>
