@@ -384,7 +384,8 @@
         '_setRemainingCitizensArray(allCitizensIds.splices)',
         '_updateRemainingCitizenIds(userGallery.splices, remainingCitizenIds.splices)',
         '_setUserGalleryLength(userGallery.splices)',
-        '_handleRemainingCitizensChanged(remainingCitizenIds.splices)'
+        '_handleRemainingCitizensChanged(remainingCitizenIds.splices)',
+        '_setAuthorInDatabase(galleryAuthor, user.uid)'
       ],
 
       setNextCitizenId: function () {
@@ -519,10 +520,14 @@
       _handleGalleryButtonTapped: function () {
         if (!this._minimumGalleryLengthReached) return;
         this.set('path', "/galleries/" + this.user.uid)
+      },
+
       _computeGalleryAuthorKnown: function (galleryAuthor) {
         return galleryAuthor.length > 0;
       },
 
+      _setAuthorInDatabase: function (author, userId) {
+        if(author && author.length > 0 && userId) firebase.database().ref().child('gallery-metadata/' + userId + '/author').set(author);
       }
     });
   </script>
