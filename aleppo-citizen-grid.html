@@ -50,17 +50,6 @@
         }        
       }
 
-      #card-container {
-        width: 100%;
-        padding-bottom: 143%;
-        position: relative;        
-      }
-
-      aleppo-citizen-card {
-        position: absolute;
-	      top: 0; bottom: 0; left: 0; right: 0;
-      }
-
       aleppo-citizen-card[clickable]:hover {
         cursor: pointer;
       }
@@ -77,17 +66,15 @@
         items="[[citizensData]]"
         as="citizen"
       >
-        <div id="card-container">
-          <aleppo-citizen-card
-            citizen-id="[[citizen.id]]"
-            citizen-name="[[citizen.name]]"
-            quote="[[citizen.quote]]"
-            image="[[citizen.portrait_url]]"
-            on-tap="_handleTapCitizenCard"
-            anonymous="[[showAllCitizensAnonymous]]"
-            clickable$="[[cardsAreClickable]]"
-          ></aleppo-citizen-card>
-        </div>
+        <aleppo-citizen-card
+          citizen-id="[[citizen.id]]"
+          citizen-name="[[citizen.name]]"
+          quote="[[citizen.quote]]"
+          image="[[citizen.portrait_url]]"
+          on-tap="_handleTapCitizenCard"
+          anonymous="[[showAllCitizensAnonymous]]"
+          clickable$="[[cardsAreClickable]]"
+        ></aleppo-citizen-card>
       </template>
 
       <template

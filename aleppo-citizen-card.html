@@ -14,11 +14,21 @@
     <style>
       :host {
         display: flex;
+        position: relative;
+      }
+
+      #container {
+        padding-top: 143%;
+        width: 100%;
+        position: relative;
       }
 
       section {
-        flex: 1;
-        position: relative;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
         overflow: hidden;
         background-color: black;
         display: flex;
@@ -155,6 +165,7 @@
 
     </style>
 
+    <div id="container">
     <section>
       <figure>
         <img src="[[image]]">
@@ -162,6 +173,7 @@
       <blockquote><span>[[quote]]</span></blockquote>
       <h1>[[citizenName]]</h1>
     </section>
+  </div>
 
   </template>
 
