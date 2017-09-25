@@ -100,8 +100,7 @@
           <li><span>From</span>[[placeOfBirth]]</li>
           <li><span>Living in</span>[[residence]]</li>
           <li><span>Since</span>[[migrationDate]]</li>
-          
-          
+          <li hidden="[[!photographerKnown]]"><span>Photograph by</span>[[photographer]]</li>
         </ul>
 
         <article id="interview"></article>
@@ -134,6 +133,10 @@
           type: String,
         },
 
+        photographer: {
+          type: String
+        },
+
         placeOfBirth: {
           type: String,
         },
@@ -153,6 +156,12 @@
         interviewLoading: {
           type: Boolean,
           value: true
+        },
+
+        photographerKnown: {
+          type: Boolean,
+          value: false,
+          computed: '_photographerNameKnown(photographer)'
         }
         
       },
@@ -163,6 +172,11 @@
 
       parseArticleHTML: function(interview) {
         this.$.interview.innerHTML = interview;
+      },
+
+      _photographerNameKnown: function (photographer) {
+        if (photographer && photographer.length > 0) return true;
+        return false;
       }
 
     });
