@@ -20,37 +20,33 @@
       }
 
       .grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-column-gap: 16px;
-        grid-row-gap: 16px;
+        display: flex;
         width: 1264px;
         max-width: 100%;
+        height: auto;
         margin: auto;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+
+      aleppo-citizen-card, .spacer {
+        width: calc(50% - 8px);
+        margin-bottom: 16px;
+        display: flex;
+        align-items: stretch;
+        box-sizing: border-box;
       }
 
       @media screen and (min-width: 737px) {
-        .grid {
-          grid-template-columns: 1fr 1fr 1fr;
+        aleppo-citizen-card, .spacer {
+          width: calc(33.3333% - 10px);
         }        
       }
 
       @media screen and (min-width: 1025px) {
-        .grid {
-          grid-template-columns: 1fr 1fr 1fr 1fr;
-          grid-template-rows: 1fr;
+        aleppo-citizen-card, .spacer {
+          width: calc(25% - 12px);
         }        
-      }
-
-      #card-container {
-        width: 100%;
-        padding-bottom: 143%;
-        position: relative;        
-      }
-
-      aleppo-citizen-card {
-        position: absolute;
-	      top: 0; bottom: 0; left: 0; right: 0;
       }
 
       aleppo-citizen-card[clickable]:hover {
@@ -63,24 +59,31 @@
       if="[[citizensData]]"
     >
     
-    <section class="grid">
+    <section class="grid" id="citizen-grid">
       <template
         is="dom-repeat"
         items="[[citizensData]]"
         as="citizen"
+        on-dom-change="_updateCardHeight"
       >
-        <div id="card-container">
-          <aleppo-citizen-card
-            citizen-id="[[citizen.id]]"
-            citizen-name="[[citizen.name]]"
-            quote="[[citizen.quote]]"
-            image="[[citizen.portrait_url]]"
-            on-tap="_handleTapCitizenCard"
-            anonymous="[[showAllCitizensAnonymous]]"
-            clickable$="[[cardsAreClickable]]"
-          ></aleppo-citizen-card>
-        </div>
+        <aleppo-citizen-card
+          citizen-id="[[citizen.id]]"
+          citizen-name="[[citizen.name]]"
+          quote="[[citizen.quote]]"
+          image="[[citizen.portrait_url]]"
+          on-tap="_handleTapCitizenCard"
+          anonymous="[[showAllCitizensAnonymous]]"
+          clickable$="[[cardsAreClickable]]"
+          style$="height:[[cardHeight]]px;"
+        ></aleppo-citizen-card>
       </template>
+
+      <template
+        is="dom-repeat"
+        items="[[_gridSpacers]]"
+      >
+        <div class="spacer" style$="height: [[cardHeight]]px;"></div>
+      </template>      
     </section>
 
   </template>
@@ -101,6 +104,11 @@
           type: Array
         },
 
+        _gridSpacers: {
+          type: Array,
+          computed: '_computeGridSpacers(citizensData.splices)'
+        },
+
         selectedCitizen: {
           type: Object
         },
@@ -113,8 +121,16 @@
         cardsAreClickable: {
           type: Boolean,
           value: true
+        },
+
+        cardHeight: {
+          type: Number
         }
 
+      },
+
+      ready: function() {
+        window.addEventListener('resize', this._updateCardHeight.bind(this));
       },
 
       _handleTapCitizenCard: function(evt) {
@@ -127,7 +143,48 @@
         return this.citizensData.filter(function(citizenData) {
           return citizenData.id === citizenId
         })[0] || {};
-      }
+      },
+
+      _updateCardHeight: function() {
+        var gridWidth = this.$$('#citizen-grid').offsetWidth;
+
+        if(gridWidth >= 1025) {
+          var cardWidth = gridWidth / 4;
+        } else if(gridWidth >= 737) {
+          var cardWidth = gridWidth / 3;
+        } else {
+          var cardWidth = gridWidth / 2;
+        }
+
+        var cardHeight = cardWidth * 1.43;
+        this.cardHeight = cardHeight;
+      },
+
+      _computeGridSpacers: function(citizensDataSplice) {
+        var numCitizens = this.citizensData.length;
+        var windowWidth = window.innerWidth;
+        
+        if(windowWidth >= 1025) {
+          var gridCols = 4;
+        } else if(windowWidth >= 737) {
+          var gridCols = 3;
+        } else {
+          gridCols = 2;
+        }
+
+        var fraction = numCitizens / gridCols;
+        var wholeNumber = Math.floor(fraction);
+        var decimals = fraction - wholeNumber;
+
+        var spacers = [];
+        var addedSpacers = decimals * gridCols;
+        for(var i = 0; i<addedSpacers;i++) {
+          spacers.push(i);
+        }
+
+        return spacers;
+
+      },
 
     });
   </script>
