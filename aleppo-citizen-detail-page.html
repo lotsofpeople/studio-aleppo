@@ -63,17 +63,19 @@
     <aleppo-toolbar>
       <paper-icon-button
         id="close-button"
-        icon="close"
+        icon="arrow-back"
         on-tap="close"
       ></paper-icon-button>              
     </aleppo-toolbar>
 
     <aleppo-citizen-passport
-      citizen-name="[[citizenData.title]]"
+      citizen-name="[[citizenData.name]]"
       age="[[citizenData.age]]"
       portrait-url="[[citizenData.portrait_url]]"
       place-of-birth="[[citizenData.place_of_birth]]"
+      migration-date="[[citizenData.migration_date]]"      
       residence="[[citizenData.residence]]"
+      photographer="[[citizenData.photographer]]"
       interview="[[citizenData.interview]]"
       interview-loading="[[interviewLoading]]"
     ></aleppo-citizen-passport>
