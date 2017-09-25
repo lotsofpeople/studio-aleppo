@@ -197,6 +197,7 @@
           <aleppo-button
             id="start-gallery-button"
             text="Make new friends"
+            disabled="[[!galleryAuthorKnown]]"
             on-tap="_handleMakeNewFriendsButtonTapped"
           ></aleppo-button>        
         </section>
@@ -286,6 +287,13 @@
         galleryAuthor: {
           type: String
         },
+
+        galleryAuthorKnown: {
+          type: Boolean,
+          value: false,
+          computed: '_computeGalleryAuthorKnown(galleryAuthor)'
+        },
+
         citizensData: {
           type: Array
         },
@@ -491,7 +499,7 @@
       },
 
       _handleMakeNewFriendsButtonTapped: function () {
-        if(!this.signedIn) return this.signInAnonymously();        
+        if(!this.signedIn && this.galleryAuthorKnown) return this.signInAnonymously();        
       },
 
       _handleLastCitizenEvaluated: function () {
@@ -511,6 +519,10 @@
       _handleGalleryButtonTapped: function () {
         if (!this._minimumGalleryLengthReached) return;
         this.set('path', "/galleries/" + this.user.uid)
+      _computeGalleryAuthorKnown: function (galleryAuthor) {
+        return galleryAuthor.length > 0;
+      },
+
       }
     });
   </script>
