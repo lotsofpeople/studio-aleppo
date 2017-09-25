@@ -46,6 +46,12 @@
         margin-bottom: 16px;
       }
 
+      input {
+        width: 100%;
+        margin: 16px 0;
+        box-sizing: border-box;            
+      }
+
       footer {
         width: 100%;
         box-sizing: border-box;
@@ -109,6 +115,12 @@
           left:50%;
           transform: translateX(-50%);
         }
+
+        input {
+          width: 100%;
+          max-width: 300px;
+          box-sizing: border-box;
+        }        
 
         #start-gallery-button {
           flex:0;
@@ -179,6 +191,8 @@
 
             <p>Tap the button below to curate your personal gallery of new friends, based on the quotes you like most. The portraits will be revealed once you've collected 5 quotes.</p>
           </article>
+
+          <input type="text" value="{{galleryAuthor::input}}" placeholder="Please enter your name to start your gallery">
 
           <aleppo-button
             id="start-gallery-button"
@@ -269,6 +283,9 @@
           observer: '_handleSignedInChanged'
         },
 
+        galleryAuthor: {
+          type: String
+        },
         citizensData: {
           type: Array
         },
