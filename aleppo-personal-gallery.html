@@ -1,6 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../app-route/app-location.html">
 <link rel="import" href="../polymerfire/firebase-query.html">
+<link rel="import" href="../polymerfire/firebase-document.html">
 <link rel="import" href="../polymerfire/firebase-auth.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
@@ -9,7 +10,6 @@
 <link rel="import" href="aleppo-styles.html">
 <link rel="import" href="aleppo-facebook-icon.html">
 <link rel="import" href="aleppo-twitter-icon.html">
-
 <!--
 `aleppo-personal-gallery`
 
@@ -119,6 +119,11 @@
       data="{{galleryCitizenIds}}"
     ></firebase-query>
 
+    <firebase-document
+    path="/gallery-metadata/[[galleryId]]"
+    data="{{galleryMetaData}}"
+  ></firebase-document>    
+
     <firebase-auth
       id="auth" 
       user="{{user}}"
@@ -127,7 +132,8 @@
   
     <div class="container">
     <article>
-      Welcome to this personal gallery. Tap on each of the portraits to get to know your new friends. If you would like to share your gallery with people you know, tap the Facebook or Twitter button below.
+      Welcome to [[galleryAuthor]] gallery. Tap on each of the portraits to get to know your new friends. If you would like to share your gallery with people you know, tap the Facebook or Twitter button below.
+      
       <div id="social-buttons-container">
         <aleppo-facebook-icon
           class="social-share-icon"
@@ -141,7 +147,7 @@
         ></aleppo-twitter-icon>          
       </div>
     </article>
-    </div>
+    </div>    
 
     <aleppo-citizen-grid
       citizens-data="[[galleryCitizensData]]"
@@ -205,7 +211,18 @@
           type: Array,
           value: []
         },
-        
+
+        galleryAuthor: {
+          type: String,
+          value: "this person's",
+          computed: "_setGalleryAuthorFromDatabase(galleryMetaData.author)"
+        },
+
+        galleryMetaData: {
+          type: Object,
+          value: {}
+        },
+
         galleryLength: {
           type: Number,
           value: 0
@@ -234,7 +251,7 @@
       },
       observers: [
         '_setGalleryCitizens(citizensData.*, galleryCitizenIds.*)',        
-        '_setUserGalleryLength(galleryCitizenIds.splices)',
+        '_setUserGalleryLength(galleryCitizenIds.splices)'
       ],
 
       navigateToCuratePage: function () {
@@ -306,6 +323,11 @@
 
       _getHostUrl: function() {
         return window.location.protocol + '//' + window.location.host;
+      },
+
+      _setGalleryAuthorFromDatabase: function (galleryAuthor) {
+        if (galleryAuthor && galleryAuthor.length > 0) return galleryAuthor + "'s";
+        return "this person's"
       }
     });
   </script>
