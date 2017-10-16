@@ -112,7 +112,6 @@
       <nav id="main-menu">
         <iron-selector attr-for-selected="data-href" selected="{{path}}">
           <a data-href="/browse">Browse</a>
-          <a data-href="/curate">Curate</a>
           <template is="dom-repeat" items="[[pagesData]]" as="page">
             <a data-href$="/pages/[[page.slug]]">[[page.title]]</a>            
           </template>

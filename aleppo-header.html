@@ -101,7 +101,6 @@
     <aleppo-toolbar>
       <iron-selector attr-for-selected="data-href" selected="{{path}}">
         <a data-href="/browse">Browse<br>citizens</a>
-        <a data-href="/curate">Make<br>friends</a>
       </iron-selector>
       <paper-icon-button
         id="menu-button"
@@ -128,10 +127,6 @@
         menuOpened: {
           type: Boolean,
           notify: true
-        },
-
-        curateRouteActive: {
-          type: Boolean
         },
 
         browseRouteActive: {

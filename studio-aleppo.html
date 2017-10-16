@@ -59,14 +59,6 @@ Site of Paradox&#39; Studio Aleppo project
 
     <app-route
       route="{{route}}"
-      pattern="/curate"
-      data="{{curateRouteData}}"
-      tail="{{curateTail}}"
-      active="{{curateRouteActive}}"
-    ></app-route>
-
-    <app-route
-      route="{{route}}"
       pattern="/pages/:slug"
       data="{{pageRouteData}}"
       tail="{{pageTail}}"    
@@ -101,14 +93,6 @@ Site of Paradox&#39; Studio Aleppo project
         api-endpoint="[[apiEndpoint]]"
         citizens-data="[[citizensData]]"
       ></aleppo-browse-citizens>
-    </template>
-    
-    <template is="dom-if" if="[[curateRouteActive]]">
-      <aleppo-curate-citizens
-        api-endpoint="[[apiEndpoint]]"
-        citizens-data="[[citizensData]]"
-        use-hash-as-path="[[useHashAsPath]]"        
-      ></aleppo-curate-citizens>
     </template>
     
     <template is="dom-if" if="[[pageRouteActive]]">
@@ -164,18 +148,19 @@ Site of Paradox&#39; Studio Aleppo project
           value: false
         },
 
-        curateRouteData: {
-          type: Object
         },
+        // curateRouteData: {
+        //   type: Object
+        // },
 
-        curateRouteTail: {
-          type: Object
-        },
+        // curateRouteTail: {
+        //   type: Object
+        // },
         
-        curateRouteActive: {
-          type: Boolean,
-          value: false
-        },
+        // curateRouteActive: {
+        //   type: Boolean,
+        //   value: false
+        // },
 
         pageRouteData: {
           type: Object
