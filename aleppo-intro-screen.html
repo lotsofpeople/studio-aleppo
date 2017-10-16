@@ -47,8 +47,14 @@
       }        
 
       h1, p {
-        font-size: 18px;
+        font-size: 14px;
       }    
+
+      @media screen and (min-width: 360px) {
+        h1, p {
+          font-size: 18px;
+        }    
+      }      
 
       @media screen and (min-width: 737px) {
         h1, p {
@@ -65,12 +71,22 @@
 
       #close-button {
         position: absolute;
-        top: 48px; 
-        right: 24px;
+        top: 8px; 
+        right: 8px;
         height: 48px;
         width: 48px;
         color: #10364B;
       }
+
+      @media screen and (min-width: 737px) {
+        #close-button {
+          top: 48px; 
+          right: 24px;
+          height: 48px;
+          width: 48px;
+          color: #10364B;          
+        }        
+      }      
 
       [hidden] {
         display: none!important;
