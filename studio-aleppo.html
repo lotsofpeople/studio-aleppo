@@ -7,6 +7,8 @@
 <link rel="import" href="aleppo-curate-citizens.html">
 <link rel="import" href="aleppo-page.html">
 <link rel="import" href="aleppo-personal-gallery.html">
+<link rel="import" href="aleppo-intro-screen.html">
+<link rel="import" href="../app-storage/app-localstorage/app-localstorage-document.html">
 
 
 <!--
@@ -30,6 +32,25 @@ Site of Paradox&#39; Studio Aleppo project
       aleppo-header {
         position: relative;
         z-index: 9;
+      }
+
+      aleppo-browse-citizens {
+        overflow: hidden;
+        position: fixed;
+        height: calc(100vh - 68px);        
+        max-height: calc(100vh - 68px);
+      }
+      aleppo-browse-citizens[foreground] {
+        position: relative;
+        overflow: scroll;
+        height: 100%;
+        max-height: 100%;
+      }
+      aleppo-intro-screen {
+        z-index: 10;
+      }
+      [hidden] {
+        display: none;
       }
     </style>
 
@@ -72,6 +93,9 @@ Site of Paradox&#39; Studio Aleppo project
       messaging-sender-id="470476213085"
     ></firebase-app>
 
+    <app-localstorage-document key="intro-storage" data="{{introShown}}"></app-localstorage-document>  
+
+    <aleppo-intro-screen hidden$="{{!introVisible}}" on-intro-screen-close="_handleIntroScreenClose"></aleppo-intro-screen>
     <aleppo-header
       api-endpoint="[[apiEndpoint]]"
       menu-opened="{{appMenuOpened}}"
@@ -90,6 +114,7 @@ Site of Paradox&#39; Studio Aleppo project
 
     <template is="dom-if" if="[[browseRouteActive]]">
       <aleppo-browse-citizens
+        foreground$="[[!introVisible]]"
         api-endpoint="[[apiEndpoint]]"
         citizens-data="[[citizensData]]"
       ></aleppo-browse-citizens>
@@ -115,6 +140,17 @@ Site of Paradox&#39; Studio Aleppo project
         
         route: {
           type: Object,
+        },
+
+        _showIntroSection: {
+          type: Boolean,
+          value: true
+        },
+
+        introVisible: {
+          type: Boolean,
+          value: true,
+          reflectToAttribute: true
         },
 
         appMenuOpened: {
@@ -148,6 +184,10 @@ Site of Paradox&#39; Studio Aleppo project
           value: false
         },
 
+        introShown: {
+          type: Boolean,
+          value: false,
+          observer: "_handleIntroShownChanged"
         },
         // curateRouteData: {
         //   type: Object
@@ -204,6 +244,10 @@ Site of Paradox&#39; Studio Aleppo project
         if(!newRoute) return;
       },
 
+      _handleStartBrowsingButtonTapped: function () {
+        this.set('_showIntroSection', false)
+      },      
+
       _citizensDataChanged: function(citizensDataSplice) {
         console.info('_citizensDataChanged', this.citizensData);
       },
@@ -214,13 +258,20 @@ Site of Paradox&#39; Studio Aleppo project
         anchor.click();
       },
 
+      _handleIntroShownChanged: function (introShown) {
+        if(introShown) this.set('introVisible', false);
+      },
+
+      _handleIntroScreenClose: function () {
+        this.set('introShown', true)
+        this.set('introVisible', false)
+      },
+
       _watchPath: function(routePath) {
         if(routePath === '/' || routePath === '') {
-          this.set('route.path', '/curate');
+          this.set('route.path', '/browse');
         }
       }
-
     });
   </script>
-  
 </dom-module>
