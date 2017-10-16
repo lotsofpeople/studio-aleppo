@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="aleppo-citizen-passport.html">
 <link rel="import" href="aleppo-styles.html">
 <link rel="import" href="aleppo-toolbar.html">
@@ -27,7 +28,7 @@
 
       aleppo-citizen-passport {
         width: 100%;
-        height: 100%;
+        min-height: 100%;
       }
 
       [hidden] {
@@ -36,15 +37,36 @@
 
       #close-button {
         padding: 0;
-        margin-left: 12px;
         margin-top: -3px;
         height: 36px;
         width: 36px;
       }
 
+      footer {
+        width: 100%;
+        margin: 0;
+        background-color: var(--aleppo-color-yellow);             
+      }
+
+      footer div {
+        width: 1296px;
+        max-width: 100%;
+        margin: 0 auto;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        padding-right: 16px;
+        justify-content: flex-end;        
+      }
+
+      footer div span {
+        cursor: pointer;
+        line-height: 1.85;
+        margin-right: 8px;
+      }
+
       @media screen and (min-width: 737px) {
         #close-button {
-          margin-left: 24px;
           height: 42px;
           width: 42px;          
         }
@@ -80,6 +102,18 @@
       interview-loading="[[interviewLoading]]"
     ></aleppo-citizen-passport>
 
+    <footer>
+      <div>
+        <span on-tap="_scrollToTop">scroll to top</span>
+
+        <paper-icon-button
+          id="close-button"
+          icon="close"
+          on-tap="close"
+        ></paper-icon-button>    
+      </div>
+    </footer>
+
   </template>
 
   <script>
@@ -106,7 +140,6 @@
           type: Boolean,
           value: true
         }
-
       },
 
       observers: [
@@ -114,12 +147,17 @@
       ],
 
       close: function() {
+        this.$$('aleppo-toolbar').scrollIntoView();        
         this.set('citizenData', {});
       },
 
       _removeInterview: function(citizenId) {
         if(citizenId) return;
         this.set('citizenData.interview', '');
+      },
+
+      _scrollToTop: function () {
+        this.$$('aleppo-toolbar').scrollIntoView();
       }
 
     });
