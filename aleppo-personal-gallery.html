@@ -10,6 +10,8 @@
 <link rel="import" href="aleppo-styles.html">
 <link rel="import" href="aleppo-facebook-icon.html">
 <link rel="import" href="aleppo-twitter-icon.html">
+<link rel="import" href="aleppo-button.html">
+
 <!--
 `aleppo-personal-gallery`
 
@@ -184,8 +186,17 @@
 
       is: 'aleppo-personal-gallery',
       properties: {
+
+        apiEndpoint: {
+          type: String
+        },
+
         galleryId: {
           type: String
+        },
+
+        signedIn: {
+          type: Boolean
         },
 
         path: {

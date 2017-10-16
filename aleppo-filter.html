@@ -155,7 +155,7 @@
 
         <iron-selector class="tags" attr-for-selected="tag-id" multi selected-values="{{activeTags}}">
           <template is="dom-repeat" items="[[tagsData]]">
-            <paper-button tag-id="[[item.id]]">[[item.name]]</paper-button>
+            <paper-button tag-id$="[[item.id]]">[[item.name]]</paper-button>
           </template>
         </iron-selector>
         </div>
