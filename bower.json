@@ -15,7 +15,8 @@
     "paper-item": "PolymerElements/paper-item#^1.2.2",
     "paper-button": "PolymerElements/paper-button#^2.0.0",
     "paper-spinner": "PolymerElements/paper-spinner#^2.0.0",
-    "paper-ripple": "PolymerElements/paper-ripple#^2.0.1"
+    "paper-ripple": "PolymerElements/paper-ripple#^2.0.1",
+    "app-storage": "https://github.com/PolymerElements/app-storage.git#1.x"
   },
   "devDependencies": {
     "material-toggle-button": "vguillou/material-toggle-button#^1.0.0",
