@@ -87,6 +87,9 @@
         margin: 16px 0;
         --paper-spinner-color: var(--aleppo-color-blue);
       }
+      [hidden] {
+        display: none;
+      }
     </style>
 
     <section>
@@ -106,6 +109,7 @@
         <article id="interview"></article>
         
         <paper-spinner-lite
+          hidden$="[[!interviewLoading]]"
           active="[[interviewLoading]]"
         ></paper-spinner-lite>
 
