@@ -22,8 +22,7 @@
         top: 0;
         bottom: 0;  
         z-index: 10;        
-        opacity: 0.9;
-
+        opacity: 0.96;
         background-color: #FFE57B;    
       }
 
@@ -37,7 +36,6 @@
         display: flex;
         flex-direction: column;
         background-color: #FFE57B;  
-
       }
 
       article {
@@ -46,32 +44,32 @@
         text-align: center;
         margin: auto;
         opacity: 1;
-      }            
+      }        
+
+      h1, p {
+        font-size: 18px;
+      }    
+
+      @media screen and (min-width: 737px) {
+        h1, p {
+          font-size: 30px;        
+        }
+      }
 
       aleppo-vertical-logo {
         padding-top: 24px;
         max-width: 195px;
         margin:auto;
+        cursor: pointer;
       }     
 
       #close-button {
         position: absolute;
-        top: 32px; 
-        right: 16px;
-        padding: 0;
-        margin-left: 12px;
-        margin-top: -3px;
-        height: 36px;
-        width: 36px;
+        top: 48px; 
+        right: 24px;
+        height: 48px;
+        width: 48px;
         color: #10364B;
-      }
-
-      @media screen and (min-width: 737px) {
-        #close-button {
-          margin-left: 24px;
-          height: 42px;
-          width: 42px;          
-        }
       }
 
       [hidden] {
@@ -91,7 +89,7 @@
 
         <p>Studio Aleppo brings together citizens from cities across Europe. Born and raised there, or forced to leave their home country and building up a new life in a different city.</p>
 
-      <aleppo-vertical-logo></aleppo-vertical-logo>
+      <aleppo-vertical-logo on-tap="_closeMenu"></aleppo-vertical-logo>
       </article>  
 
     </section>
