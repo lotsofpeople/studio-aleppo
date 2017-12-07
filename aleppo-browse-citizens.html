@@ -168,7 +168,7 @@
           //a. check if there are any matches between activeTags and citizenTags
           var citizenTags = citizenData.tag_ids;
           var citizenTagsMatches = citizenTags.filter(function(tagId) {
-            return activeTags.indexOf(parseInt(tagId)) !== -1;
+            return activeTags.indexOf(tagId) != -1;
           })
           var citizenHasTagMatches = activeTags.length === 0 || citizenTagsMatches.length > 0;
 
