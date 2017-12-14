@@ -206,7 +206,7 @@
 
         opened: {
           type: Boolean,
-          value: false,
+          value: true,
           reflectToAttribute: true,
           observer: '_openedChanged'
         },
@@ -222,7 +222,7 @@
       },
 
       listeners: {
-        'filter.mouseleave': 'close'
+        //'filter.mouseleave': 'close'
       },
 
       observers: [
