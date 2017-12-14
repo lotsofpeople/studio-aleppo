@@ -64,10 +64,16 @@
 
       aleppo-vertical-logo {
         padding-top: 24px;
-        max-width: 195px;
+        max-width: 96px;
         margin:auto;
         cursor: pointer;
-      }     
+      }
+
+      @media screen and (min-width: 737px) {
+        aleppo-vertical-logo {
+          max-width: 195px;
+        }        
+      }      
 
       #close-button {
         position: absolute;
@@ -84,7 +90,7 @@
           right: 24px;
           height: 48px;
           width: 48px;
-          color: #10364B;          
+          color: #10364B;
         }        
       }      
 
@@ -101,11 +107,11 @@
       ></paper-icon-button>
       <article>
 
-        <h1>Don’t trust first impressions. They’re often wrong. We judge on looks, clothes, background, religion, color, vocaburary. What if we take that away and force you to pick friends based on their interests, dream and hopes?</h1> 
+        <h1>Don’t trust first impressions. They’re often wrong. We judge on looks, clothes, background, religion, color, vocabulary. What if we take that away and ask you to choose friends based on their interests, dream and hopes?</h1>
 
         <p>Studio Aleppo brings together citizens from cities across Europe. Born and raised there, or forced to leave their home country and building up a new life in a different city.</p>
 
-      <aleppo-vertical-logo on-tap="_closeMenu"></aleppo-vertical-logo>
+        <aleppo-vertical-logo on-tap="_closeMenu"></aleppo-vertical-logo>
       </article>  
 
     </section>
